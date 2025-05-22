@@ -135,7 +135,7 @@ Task Benchmark {
 	}
 
 	$apps.Results | Sort-Object -Property Time | ForEach-Object {
-		Write-Host "$($_.Me.Title) - $($_.File): $($_.Time) seconds"
+		Write-Host "$($_.Me.Title) - $($_.File.Name): $($_.Time) seconds"
 	}
 }
 
