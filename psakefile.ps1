@@ -58,7 +58,7 @@ Task MakeTestData {
 					$writer.WriteEndElement() # Close <boing> or <blip>
 
 					# Update size estimate
-					$currentSize += 100 # Approximate size per node
+					$currentSize += 200 # Approximate size per node
 					if ($currentSize -ge $sizeBytes) { break }
 				}
 
@@ -72,7 +72,7 @@ Task MakeTestData {
 			$writer.Close()
 		}
 
-		Write-Host "Generated $FilePath (> $MinSizeMB MB)"
+		Write-Host "Generated $FilePath ($((Get-Item $FilePath).Length / 1MB) MB)"
 	}
 	$outputDir = (Get-Item 'test').FullName
 	if (-not (Test-Path $outputDir)) {
