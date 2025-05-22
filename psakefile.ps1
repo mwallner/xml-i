@@ -18,7 +18,7 @@ Task MakeTestData {
 	function Generate-TestXml {
 		param (
 			[string]$FilePath,
-			[int]$SizeMB
+			[int]$MinSizeMB
 		)
 
 		$random = [System.Random]::new()
@@ -29,7 +29,7 @@ Task MakeTestData {
 		$writerSettings.Indent = $true
 		$writerSettings.CloseOutput = $true
 
-		$sizeBytes = $SizeMB * 1MB
+		$sizeBytes = $MinSizeMB * 1MB
 		$currentSize = 0
 
 		$writer = [System.Xml.XmlWriter]::Create($FilePath, $writerSettings)
@@ -72,65 +72,70 @@ Task MakeTestData {
 			$writer.Close()
 		}
 
-		Write-Host "Generated $FilePath ($SizeMB MB)"
+		Write-Host "Generated $FilePath (> $MinSizeMB MB)"
 	}
 	$outputDir = (Get-Item 'test').FullName
 	if (-not (Test-Path $outputDir)) {
 		New-Item -ItemType Directory -Path $outputDir | Out-Null
 	}
 
-	Generate-TestXml -FilePath "$outputDir/small.xml" -SizeMB 1
-	Generate-TestXml -FilePath "$outputDir/mid.xml" -SizeMB 10
-	Generate-TestXml -FilePath "$outputDir/large.xml" -SizeMB 100
+	Generate-TestXml -FilePath "$outputDir/small.xml" -MinSizeMB 1
+	Generate-TestXml -FilePath "$outputDir/mid.xml" -MinSizeMB 10
+	Generate-TestXml -FilePath "$outputDir/large.xml" -MinSizeMB 100
+	Generate-TestXml -FilePath "$outputDir/huge.xml" -MinSizeMB 500
 }
 
 Task Benchmark {
-	$apps = @{}
-	function Add-App($title, $executable) {
-		$apps[$title] = @{
+	Write-Host 'Running benchmarks...'
+	$apps = @()
+
+	function App($title, $executable) {
+		@{
 			Title      = $title
 			Executable = $executable
 			Results    = @()
-		}	
+		}
 	}
 
-	Add-App 'Rust' 'target/release/xml-i'
-	Add-App 'C++' 'alien/bin/xml-i-cpp'
-	Add-App '.NET' 'alien/bin/dotnet/xml-i-dotnet'
-	Add-App 'pwsh' 'alien/pwsh/src/CountXmlNodes.ps1'
+	$apps += App 'Rust' 'target/release/xml-i'
+	$apps += App 'C++' 'alien/bin/xml-i-cpp'
+	$apps += App '.NET' 'alien/bin/dotnet/xml-i-dotnet'
+	$apps += App 'pwsh' 'alien/pwsh/src/CountXmlNodes.ps1'
 
-	$xmlFiles = @('test/small.xml', 'test/mid.xml', 'test/large.xml')
-	foreach ($app in $apps.GetEnumerator()) {
+	$xmlFiles = Get-ChildItem 'test' -Filter '*.xml' -File | Sort-Object Length
+	foreach ($app in $apps) {
+		Write-Host "Running $($app.Title)..." -ForegroundColor Magenta
 		foreach ($xmlFile in $xmlFiles) {
+			Write-Host "  -> $($xmlFile.Name)"
 			$startTime = Get-Date
-			Write-Host "Running $($app.Value.Title) on $xmlFile..."
 			Exec {
-				if ($app.Value.Title -eq 'pwsh') {
+				if ($app.Title -eq 'pwsh') {
 					Exec {
-						& pwsh -File $app.Value.Executable -XmlFilePath $xmlFile | Out-Null
+						& pwsh -File $app.Executable -XmlFilePath $xmlFile | Out-Null
 					}
 				}
 				else {
 					Exec {
-						& $app.Value.Executable $xmlFile | Out-Null
+						& $app.Executable $xmlFile | Out-Null
 					}
 				}
 			}
 			$endTime = Get-Date
 			$duration = ($endTime - $startTime).TotalSeconds
-			$app.Value.Results += [pscustomobject]@{
+			$app.Results += [pscustomobject]@{
+				Me   = $app
 				File = $xmlFile
 				Time = $duration
 			}
 		}
 	}
 
-	$apps.GetEnumerator() | ForEach-Object {
-		$results = $_.Value.Results
-		Write-Host "Results for $($_.Value.Title):"
-		foreach ($result in $results) {
-			Write-Host "  $($result.File): $($result.Time) seconds"
-		}
+	$xmlFiles | ForEach-Object {
+		Write-Host "$($_.Name) ... $($(Get-Item $_).Length / 1MB) MB" -ForegroundColor Yellow
+	}
+
+	$apps.Results | Sort-Object -Property Time | ForEach-Object {
+		Write-Host "$($_.Me.Title) - $($_.File): $($_.Time) seconds"
 	}
 }
 
