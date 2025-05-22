@@ -14,7 +14,7 @@ using namespace xercesc;
 class NodeCounterHandler : public DefaultHandler
 {
 public:
-	NodeCounterHandler(const std::unordered_set<std::string> &filterNodes)
+	NodeCounterHandler(const std::unordered_set<std::string>* filterNodes)
 			: filterNodes(filterNodes) {}
 
 	void startElement(const XMLCh *const uri,
@@ -25,7 +25,7 @@ public:
 		char *nodeName = XMLString::transcode(localname);
 		std::string nodeNameStr(nodeName);
 
-		if (filterNodes.empty() || filterNodes.find(nodeNameStr) != filterNodes.end())
+		if (filterNodes->empty() || filterNodes->find(nodeNameStr) != filterNodes->end())
 		{
 			nodeCounts[nodeNameStr]++;
 		}
@@ -40,7 +40,7 @@ public:
 
 private:
 	std::unordered_map<std::string, size_t> nodeCounts;
-	const std::unordered_set<std::string> &filterNodes;
+	const std::unordered_set<std::string>* filterNodes;
 };
 
 int main(int argc, char *argv[])
@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
 	try
 	{
 		SAX2XMLReader *parser = XMLReaderFactory::createXMLReader();
-		NodeCounterHandler handler(filterNodes);
+		NodeCounterHandler handler(&filterNodes);
 		parser->setContentHandler(&handler);
 		parser->setErrorHandler(&handler);
 
