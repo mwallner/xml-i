@@ -98,7 +98,8 @@ Task Benchmark {
 	}
 
 	$apps += App 'Rust' 'target/release/xml-i'
-	$apps += App 'C++' 'alien/bin/xml-i-cpp'
+	$apps += App 'C++ (xerces)' 'alien/bin/xml-i-xerces'
+	$apps += App 'C++ (libxml2)' 'alien/bin/xml-i-libxml2'
 	$apps += App '.NET' 'alien/bin/dotnet/xml-i-dotnet'
 	$apps += App 'pwsh' 'alien/pwsh/src/CountXmlNodes.ps1'
 
@@ -106,22 +107,24 @@ Task Benchmark {
 	foreach ($app in $apps) {
 		Write-Host "Running $($app.Title)..." -ForegroundColor Magenta
 		foreach ($xmlFile in $xmlFiles) {
-			Write-Host "  -> $($xmlFile.Name)"
+			Write-Host "  -> $($xmlFile.Name)" -NoNewline
+			Write-Host (' | {0:N2} MB ... ' -f ($xmlFile.Length / 1MB)) -NoNewline
 			$startTime = Get-Date
-			Exec {
+			exec {
 				if ($app.Title -eq 'pwsh') {
-					Exec {
+					exec {
 						& pwsh -File $app.Executable -XmlFilePath $xmlFile | Out-Null
 					}
 				}
 				else {
-					Exec {
+					exec {
 						& $app.Executable $xmlFile | Out-Null
 					}
 				}
 			}
 			$endTime = Get-Date
 			$duration = ($endTime - $startTime).TotalSeconds
+			Write-Host " | $($duration) sec "
 			$app.Results += [pscustomobject]@{
 				Me   = $app
 				File = $xmlFile
@@ -131,11 +134,12 @@ Task Benchmark {
 	}
 
 	$xmlFiles | ForEach-Object {
-		Write-Host "$($_.Name) ... $($(Get-Item $_).Length / 1MB) MB" -ForegroundColor Yellow
+		Write-Host "$($_.Name) " -ForegroundColor Yellow -NoNewline
+		Write-Host (' | {0:N2} MB ... ' -f ($_.Length / 1MB))
 	}
 
 	$apps.Results | Sort-Object -Property Time | ForEach-Object {
-		Write-Host "$($_.Me.Title) - $($_.File.Name): $($_.Time) seconds"
+		Write-Host " $($_.Me.Title) - $($_.File.Name): $($_.Time) seconds"
 	}
 }
 
@@ -149,20 +153,29 @@ Task Clean {
 Task BuildRust {
 	Write-Host 'Building Rust application...'
 
-	Exec {
+	exec {
 		& cargo build --release
 	}
 }
 
 Task BuildCpp {
-	Write-Host 'Building C++ application...'
+	Write-Host 'Building C++ applications...'
 	$CXX = 'g++'
 	$CXXFLAGS = @('-std=c++20', '-O3', '-Wall', '-Wextra', '-pedantic')
+
+	# Xerces-C++ build configuration
 	$XERCESC_INC = '/usr/include/xercesc'
 	$XERCESC_LIB = '/usr/lib'
-	$CPP_SRCS = 'C++/src/main.cpp'
-	$CPP_OBJS = $CPP_SRCS -replace '\.cpp$', '.o'
-	$CPP_TARGET = 'bin/xml-i-cpp'
+	$XERCESC_SRC = 'C++/src/main_xerces.cpp'
+	$XERCESC_OBJ = $XERCESC_SRC -replace '\.cpp$', '.o'
+	$XERCESC_TARGET = 'bin/xml-i-xerces'
+
+	# libxml2 build configuration
+	$LIBXML2_INC = '/usr/include/libxml2'
+	$LIBXML2_LIB = '/usr/lib'
+	$LIBXML2_SRC = 'C++/src/main_libxml2.cpp'
+	$LIBXML2_OBJ = $LIBXML2_SRC -replace '\.cpp$', '.o'
+	$LIBXML2_TARGET = 'bin/xml-i-libxml2'
 
 	Push-Location 'alien'
 	try {
@@ -170,12 +183,22 @@ Task BuildCpp {
 			New-Item -ItemType Directory -Path 'bin' | Out-Null
 		}
 
-		Exec {
-			& $CXX @($CXXFLAGS) "-I$XERCESC_INC" '-c' $CPP_SRCS '-o' $CPP_OBJS
+		# Build main_xerces.cpp
+		Write-Host 'Building main_xerces.cpp with Xerces-C++...'
+		exec {
+			& $CXX @($CXXFLAGS) "-I$XERCESC_INC" '-c' $XERCESC_SRC '-o' $XERCESC_OBJ
+		}
+		exec {
+			& $CXX @($CXXFLAGS) "-I$XERCESC_INC" "-L$XERCESC_LIB" '-lxerces-c' '-o' $XERCESC_TARGET $XERCESC_OBJ
 		}
 
-		Exec {
-			& $CXX @($CXXFLAGS) "-I$XERCESC_INC" "-L$XERCESC_LIB" '-lxerces-c' '-o' $CPP_TARGET $CPP_OBJS
+		# Build main_libxml2.cpp
+		Write-Host 'Building main_libxml2.cpp with libxml2...'
+		exec {
+			& $CXX @($CXXFLAGS) "-I$LIBXML2_INC" '-c' $LIBXML2_SRC '-o' $LIBXML2_OBJ
+		}
+		exec {
+			& $CXX @($CXXFLAGS) "-I$LIBXML2_INC" "-L$LIBXML2_LIB" '-lxml2' '-o' $LIBXML2_TARGET $LIBXML2_OBJ
 		}
 	}
 	finally {
@@ -190,7 +213,7 @@ Task BuildNET {
 
 	Push-Location 'alien'
 	try {
-		Exec {
+		exec {
 			& dotnet publish $DOTNET_SRC -c Release -o $DOTNET_TARGET
 		}
 	}

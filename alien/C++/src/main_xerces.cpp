@@ -3,44 +3,51 @@
 #include <xercesc/util/XMLString.hpp>
 #include <xercesc/util/PlatformUtils.hpp>
 #include <iostream>
-#include <fstream>
 #include <unordered_map>
 #include <unordered_set>
 #include <string>
-#include <vector>
+#include <string_view>
 
 using namespace xercesc;
 
 class NodeCounterHandler : public DefaultHandler
 {
 public:
-	NodeCounterHandler(const std::unordered_set<std::string>* filterNodes)
-			: filterNodes(filterNodes) {}
+	NodeCounterHandler(const std::unordered_set<std::string> *filterNodes)
+			: filterNodes(filterNodes)
+	{
+		nodeCounts.reserve(100); // Preallocate space for performance
+	}
 
 	void startElement(const XMLCh *const uri,
 										const XMLCh *const localname,
 										const XMLCh *const qname,
 										const Attributes &attrs) override
 	{
-		char *nodeName = XMLString::transcode(localname);
-		std::string nodeNameStr(nodeName);
+		std::string_view nodeName = XMLChToStringView(localname);
 
-		if (filterNodes->empty() || filterNodes->find(nodeNameStr) != filterNodes->end())
+		if (filterNodes->empty() || filterNodes->find(std::string(nodeName)) != filterNodes->end())
 		{
-			nodeCounts[nodeNameStr]++;
+			nodeCounts[nodeName]++;
 		}
-
-		XMLString::release(&nodeName);
 	}
 
-	const std::unordered_map<std::string, size_t> &getNodeCounts() const
+	const std::unordered_map<std::string_view, size_t> &getNodeCounts() const
 	{
 		return nodeCounts;
 	}
 
 private:
-	std::unordered_map<std::string, size_t> nodeCounts;
-	const std::unordered_set<std::string>* filterNodes;
+	std::unordered_map<std::string_view, size_t> nodeCounts;
+	const std::unordered_set<std::string> *filterNodes;
+
+	std::string_view XMLChToStringView(const XMLCh *xmlCh)
+	{
+		char *temp = XMLString::transcode(xmlCh);
+		std::string_view result(temp);
+		XMLString::release(&temp);
+		return result;
+	}
 };
 
 int main(int argc, char *argv[])
@@ -77,6 +84,7 @@ int main(int argc, char *argv[])
 	try
 	{
 		SAX2XMLReader *parser = XMLReaderFactory::createXMLReader();
+
 		NodeCounterHandler handler(&filterNodes);
 		parser->setContentHandler(&handler);
 		parser->setErrorHandler(&handler);

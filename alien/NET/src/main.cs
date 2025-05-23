@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Xml.Linq;
+using System.Xml;
 
 class Program
 {
@@ -16,7 +15,7 @@ class Program
 
 		string xmlFilePath = args[0];
 		HashSet<string> filterNodes = args.Length > 1
-				? new HashSet<string>(args.Skip(1))
+				? new HashSet<string>(args[1..]) // Use range operator to get all arguments after the first
 				: null;
 
 		try
@@ -45,22 +44,24 @@ class Program
 
 		var nodeCounts = new Dictionary<string, int>();
 
-		using (var reader = File.OpenRead(xmlFilePath))
+		using (var reader = XmlReader.Create(xmlFilePath))
 		{
-			var xml = XDocument.Load(reader);
-
-			foreach (var element in xml.Descendants())
+			while (reader.Read())
 			{
-				string nodeName = element.Name.LocalName;
-
-				if (filterNodes == null || filterNodes.Contains(nodeName))
+				// Process only start elements
+				if (reader.NodeType == XmlNodeType.Element)
 				{
-					if (!nodeCounts.ContainsKey(nodeName))
-					{
-						nodeCounts[nodeName] = 0;
-					}
+					string nodeName = reader.LocalName;
 
-					nodeCounts[nodeName]++;
+					if (filterNodes == null || filterNodes.Contains(nodeName))
+					{
+						if (!nodeCounts.ContainsKey(nodeName))
+						{
+							nodeCounts[nodeName] = 0;
+						}
+
+						nodeCounts[nodeName]++;
+					}
 				}
 			}
 		}
