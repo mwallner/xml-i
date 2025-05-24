@@ -9,8 +9,7 @@ Task Help {
 	Write-Host '  MakeTestData - Generate test XML files'
 }
 
-Task Build -depends BuildRust, BuildCpp, BuildNET {
-}
+Task Build -depends BuildRust, BuildCpp, BuildNET , BuildJava, FetchXSLTDependencies 
 
 Task MakeTestData {
 	Write-Host 'Generating test XML files...'
@@ -97,11 +96,24 @@ Task Benchmark {
 		}
 	}
 
+
+	$tempDir = (Get-Item 'test').FullName
+	if (-not (Test-Path $tempDir)) {
+		New-Item -ItemType Directory -Path $tempDir | Out-Null
+	}
+
+	function AppFile ($app) {
+		Join-Path $tempDir "$($app.Title).outlog"
+	}
+
 	$apps += App 'Rust' 'target/release/xml-i'
 	$apps += App 'C++ (xerces)' 'alien/bin/xml-i-xerces'
 	$apps += App 'C++ (libxml2)' 'alien/bin/xml-i-libxml2'
 	$apps += App '.NET' 'alien/bin/dotnet/xml-i-dotnet'
 	$apps += App 'pwsh' 'alien/pwsh/src/CountXmlNodes.ps1'
+	$apps += App 'python' 'alien/python/src/CountXmlNodes.py'
+	$apps += App 'java' 'alien/java/src/CountXMLNodes'
+	$apps += App 'xsl - saxon-he-12.7' 'alien/xslt/src/CountXmlNodes.xsl'
 
 	$xmlFiles = Get-ChildItem 'test' -Filter '*.xml' -File | Sort-Object Length
 	foreach ($app in $apps) {
@@ -110,16 +122,29 @@ Task Benchmark {
 			Write-Host "  -> $($xmlFile.Name)" -NoNewline
 			Write-Host (' | {0:N2} MB ... ' -f ($xmlFile.Length / 1MB)) -NoNewline
 			$startTime = Get-Date
-			exec {
-				if ($app.Title -eq 'pwsh') {
-					exec {
-						& pwsh -File $app.Executable -XmlFilePath $xmlFile | Out-Null
-					}
+			if ($app.Title -eq 'pwsh') {
+				Exec {
+					& pwsh -File $app.Executable -XmlFilePath $xmlFile | Out-File (AppFile $app)
 				}
-				else {
-					exec {
-						& $app.Executable $xmlFile | Out-Null
-					}
+			}
+			elseif ($app.Title -eq 'python') {
+				Exec {
+					& python $app.Executable $xmlFile | Out-File (AppFile $app)
+				}
+			}
+			elseif ($app.Title -eq 'java') {
+				Exec {
+					& java -cp './alien/java/src/.' 'CountXMLNodes' $xmlFile | Out-File (AppFile $app)
+				}
+			}
+			elseif ($app.Title -eq 'xsl - saxon-he-12.7') {
+				Exec {
+					& java -jar './alien/xslt/saxon/saxon-he-12.7.jar' -s:$xmlFile.FullName -xsl:"$($app.Executable)" | Out-File (AppFile $app)
+				}
+			}
+			else {
+				Exec {
+					& $app.Executable $xmlFile | Out-File (AppFile $app)
 				}
 			}
 			$endTime = Get-Date
@@ -133,14 +158,43 @@ Task Benchmark {
 		}
 	}
 
+	<#
 	$xmlFiles | ForEach-Object {
 		Write-Host "$($_.Name) " -ForegroundColor Yellow -NoNewline
 		Write-Host (' | {0:N2} MB ... ' -f ($_.Length / 1MB))
 	}
+	#>
 
-	$apps.Results | Sort-Object -Property Time | ForEach-Object {
-		Write-Host " $($_.Me.Title) - $($_.File.Name): $($_.Time) seconds"
+	Write-Host ''
+
+	# Group results by File.Name
+	$apps.Results | Group-Object { $_.File.Name } | ForEach-Object {
+		$group = $_
+		$pos = 1
+
+		'Benchmark Results: {0} {1:N2} MB ...' -f $group.Name, ($group.Group[0].File.Length / 1MB) | Write-Host -ForegroundColor Cyan
+		Write-Host '---------------------------------------------'
+		'{0,-6} {1,-25} {2,-10}' -f 'Rank', 'Application', 'Time (s)' | Write-Host -ForegroundColor Green
+		Write-Host '---------------------------------------------'
+
+		# Sort each group by Time and rank them
+		$group.Group | Sort-Object -Property Time | ForEach-Object {
+			# Determine the color based on the rank
+			$color = switch ($pos) {
+				1 { 'Green' }
+				2 { 'Yellow' }
+				3 { 'Yellow' }
+				default { 'Red' }
+			}
+
+			'{0,-6} {1,-25} {3,-10:N3}' -f $pos, $_.Me.Title, $_.File.Name, $_.Time | Write-Host -ForegroundColor $color
+			$pos++
+		}
+
+		Write-Host '---------------------------------------------'
+		Write-Host ''
 	}
+
 }
 
 Task Clean {
@@ -153,7 +207,7 @@ Task Clean {
 Task BuildRust {
 	Write-Host 'Building Rust application...'
 
-	exec {
+	Exec {
 		& cargo build --release
 	}
 }
@@ -185,19 +239,19 @@ Task BuildCpp {
 
 		# Build main_xerces.cpp
 		Write-Host 'Building main_xerces.cpp with Xerces-C++...'
-		exec {
+		Exec {
 			& $CXX @($CXXFLAGS) "-I$XERCESC_INC" '-c' $XERCESC_SRC '-o' $XERCESC_OBJ
 		}
-		exec {
+		Exec {
 			& $CXX @($CXXFLAGS) "-I$XERCESC_INC" "-L$XERCESC_LIB" '-lxerces-c' '-o' $XERCESC_TARGET $XERCESC_OBJ
 		}
 
 		# Build main_libxml2.cpp
 		Write-Host 'Building main_libxml2.cpp with libxml2...'
-		exec {
+		Exec {
 			& $CXX @($CXXFLAGS) "-I$LIBXML2_INC" '-c' $LIBXML2_SRC '-o' $LIBXML2_OBJ
 		}
-		exec {
+		Exec {
 			& $CXX @($CXXFLAGS) "-I$LIBXML2_INC" "-L$LIBXML2_LIB" '-lxml2' '-o' $LIBXML2_TARGET $LIBXML2_OBJ
 		}
 	}
@@ -213,9 +267,50 @@ Task BuildNET {
 
 	Push-Location 'alien'
 	try {
-		exec {
+		Exec {
 			& dotnet publish $DOTNET_SRC -c Release -o $DOTNET_TARGET
 		}
 	}
 	finally { Pop-Location }
+}
+
+Task BuildJava {
+	Write-Host 'Building java application...'
+	$JAVA_SRC = 'alien/java/src'
+
+	Push-Location $JAVA_SRC
+	try {
+		Exec {
+			javac CountXmlNodes.java
+		}
+	}
+ finally { Pop-Location }
+}
+
+Task FetchXSLTDependencies {	
+	Write-Host 'Fetching XSLT dependencies...'
+
+	Push-Location 'alien/xslt'
+	try {
+		$saxonZipFile = 'SaxonHE12-7J.zip'
+		$saxonHE12DownloadUrl = 'https://github.com/Saxonica/Saxon-HE/releases/download/SaxonHE12-7/SaxonHE12-7J.zip'
+		if (-Not (Test-Path $saxonZipFile)) {
+			Write-Host "Downloading Saxon-HE from $saxonHE12DownloadUrl"
+			Invoke-WebRequest -Uri $saxonHE12DownloadUrl -OutFile $saxonZipFile
+		}
+		else {
+			Write-Host 'Saxon-HE already downloaded.'
+		}
+		if (-Not (Test-Path 'saxon')) {
+			Write-Host 'Extracting Saxon-HE...'
+			Expand-Archive -Path $saxonZipFile -DestinationPath 'saxon' -Force
+		}
+		else {
+			Write-Host 'Saxon-HE already extracted.'
+		}	
+
+	}
+	finally {
+		Pop-Location
+	}
 }
