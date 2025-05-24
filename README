@@ -1,0 +1,24 @@
+# xml-i
+
+xml-i is a personal playground project where I experiment with implementing a simple program in various programming languages, focusing on efficiency and performance in each approach.
+
+
+The program counts the occurrences of distinct XML nodes in a given XML document. Users can also provide a custom list of node names they are interested in. Additionally, a basic benchmarking feature is included to demonstrate and compare the performance differences between the language implementations.
+
+- **Baseline implementation:** Written in Rust, serving as the primary reference for efficiency and performance.
+- **Alternative implementations:** Code in other languages can be found in the `alien` directory.
+
+## Features
+
+- Counts occurrences of all or selected XML node names in a document
+- Supports user-specified node name filtering
+- Basic benchmarking to compare performance across implementations
+- Multiple programming languages, with each version aiming for optimal efficiency
+
+## Motivation
+
+This repository serves as a learning and benchmarking tool, helping to explore language-specific approaches to XML processing and performance optimization.
+
+## License
+
+MIT License
