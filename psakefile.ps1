@@ -110,6 +110,7 @@ Task Benchmark {
 	$apps += App 'C++ (xerces)' 'alien/bin/xml-i-xerces'
 	$apps += App 'C++ (libxml2 - sax)' 'alien/bin/xml-i-libxml2'
 	$apps += App 'C++ (libxml2 - reader)' 'alien/bin/xml-i-libxml2-xmlreader'
+	$apps += App 'C++ (pugixml)' 'alien/bin/xml-i-pugixml'
 	$apps += App '.NET' 'alien/bin/dotnet/xml-i-dotnet'
 	$apps += App 'pwsh' 'alien/pwsh/src/CountXmlNodes.ps1'
 	$apps += App 'python' 'alien/python/src/CountXmlNodes.py'
@@ -237,6 +238,11 @@ Task BuildCpp {
 	$LIBXML2_XMLREADER_OBJ = $LIBXML2_XMLREADER_SRC -replace '\.cpp$', '.o'
 	$LIBXML2_XMLREADER_TARGET = 'bin/xml-i-libxml2-xmlreader'
 
+	# pugixml build configuration
+	$PUGIXML_SRC = 'C++/src/main_pugixml.cpp'
+	$PUGIXML_OBJ = $PUGIXML_SRC -replace '\.cpp$', '.o'
+	$PUGIXML_TARGET = 'bin/xml-i-pugixml'
+
 	Push-Location 'alien'
 	try {
 		if (-not (Test-Path 'bin')) {
@@ -268,6 +274,15 @@ Task BuildCpp {
 		}
 		Exec {
 			& $CXX @($CXXFLAGS) "-I$LIBXML2_INC" "-L$LIBXML2_LIB" '-lxml2' '-o' $LIBXML2_XMLREADER_TARGET $LIBXML2_XMLREADER_OBJ
+		}
+
+		# Build main_pugixml.cpp
+		Write-Host 'Building main_pugixml.cpp with pugixml...'
+		Exec {
+			& $CXX @($CXXFLAGS) '-c' $PUGIXML_SRC '-o' $PUGIXML_OBJ
+		}
+		Exec {
+			& $CXX @($CXXFLAGS) '-lpugixml' '-o' $PUGIXML_TARGET $PUGIXML_OBJ
 		}
 	}
 	finally {
