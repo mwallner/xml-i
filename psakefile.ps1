@@ -82,6 +82,7 @@ Task MakeTestData {
 	Generate-TestXml -FilePath "$outputDir/mid.xml" -MinSizeMB 10
 	Generate-TestXml -FilePath "$outputDir/large.xml" -MinSizeMB 100
 	Generate-TestXml -FilePath "$outputDir/huge.xml" -MinSizeMB 500
+	Generate-TestXml -FilePath "$outputDir/giant.xml" -MinSizeMB 2000
 }
 
 Task Benchmark {
