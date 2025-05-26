@@ -97,7 +97,7 @@ Task Benchmark {
 	}
 
 
-	$tempDir = (Get-Item 'test').FullName
+	$tempDir = Join-Path (Get-Item 'test').FullName 'tmp'
 	if (-not (Test-Path $tempDir)) {
 		New-Item -ItemType Directory -Path $tempDir | Out-Null
 	}
@@ -108,7 +108,8 @@ Task Benchmark {
 
 	$apps += App 'Rust' 'target/release/xml-i'
 	$apps += App 'C++ (xerces)' 'alien/bin/xml-i-xerces'
-	$apps += App 'C++ (libxml2)' 'alien/bin/xml-i-libxml2'
+	$apps += App 'C++ (libxml2 - sax)' 'alien/bin/xml-i-libxml2'
+	$apps += App 'C++ (libxml2 - reader)' 'alien/bin/xml-i-libxml2-xmlreader'
 	$apps += App '.NET' 'alien/bin/dotnet/xml-i-dotnet'
 	$apps += App 'pwsh' 'alien/pwsh/src/CountXmlNodes.ps1'
 	$apps += App 'python' 'alien/python/src/CountXmlNodes.py'
@@ -215,7 +216,7 @@ Task BuildRust {
 Task BuildCpp {
 	Write-Host 'Building C++ applications...'
 	$CXX = 'g++'
-	$CXXFLAGS = @('-std=c++20', '-O3', '-Wall', '-Wextra', '-pedantic')
+	$CXXFLAGS = @('-std=c++20', '-O3', '-Wall', '-Wextra', '-pedantic', '-DNDEBUG')
 
 	# Xerces-C++ build configuration
 	$XERCESC_INC = '/usr/include/xercesc'
@@ -230,6 +231,11 @@ Task BuildCpp {
 	$LIBXML2_SRC = 'C++/src/main_libxml2.cpp'
 	$LIBXML2_OBJ = $LIBXML2_SRC -replace '\.cpp$', '.o'
 	$LIBXML2_TARGET = 'bin/xml-i-libxml2'
+
+	# libxml2 xmlreader build configuration
+	$LIBXML2_XMLREADER_SRC = 'C++/src/main_libxml2_xmlreader.cpp'
+	$LIBXML2_XMLREADER_OBJ = $LIBXML2_XMLREADER_SRC -replace '\.cpp$', '.o'
+	$LIBXML2_XMLREADER_TARGET = 'bin/xml-i-libxml2-xmlreader'
 
 	Push-Location 'alien'
 	try {
@@ -253,6 +259,15 @@ Task BuildCpp {
 		}
 		Exec {
 			& $CXX @($CXXFLAGS) "-I$LIBXML2_INC" "-L$LIBXML2_LIB" '-lxml2' '-o' $LIBXML2_TARGET $LIBXML2_OBJ
+		}
+
+		# Build main_libxml2_xmlreader.cpp
+		Write-Host 'Building main_libxml2_xmlreader.cpp with libxml2 xmlreader...'
+		Exec {
+			& $CXX @($CXXFLAGS) "-I$LIBXML2_INC" '-c' $LIBXML2_XMLREADER_SRC '-o' $LIBXML2_XMLREADER_OBJ
+		}
+		Exec {
+			& $CXX @($CXXFLAGS) "-I$LIBXML2_INC" "-L$LIBXML2_LIB" '-lxml2' '-o' $LIBXML2_XMLREADER_TARGET $LIBXML2_XMLREADER_OBJ
 		}
 	}
 	finally {
@@ -281,7 +296,7 @@ Task BuildJava {
 	Push-Location $JAVA_SRC
 	try {
 		Exec {
-			javac CountXmlNodes.java
+			javac 'CountXMLNodes.java'
 		}
 	}
  finally { Pop-Location }

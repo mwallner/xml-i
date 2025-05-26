@@ -4,7 +4,8 @@
 *.class
 **.o
 /test/*.xml
-/test/*.outlog
+/test/**.outlog
+/test/tmp/
 /test/out/
 /alien/xslt/saxon
 /alien/xslt/*.zip
