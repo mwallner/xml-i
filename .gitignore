@@ -1,11 +1,21 @@
-/target
-/**/bin
-/**/obj
+# Build artifacts
+/target/
+/**/bin/
+/**/obj/
+/**/libxsde
+*.o
 *.class
-**.o
+
+# Test data and outputs
 /test/*.xml
-/test/**.outlog
+/test/*.outlog
 /test/tmp/
 /test/out/
-/alien/xslt/saxon
+
+# Saxon and XSLT dependencies
+/alien/xslt/saxon/
 /alien/xslt/*.zip
+
+# IDE and solution files
+xml-i.sln
+.vscode/

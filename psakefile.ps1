@@ -35,8 +35,7 @@ Task MakeTestData {
 		try {
 			$writer.WriteStartDocument()
 			$writer.WriteStartElement('start')
-
-			while ($currentSize -lt $sizeBytes) {
+			do {
 				# Write <boings> or <blips> randomly
 				$parentNode = if ($random.Next(2) -eq 0) { 'boings' } else { 'blips' }
 				$writer.WriteStartElement($parentNode)
@@ -62,7 +61,7 @@ Task MakeTestData {
 				}
 
 				$writer.WriteEndElement() # Close <boings> or <blips>
-			}
+			} while ($currentSize -lt $sizeBytes) 
 
 			$writer.WriteEndElement() # Close <start>
 			$writer.WriteEndDocument()
@@ -78,6 +77,7 @@ Task MakeTestData {
 		New-Item -ItemType Directory -Path $outputDir | Out-Null
 	}
 
+	Generate-TestXml -FilePath "$outputDir/tiny.xml" -MinSizeMB 0.5
 	Generate-TestXml -FilePath "$outputDir/small.xml" -MinSizeMB 1
 	Generate-TestXml -FilePath "$outputDir/mid.xml" -MinSizeMB 10
 	Generate-TestXml -FilePath "$outputDir/large.xml" -MinSizeMB 100
@@ -220,35 +220,19 @@ Task BuildCpp {
 	$CXX = 'g++'
 	$CXXFLAGS = @('-std=c++20', '-O3', '-Wall', '-Wextra', '-pedantic', '-DNDEBUG')
 
-	# Xerces-C++ build configuration
-	$XERCESC_INC = '/usr/include/xercesc'
-	$XERCESC_LIB = '/usr/lib'
-	$XERCESC_SRC = 'C++/src/main_xerces.cpp'
-	$XERCESC_OBJ = $XERCESC_SRC -replace '\.cpp$', '.o'
-	$XERCESC_TARGET = 'bin/xml-i-xerces'
-
-	# libxml2 build configuration
-	$LIBXML2_INC = '/usr/include/libxml2'
-	$LIBXML2_LIB = '/usr/lib'
-	$LIBXML2_SRC = 'C++/src/main_libxml2.cpp'
-	$LIBXML2_OBJ = $LIBXML2_SRC -replace '\.cpp$', '.o'
-	$LIBXML2_TARGET = 'bin/xml-i-libxml2'
-
-	# libxml2 xmlreader build configuration
-	$LIBXML2_XMLREADER_SRC = 'C++/src/main_libxml2_xmlreader.cpp'
-	$LIBXML2_XMLREADER_OBJ = $LIBXML2_XMLREADER_SRC -replace '\.cpp$', '.o'
-	$LIBXML2_XMLREADER_TARGET = 'bin/xml-i-libxml2-xmlreader'
-
-	# pugixml build configuration
-	$PUGIXML_SRC = 'C++/src/main_pugixml.cpp'
-	$PUGIXML_OBJ = $PUGIXML_SRC -replace '\.cpp$', '.o'
-	$PUGIXML_TARGET = 'bin/xml-i-pugixml'
 
 	Push-Location 'alien'
 	try {
 		if (-not (Test-Path 'bin')) {
 			New-Item -ItemType Directory -Path 'bin' | Out-Null
 		}
+
+		# Xerces-C++ build configuration
+		$XERCESC_INC = '/usr/include/xercesc'
+		$XERCESC_LIB = '/usr/lib'
+		$XERCESC_SRC = 'C++/src/main_xerces.cpp'
+		$XERCESC_OBJ = $XERCESC_SRC -replace '\.cpp$', '.o'
+		$XERCESC_TARGET = 'bin/xml-i-xerces'
 
 		# Build main_xerces.cpp
 		Write-Host 'Building main_xerces.cpp with Xerces-C++...'
@@ -258,6 +242,18 @@ Task BuildCpp {
 		Exec {
 			& $CXX @($CXXFLAGS) "-I$XERCESC_INC" "-L$XERCESC_LIB" '-lxerces-c' '-o' $XERCESC_TARGET $XERCESC_OBJ
 		}
+
+		# libxml2 build configuration
+		$LIBXML2_INC = '/usr/include/libxml2'
+		$LIBXML2_LIB = '/usr/lib'
+		$LIBXML2_SRC = 'C++/src/main_libxml2.cpp'
+		$LIBXML2_OBJ = $LIBXML2_SRC -replace '\.cpp$', '.o'
+		$LIBXML2_TARGET = 'bin/xml-i-libxml2'
+
+		# libxml2 xmlreader build configuration
+		$LIBXML2_XMLREADER_SRC = 'C++/src/main_libxml2_xmlreader.cpp'
+		$LIBXML2_XMLREADER_OBJ = $LIBXML2_XMLREADER_SRC -replace '\.cpp$', '.o'
+		$LIBXML2_XMLREADER_TARGET = 'bin/xml-i-libxml2-xmlreader'
 
 		# Build main_libxml2.cpp
 		Write-Host 'Building main_libxml2.cpp with libxml2...'
@@ -277,6 +273,11 @@ Task BuildCpp {
 			& $CXX @($CXXFLAGS) "-I$LIBXML2_INC" "-L$LIBXML2_LIB" '-lxml2' '-o' $LIBXML2_XMLREADER_TARGET $LIBXML2_XMLREADER_OBJ
 		}
 
+		# pugixml build configuration
+		$PUGIXML_SRC = 'C++/src/main_pugixml.cpp'
+		$PUGIXML_OBJ = $PUGIXML_SRC -replace '\.cpp$', '.o'
+		$PUGIXML_TARGET = 'bin/xml-i-pugixml'
+
 		# Build main_pugixml.cpp
 		Write-Host 'Building main_pugixml.cpp with pugixml...'
 		Exec {
@@ -285,6 +286,17 @@ Task BuildCpp {
 		Exec {
 			& $CXX @($CXXFLAGS) '-lpugixml' '-o' $PUGIXML_TARGET $PUGIXML_OBJ
 		}
+
+		<#
+		# Build main_xsde.cpp
+		Write-Host 'Building main_xsde.cpp with libxsde...'
+		Exec {
+			& $CXX @($CXXFLAGS) -I.../src_xsde/libxsde '-c' 'C++/src_xsde/scheme-pskel.cxx' 'C++/src/main_xsde.cpp'
+		}
+		Exec {
+			& $CXX @($CXXFLAGS) '-o' 'bin/xml-i-xsde' 'C++/src/main_xsde.o' 'C++/src_xsde/scheme-pskel.o' .../src_xsde/libxsde/libxsde.a
+		}
+		#>
 	}
 	finally {
 		Pop-Location

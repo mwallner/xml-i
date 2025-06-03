@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+  <!-- Root element -->
+  <xs:element name="start">
+
+    <xs:complexType>
+      <xs:sequence>
+
+        <!-- Allow multiple <blips> and <boings> elements -->
+        <xs:element name="blips" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <!-- Allow multiple <blip> elements -->
+              <xs:element name="blip" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="a_1" type="xs:string" use="optional"/>
+                      <xs:attribute name="a_2" type="xs:string" use="optional"/>
+                      <xs:attribute name="a_3" type="xs:string" use="optional"/>
+                      <xs:attribute name="a_4" type="xs:string" use="optional"/>
+                      <xs:attribute name="a_5" type="xs:string" use="optional"/>
+                      <xs:attribute name="a_6" type="xs:string" use="optional"/>
+                      <xs:attribute name="a_7" type="xs:string" use="optional"/>
+                      <xs:attribute name="a_8" type="xs:string" use="optional"/>
+                      <xs:attribute name="a_9" type="xs:string" use="optional"/>
+                      <xs:attribute name="a_10" type="xs:string" use="optional"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="boings" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <!-- Allow multiple <boing> elements -->
+              <xs:element name="boing" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="a_1" type="xs:string" use="optional"/>
+                      <xs:attribute name="a_2" type="xs:string" use="optional"/>
+                      <xs:attribute name="a_3" type="xs:string" use="optional"/>
+                      <xs:attribute name="a_4" type="xs:string" use="optional"/>
+                      <xs:attribute name="a_5" type="xs:string" use="optional"/>
+                      <xs:attribute name="a_6" type="xs:string" use="optional"/>
+                      <xs:attribute name="a_7" type="xs:string" use="optional"/>
+                      <xs:attribute name="a_8" type="xs:string" use="optional"/>
+                      <xs:attribute name="a_9" type="xs:string" use="optional"/>
+                      <xs:attribute name="a_10" type="xs:string" use="optional"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
