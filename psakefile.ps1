@@ -107,7 +107,7 @@ Task Benchmark {
 		Join-Path $tempDir "$($app.Title).outlog"
 	}
 
-	$apps += App 'Rust' 'target/release/xml-i'
+	$apps += App 'Rust (quick-xml)' 'target/release/xml-i'
 	$apps += App 'C++ (xerces)' 'alien/bin/xml-i-xerces'
 	$apps += App 'C++ (libxml2 - sax)' 'alien/bin/xml-i-libxml2'
 	$apps += App 'C++ (libxml2 - reader)' 'alien/bin/xml-i-libxml2-xmlreader'
@@ -119,84 +119,115 @@ Task Benchmark {
 	$apps += App 'xsl - saxon-he-12.7' 'alien/xslt/src/CountXmlNodes.xsl'
 
 	$xmlFiles = Get-ChildItem 'test' -Filter '*.xml' -File | Sort-Object Length
+
 	foreach ($app in $apps) {
 		Write-Host "Running $($app.Title)..." -ForegroundColor Magenta
 		foreach ($xmlFile in $xmlFiles) {
 			Write-Host "  -> $($xmlFile.Name)" -NoNewline
 			Write-Host (' | {0:N2} MB ... ' -f ($xmlFile.Length / 1MB)) -NoNewline
+
 			$startTime = Get-Date
-			if ($app.Title -eq 'pwsh') {
-				Exec {
-					& pwsh -File $app.Executable -XmlFilePath $xmlFile | Out-File (AppFile $app)
+
+			# Build the command and arguments
+			switch ($app.Title) {
+				'pwsh' {
+					$exe = 'pwsh'
+					$appArgs = "-File `"$($app.Executable)`" -XmlFilePath `"$xmlFile`""
+				}
+				'python' {
+					$exe = 'python'
+					$appArgs = "`"$($app.Executable)`" `"$xmlFile`""
+				}
+				'java' {
+					$exe = 'java'
+					$appArgs = @('-cp', './alien/java/src/.', 'CountXMLNodes', "`"$xmlFile`"")
+				}
+				'xsl - saxon-he-12.7' {
+					$exe = 'java'
+					$appArgs = @('-jar', './alien/xslt/saxon/saxon-he-12.7.jar', "-s:`"$($xmlFile.FullName)`"", "-xsl:`"$($app.Executable)`"")
+				}
+				default {
+					$exe = $app.Executable
+					$appArgs = "`"$xmlFile`""
 				}
 			}
-			elseif ($app.Title -eq 'python') {
-				Exec {
-					& python $app.Executable $xmlFile | Out-File (AppFile $app)
+
+			# Start the process
+			$proc = Start-Process -FilePath $exe -ArgumentList $appArgs -PassThru -NoNewWindow -WorkingDirectory (Get-Location) -RedirectStandardOutput (AppFile $app)
+			$maxMem = 0
+			while (-not $proc.HasExited) {
+				try {
+					$mem = $proc.WorkingSet64 / 1MB
+					if ($mem -gt $maxMem) { $maxMem = $mem }
 				}
+				catch {}
+				Start-Sleep -Milliseconds 0
+				$proc.Refresh()
 			}
-			elseif ($app.Title -eq 'java') {
-				Exec {
-					& java -cp './alien/java/src/.' 'CountXMLNodes' $xmlFile | Out-File (AppFile $app)
-				}
+			# One last check after exit
+			try {
+				$mem = $proc.WorkingSet64 / 1MB
+				if ($mem -gt $maxMem) { $maxMem = $mem }
 			}
-			elseif ($app.Title -eq 'xsl - saxon-he-12.7') {
-				Exec {
-					& java -jar './alien/xslt/saxon/saxon-he-12.7.jar' -s:$xmlFile.FullName -xsl:"$($app.Executable)" | Out-File (AppFile $app)
-				}
-			}
-			else {
-				Exec {
-					& $app.Executable $xmlFile | Out-File (AppFile $app)
-				}
-			}
+			catch {}
+
 			$endTime = Get-Date
 			$duration = ($endTime - $startTime).TotalSeconds
-			Write-Host " | $($duration) sec "
+			Write-Host " | $($duration) sec | $([math]::Round($maxMem,2)) MB max"
+
 			$app.Results += [pscustomobject]@{
-				Me   = $app
-				File = $xmlFile
-				Time = $duration
+				Me       = $app
+				File     = $xmlFile
+				Time     = $duration
+				MaxMemMB = [math]::Round($maxMem, 2)
 			}
 		}
 	}
 
-	<#
-	$xmlFiles | ForEach-Object {
-		Write-Host "$($_.Name) " -ForegroundColor Yellow -NoNewline
-		Write-Host (' | {0:N2} MB ... ' -f ($_.Length / 1MB))
+	function FormatSection($name, $command) {
+		"***$name***"
+		'```'
+		"$(& $command)"
+		'```'
+		''
 	}
-	#>
 
-	Write-Host ''
+	$mdResult = @()
+	$mdResult += "# Benchmark Results $(Get-Date)"
+	$mdResult += ''
+	$mdResult += '## System Information'
+	$mdResult += FormatSection 'Kernel' { uname -a }
+	$mdResult += FormatSection 'CPU' { (cat /proc/cpuinfo | rg 'model name' | Select-Object -First 1).Split(':').Trim() | Select-Object -Last 1 }
+	$mdResult += FormatSection 'Memory' { free -h }
+	$mdResult += FormatSection 'rustc' { rustc -V }
+	$mdResult += FormatSection 'G++' { g++ --version }
+	$mdResult += FormatSection 'Java' { java --version }
+	$mdResult += FormatSection '.NET' { ([xml](Get-Content ./alien/NET/src/xml-i-dotnet.csproj -Raw)).Project.PropertyGroup.TargetFramework }
+	$mdResult += FormatSection 'python' { python --version }
+	$mdResult += FormatSection 'Saxon' { (Get-ChildItem ./alien/xslt/*.zip).Name }
+	$mdResult += FormatSection 'PowerShell' { $PSVersionTable.PSVersion.ToString() }
+	$mdResult += ''
 
-	# Group results by File.Name
 	$apps.Results | Group-Object { $_.File.Name } | ForEach-Object {
 		$group = $_
 		$pos = 1
 
-		'Benchmark Results: {0} {1:N2} MB ...' -f $group.Name, ($group.Group[0].File.Length / 1MB) | Write-Host -ForegroundColor Cyan
-		Write-Host '---------------------------------------------'
-		'{0,-6} {1,-25} {2,-10}' -f 'Rank', 'Application', 'Time (s)' | Write-Host -ForegroundColor Green
-		Write-Host '---------------------------------------------'
+    $groupSize = $group.Group[0].File.Length
 
-		# Sort each group by Time and rank them
+		$mdResult += '## {0} ({1:N2} MB)' -f $group.Name, ($groupSize / 1MB)
+		$mdResult += ''
+		$mdResult += '| Rank | Variant                   | Time (s)   | Throughput (MB/s) | Max Mem (MB) |'
+		$mdResult += '|------|---------------------------|------------|-------------------|--------------|'
 		$group.Group | Sort-Object -Property Time | ForEach-Object {
-			# Determine the color based on the rank
-			$color = switch ($pos) {
-				1 { 'Green' }
-				2 { 'Yellow' }
-				3 { 'Yellow' }
-				default { 'Red' }
-			}
-
-			'{0,-6} {1,-25} {3,-10:N3}' -f $pos, $_.Me.Title, $_.File.Name, $_.Time | Write-Host -ForegroundColor $color
+			$tp = $groupSize / 1MB / $_.Time
+			$mdResult += '| {0,-4} | {1,-25} | {3,-10:N3} | {4,-17:N3} | {5,-12:N2} |' -f $pos, $_.Me.Title, $_.File.Name, $_.Time, $tp, $_.MaxMemMB
 			$pos++
 		}
-
-		Write-Host '---------------------------------------------'
-		Write-Host ''
+		$mdResult += ''
 	}
+
+	$mdResult | Out-File -FilePath 'test/benchmark_results.md' -Encoding UTF8
+	Write-Host 'Benchmark results saved to test/benchmark_results.md'
 
 }
 
