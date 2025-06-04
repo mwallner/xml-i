@@ -1,0 +1,3 @@
+[submodule "alien/C++/rapidxml"]
+	path = alien/C++/rapidxml
+	url = git@github.com:Fe-Bell/RapidXML.git

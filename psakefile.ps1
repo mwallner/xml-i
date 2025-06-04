@@ -112,6 +112,7 @@ Task Benchmark {
 	$apps += App 'C++ (libxml2 - sax)' 'alien/bin/xml-i-libxml2'
 	$apps += App 'C++ (libxml2 - reader)' 'alien/bin/xml-i-libxml2-xmlreader'
 	$apps += App 'C++ (pugixml)' 'alien/bin/xml-i-pugixml'
+	$apps += App 'C++ (rapidxml)' 'alien/bin/xml-i-rapidxml'
 	$apps += App '.NET' 'alien/bin/dotnet/xml-i-dotnet'
 	$apps += App 'pwsh' 'alien/pwsh/src/CountXmlNodes.ps1'
 	$apps += App 'python' 'alien/python/src/CountXmlNodes.py'
@@ -187,7 +188,7 @@ Task Benchmark {
 	function FormatSection($name, $command) {
 		"***$name***"
 		'```'
-		"$(& $command)"
+		"$($(& $command) | ForEach-Object { $_; "`n" })"
 		'```'
 		''
 	}
@@ -212,7 +213,7 @@ Task Benchmark {
 		$group = $_
 		$pos = 1
 
-    $groupSize = $group.Group[0].File.Length
+		$groupSize = $group.Group[0].File.Length
 
 		$mdResult += '## {0} ({1:N2} MB)' -f $group.Name, ($groupSize / 1MB)
 		$mdResult += ''
@@ -316,6 +317,13 @@ Task BuildCpp {
 		}
 		Exec {
 			& $CXX @($CXXFLAGS) '-lpugixml' '-o' $PUGIXML_TARGET $PUGIXML_OBJ
+		}
+
+		# Build main_rapidxml.cpp
+		$RAPIDXML_SRC = 'C++/src/main_rapidxml.cpp'
+		$RAPIDXML_TARGET = 'bin/xml-i-rapidxml'
+		Exec {
+			& $CXX @($CXXFLAGS) '-I./C++/rapidxml/RapidXML' -o $RAPIDXML_TARGET $RAPIDXML_SRC
 		}
 
 		<#
