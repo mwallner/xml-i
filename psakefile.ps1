@@ -9,7 +9,7 @@ Task Help {
 	Write-Host '  MakeTestData - Generate test XML files'
 }
 
-Task Build -depends BuildRust, BuildCpp, BuildNET , BuildJava, FetchXSLTDependencies 
+Task Build -depends BuildRust, BuildCpp, BuildNET , BuildJava, FetchXSLTDependencies, BuildNode
 
 Task MakeTestData {
 	Write-Host 'Generating test XML files...'
@@ -118,6 +118,7 @@ Task Benchmark {
 	$apps += App 'python' 'alien/python/src/CountXmlNodes.py'
 	$apps += App 'java' 'alien/java/src/CountXMLNodes'
 	$apps += App 'xsl - saxon-he-12.7' 'alien/xslt/src/CountXmlNodes.xsl'
+	$apps += App 'node' 'alien/node/src/CountXmlNodes.js'
 
 	$xmlFiles = Get-ChildItem 'test' -Filter '*.xml' -File | Sort-Object Length
 
@@ -146,6 +147,10 @@ Task Benchmark {
 				'xsl - saxon-he-12.7' {
 					$exe = 'java'
 					$appArgs = @('-jar', './alien/xslt/saxon/saxon-he-12.7.jar', "-s:`"$($xmlFile.FullName)`"", "-xsl:`"$($app.Executable)`"")
+				}
+				'node' {
+					$exe = 'node'
+					$appArgs = "`"$($app.Executable)`" `"$xmlFile`""
 				}
 				default {
 					$exe = $app.Executable
@@ -206,6 +211,7 @@ Task Benchmark {
 	$mdResult += FormatSection '.NET' { ([xml](Get-Content ./alien/NET/src/xml-i-dotnet.csproj -Raw)).Project.PropertyGroup.TargetFramework }
 	$mdResult += FormatSection 'python' { python --version }
 	$mdResult += FormatSection 'Saxon' { (Get-ChildItem ./alien/xslt/*.zip).Name }
+	$mdResult += FormatSection 'node' { node --version }
 	$mdResult += FormatSection 'PowerShell' { $PSVersionTable.PSVersion.ToString() }
 	$mdResult += ''
 
@@ -395,4 +401,17 @@ Task FetchXSLTDependencies {
 	finally {
 		Pop-Location
 	}
+}
+
+Task BuildNode {
+	Write-Host 'Building Node.js application...'
+	$NODE_SRC = 'alien/node/src'
+
+	Push-Location $NODE_SRC
+	try {
+		Exec {
+			npm ci
+		}
+	}
+	finally { Pop-Location }
 }
