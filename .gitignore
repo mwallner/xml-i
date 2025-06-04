@@ -5,6 +5,7 @@
 /**/libxsde
 *.o
 *.class
+node_modules/
 
 # Test data and outputs
 /test/*.xml
