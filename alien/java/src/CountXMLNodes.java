@@ -1,6 +1,7 @@
 import javax.xml.stream.*;
 import javax.xml.stream.events.StartElement;
 import java.io.FileInputStream;
+import java.io.BufferedInputStream;
 import java.util.*;
 
 public class CountXMLNodes {
@@ -9,7 +10,8 @@ public class CountXMLNodes {
         Map<String, Integer> nodeCounts = new HashMap<>();
         XMLInputFactory factory = XMLInputFactory.newInstance();
         FileInputStream fis = new FileInputStream(xmlFilePath);
-        XMLStreamReader reader = factory.createXMLStreamReader(fis);
+        BufferedInputStream bis = new BufferedInputStream(fis, 8192 * 1024);
+        XMLStreamReader reader = factory.createXMLStreamReader(bis);
 
         while (reader.hasNext()) {
             int event = reader.next();
