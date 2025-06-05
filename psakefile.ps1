@@ -147,7 +147,7 @@ Task Benchmark {
 				}
 				'Scala' {
 					$exe = 'scala'
-					$appArgs = @('run', './alien/Scala/src/CountXMLNodes.scala', '--', "`"$xmlFile`"")
+					$appArgs = @('./alien/Scala/src/CountXmlNodes.scala', '--', "`"$xmlFile`"")
 				}
 				'xsl - saxon-he-12.7' {
 					$exe = 'java'
