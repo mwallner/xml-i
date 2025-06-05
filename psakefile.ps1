@@ -115,8 +115,9 @@ Task Benchmark {
 	$apps += App 'C++ (rapidxml)' 'alien/bin/xml-i-rapidxml'
 	$apps += App '.NET' 'alien/bin/dotnet/xml-i-dotnet'
 	$apps += App 'pwsh' 'alien/pwsh/src/CountXmlNodes.ps1'
-	$apps += App 'python' 'alien/python/src/CountXmlNodes.py'
-	$apps += App 'java' 'alien/java/src/CountXMLNodes'
+	$apps += App 'Python' 'alien/python/src/CountXmlNodes.py'
+	$apps += App 'Java' 'alien/java/src/CountXMLNodes'
+	$apps += App 'Scala' 'alien/Scala/src/CountXMLNodes'
 	$apps += App 'xsl - saxon-he-12.7' 'alien/xslt/src/CountXmlNodes.xsl'
 	$apps += App 'node' 'alien/node/src/CountXmlNodes.js'
 
@@ -136,13 +137,17 @@ Task Benchmark {
 					$exe = 'pwsh'
 					$appArgs = "-File `"$($app.Executable)`" -XmlFilePath `"$xmlFile`""
 				}
-				'python' {
+				'Python' {
 					$exe = 'python'
 					$appArgs = "`"$($app.Executable)`" `"$xmlFile`""
 				}
-				'java' {
+				'Java' {
 					$exe = 'java'
 					$appArgs = @('-cp', './alien/java/src/.', 'CountXMLNodes', "`"$xmlFile`"")
+				}
+				'Scala' {
+					$exe = 'scala'
+					$appArgs = @('run', './alien/Scala/src/CountXMLNodes.scala', '--', "`"$xmlFile`"")
 				}
 				'xsl - saxon-he-12.7' {
 					$exe = 'java'
@@ -212,6 +217,7 @@ Task Benchmark {
 	$mdResult += FormatSection 'python' { python --version }
 	$mdResult += FormatSection 'Saxon' { (Get-ChildItem ./alien/xslt/*.zip).Name }
 	$mdResult += FormatSection 'node' { node --version }
+	$mdResult += FormatSection 'scala' { scala --version }
 	$mdResult += FormatSection 'PowerShell' { $PSVersionTable.PSVersion.ToString() }
 	$mdResult += ''
 
@@ -248,7 +254,7 @@ Task Clean {
 Task BuildRust {
 	Write-Host 'Building Rust application...'
 
-	Exec {
+	exec {
 		& cargo build --release
 	}
 }
@@ -274,10 +280,10 @@ Task BuildCpp {
 
 		# Build main_xerces.cpp
 		Write-Host 'Building main_xerces.cpp with Xerces-C++...'
-		Exec {
+		exec {
 			& $CXX @($CXXFLAGS) "-I$XERCESC_INC" '-c' $XERCESC_SRC '-o' $XERCESC_OBJ
 		}
-		Exec {
+		exec {
 			& $CXX @($CXXFLAGS) "-I$XERCESC_INC" "-L$XERCESC_LIB" '-lxerces-c' '-o' $XERCESC_TARGET $XERCESC_OBJ
 		}
 
@@ -295,19 +301,19 @@ Task BuildCpp {
 
 		# Build main_libxml2.cpp
 		Write-Host 'Building main_libxml2.cpp with libxml2...'
-		Exec {
+		exec {
 			& $CXX @($CXXFLAGS) "-I$LIBXML2_INC" '-c' $LIBXML2_SRC '-o' $LIBXML2_OBJ
 		}
-		Exec {
+		exec {
 			& $CXX @($CXXFLAGS) "-I$LIBXML2_INC" "-L$LIBXML2_LIB" '-lxml2' '-o' $LIBXML2_TARGET $LIBXML2_OBJ
 		}
 
 		# Build main_libxml2_xmlreader.cpp
 		Write-Host 'Building main_libxml2_xmlreader.cpp with libxml2 xmlreader...'
-		Exec {
+		exec {
 			& $CXX @($CXXFLAGS) "-I$LIBXML2_INC" '-c' $LIBXML2_XMLREADER_SRC '-o' $LIBXML2_XMLREADER_OBJ
 		}
-		Exec {
+		exec {
 			& $CXX @($CXXFLAGS) "-I$LIBXML2_INC" "-L$LIBXML2_LIB" '-lxml2' '-o' $LIBXML2_XMLREADER_TARGET $LIBXML2_XMLREADER_OBJ
 		}
 
@@ -318,17 +324,17 @@ Task BuildCpp {
 
 		# Build main_pugixml.cpp
 		Write-Host 'Building main_pugixml.cpp with pugixml...'
-		Exec {
+		exec {
 			& $CXX @($CXXFLAGS) '-c' $PUGIXML_SRC '-o' $PUGIXML_OBJ
 		}
-		Exec {
+		exec {
 			& $CXX @($CXXFLAGS) '-lpugixml' '-o' $PUGIXML_TARGET $PUGIXML_OBJ
 		}
 
 		# Build main_rapidxml.cpp
 		$RAPIDXML_SRC = 'C++/src/main_rapidxml.cpp'
 		$RAPIDXML_TARGET = 'bin/xml-i-rapidxml'
-		Exec {
+		exec {
 			& $CXX @($CXXFLAGS) '-I./C++/rapidxml/RapidXML' -o $RAPIDXML_TARGET $RAPIDXML_SRC
 		}
 
@@ -355,7 +361,7 @@ Task BuildNET {
 
 	Push-Location 'alien'
 	try {
-		Exec {
+		exec {
 			& dotnet publish $DOTNET_SRC -c Release -o $DOTNET_TARGET
 		}
 	}
@@ -368,11 +374,24 @@ Task BuildJava {
 
 	Push-Location $JAVA_SRC
 	try {
-		Exec {
+		exec {
 			javac 'CountXMLNodes.java'
 		}
 	}
  finally { Pop-Location }
+}
+
+Task BuildScala {
+	Write-Host 'Building scala application...'
+	$SCALA_SRC = 'alien/scala/src'
+
+	Push-Location $SCALA_SRC
+	try {
+		exec {
+			scalac 'CountXMLNodes.scala'
+		}
+	}
+	finally { Pop-Location }
 }
 
 Task FetchXSLTDependencies {	
@@ -409,7 +428,7 @@ Task BuildNode {
 
 	Push-Location $NODE_SRC
 	try {
-		Exec {
+		exec {
 			npm ci
 		}
 	}
