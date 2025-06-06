@@ -9,7 +9,7 @@ Task Help {
 	Write-Host '  MakeTestData - Generate test XML files'
 }
 
-Task Build -depends BuildRust, BuildCpp, BuildNET , BuildJava, FetchXSLTDependencies, BuildNode
+Task Build -depends BuildRust, BuildCpp, BuildNET , BuildJava, BuildScala, FetchXSLTDependencies, BuildNode
 
 Task MakeTestData {
 	Write-Host 'Generating test XML files...'
