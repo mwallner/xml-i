@@ -1,3 +1,12 @@
+param(
+	[Parameter(Mandatory = $false)]
+	[string]
+	$AppFilter = $null,
+
+	[Parameter(Mandatory = $false)]
+	[string]
+	$TestFileFilter = $null
+)
 
 $global:configs = @{}
 
@@ -55,32 +64,32 @@ function Invoke-AppBenchmark {
 	try {
 		$appArgs = $app.Tester.ArgumentList
 		$appArgs += $testXml.FullName
-		$testrun = Measure-Command {
-			$proc = Start-Process -FilePath $app.Tester.Executable -ArgumentList $appArgs -PassThru -NoNewWindow -WorkingDirectory (Get-Location) -RedirectStandardOutput $outFileName
-			$maxMem = 0
-			while (-not $proc.HasExited) {
-				try {
-					$mem = $proc.WorkingSet64 / 1MB
-					if ($mem -gt $maxMem) { $maxMem = $mem }
-				}
-				catch {}
-				Start-Sleep -Milliseconds 0
-				$proc.Refresh()
-			}
-			# One last check after exit
+		$timeBegin = Get-Date
+		$proc = Start-Process -FilePath $app.Tester.Executable -ArgumentList $appArgs -PassThru -NoNewWindow -WorkingDirectory (Get-Location) -RedirectStandardOutput $outFileName
+		$maxMem = 0
+		while (-not $proc.HasExited) {
 			try {
 				$mem = $proc.WorkingSet64 / 1MB
 				if ($mem -gt $maxMem) { $maxMem = $mem }
 			}
 			catch {}
+			Start-Sleep -Milliseconds 0
+			$proc.Refresh()
 		}
+		# One last check after exit
+		try {
+			$mem = $proc.WorkingSet64 / 1MB
+			if ($mem -gt $maxMem) { $maxMem = $mem }
+		}
+		catch {}
+		$timeDuration = (Get-Date) - $timeBegin
 		$app.Results[$testXml.Name] = @{
 			Me           = $app
 			File         = $testXml
-			Milliseconds = $testrun.TotalMilliseconds
+			Milliseconds = $timeDuration.TotalMilliseconds
 			MaxMemMB     = $maxMem
 		}
-		Write-Host (' ... ok ({0:N2} sec)' -f $testrun.TotalSeconds) -ForegroundColor Green
+		Write-Host (' ... ok ({0:N2} sec)' -f $timeDuration.TotalSeconds) -ForegroundColor Green
 	}
 	catch {
 		Write-Host " Error benchmarking $($app.Name): $_ / $($testXml.Name)" -ForegroundColor Red
@@ -101,18 +110,55 @@ function Write-BenchmarkResults {
 	)
 
 
-	function FormatSection($name, $command) {
-		"***$name***"
-		'```'
-		"$($(& $command) | ForEach-Object { $_; "`n" })"
-		'```'
-		''
+	function FormatSection($app) {
+		if ($app.Name -And $app.Description -And $app.Meta) {
+			''
+			"### $($app.Name)"
+			$meta = $app.Meta.Invoke()
+			$metaInfo = $meta
+			''
+			$app.Description
+			''
+			if ($metainfo) {
+				'```'
+				$metaInfo
+				'```'
+			}
+			''
+			'| File                      | Time (s)   | Throughput (MB/s) | Max Mem (MB) |'
+			'|---------------------------|------------|-------------------|--------------|'
+			$app.Results.Values | Sort-Object Milliseconds -Descending | ForEach-Object {
+				$fileSizeMB = $_.File.Length / 1MB
+				$tp = $fileSizeMB / ($_.Milliseconds / 1000)
+				'| {0,-25} | {1,-10:N3} | {2,-17:N3} | {3,-12:N2} |' -f $_.File.Name, ($_.Milliseconds / 1000), $tp, $_.MaxMemMB
+			}
+
+		}
 	}
 
 	$mdResult = @()
 	$mdResult += "# Benchmark Results $(Get-Date)"
 	$mdResult += ''
+	if ($AppFilter) {
+		$mdResult += "AppFilter: ``$AppFilter``"
+		$mdResult += ''
+	}
+	if ($TestFileFilter) {
+		$mdResult += "TestFileFilter: ``$TestFileFilter``"
+		$mdResult += ''
+	}
 	$mdResult += '## System Information'
+	$mdResult += '```'
+	$mdResult += "Hostname: $(hostname)"
+	$mdResult += "Kernel: $(uname -srmo)"
+	$mdResult += "Distro: $(cat /etc/os-release | grep '^PRETTY_NAME=' | cut -d= -f2- | tr -d '\"')"
+	$mdResult += "CPU: $(lscpu | grep 'Model name' | head -1 | sed 's/Model name:[ \t]*//')"
+	$mdResult += "Disk: $(lsblk -d -o MODEL | sed -n '2p' | xargs)"
+	$mdResult += "Memory: $(free -h | grep Mem: | awk '{print $2}')"
+	$mdResult += '```'
+
+	$mdResult += ''
+	$mdResult += '## Overall Results'
 	$mdResult += ''
 
 	$appList = $Configs.GetEnumerator() | ForEach-Object {
@@ -123,17 +169,30 @@ function Write-BenchmarkResults {
 		$pos = 1
 
 		$groupSize = $group.Group[0].File.Length
-
-		$mdResult += '## {0} ({1:N2} MB)' -f $group.Name, ($groupSize / 1MB)
+		$mdResult += ''
+		$mdResult += '### {0} ({1:N2} MB)' -f $group.Name, ($groupSize / 1MB)
 		$mdResult += ''
 		$mdResult += '| Rank | Variant                   | Time (s)   | Throughput (MB/s) | Max Mem (MB) |'
 		$mdResult += '|------|---------------------------|------------|-------------------|--------------|'
 		$group.Group | Sort-Object -Property Milliseconds | ForEach-Object {
-			$tp = $groupSize / 1MB / $_.Milliseconds
+			$tp = $groupSize / 1MB / ($_.Milliseconds / 1000)
 			$mdResult += '| {0,-4} | {1,-25} | {3,-10:N3} | {4,-17:N3} | {5,-12:N2} |' -f $pos, $_.Me.Name, $_.File.Name, ($_.Milliseconds / 1000), $tp, $_.MaxMemMB
 			$pos++
 		}
 		$mdResult += ''
+	}
+
+	$mdResult += ''
+	$mdResult += '## App - Results'
+	$mdResult += ''
+
+	$Configs.Values | Sort-Object Name | ForEach-Object {
+		$app = $_
+		if ($AppFilter -and $app.Name -notlike "*$AppFilter*") {
+			Write-Host "Skipping $($app.Name) due to filter." -ForegroundColor Yellow
+			return
+		}
+		$mdResult += FormatSection $app
 	}
 
 	$mdResult | Out-File -FilePath $MarkdownFilePath -Encoding UTF8
@@ -157,6 +216,12 @@ Task ReadConfigs {
 Task Build ReadConfigs, {
 	$global:configs.GetEnumerator() | ForEach-Object {
 		$app = $_.Value
+
+		if ($AppFilter -and $app.Name -notlike "*$AppFilter*") {
+			Write-Host "Skipping $($app.Name) due to filter." -ForegroundColor Yellow
+			return
+		}
+
 		if ($app.Builder) {
 			Write-Host "Building $($app.Name)..."
 			Push-Location $app.Origin
@@ -183,18 +248,43 @@ Task Benchmark ReadConfigs, {
 	$testXmls = Get-ChildItem 'test' -Filter '*.xml'
 	$outFileBase = (Get-Item 'test').FullName
 
-	$global:configs.GetEnumerator() | ForEach-Object {
+ # Sort apps: Rust* first, then the rest
+	$sortedApps = $global:configs.GetEnumerator() | Sort-Object { if ($_.Value.Name -like 'Rust*') { 0 } else { 1 } }, { $_.Value.Name }
+
+	$baseline = $null
+
+	$sortedApps | ForEach-Object {
 		$app = $_.Value
 		$app.Results = @{}
 		$app.OutFiles = @()
 		$i = 0
 
+		if ($AppFilter -and $app.Name -notlike "*$AppFilter*") {
+			Write-Host "Skipping $($app.Name) due to filter." -ForegroundColor Yellow
+			return
+		}
+
+		if (-Not $baseline) {
+			# Set the first app as baseline
+			$baseline = $app
+			Write-Host "Setting $($app.Name) as baseline." -ForegroundColor Cyan
+		}
+
 		Write-Host " Benchmarking $($app.Name)..." -ForegroundColor Magenta
 		foreach ($testXml in $testXmls) {
+
+			if ($TestFileFilter -and $testXml.Name -notlike "*$TestFileFilter*") {
+				Write-Host "  Skipping $($testXml.Name) due to filter." -ForegroundColor Yellow
+				continue
+			}
+
 			Invoke-AppBenchmark -app $app -testXml $testXml -outFileBase $outFileBase -counter $i
 			$i++
 		}
 	}
+
+	# TODO: write app comparison to baseline
+	# TODO: compare outputs (should all be equivalent except line order)
 
 	Write-Host "Benchmarking completed for $($global:configs.Count) applications." -ForegroundColor Green
 	Write-BenchmarkResults -Configs $global:configs -MarkdownFilePath (Join-Path $outFileBase 'benchmark_results.md')
