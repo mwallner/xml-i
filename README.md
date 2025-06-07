@@ -44,7 +44,11 @@ boing: 1334440
 
 ## Build / TestData / Benchmarking
 
-See `psakefile.ps1` - use PowerShell and `Invoke-Psake`
+Each variant defines it's *b*uild*c*onfig via `New-AppDecl`.
+All `<something>.bc.ps1` are automatically picked up and dot-sources by`xml-i.build.ps1`.
+Use PowerShell and `Invoke-Build`.
+
+See [the Rust quick-xml build config](src/rust.bc.ps1) as example.
 
 Basis for my [benchmark-results](test/benchmark_results.md):
 
