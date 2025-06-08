@@ -1,5 +1,5 @@
 # Build artifacts
-/target/
+/**/target/
 /**/bin/
 /**/obj/
 /**/libxsde

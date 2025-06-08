@@ -270,6 +270,11 @@ Task Benchmark ReadConfigs, {
 			Write-Host "Setting $($app.Name) as baseline." -ForegroundColor Cyan
 		}
 
+		Write-Host 'Dropping caches 4 fair benchmarking... ' -ForegroundColor Magenta
+		sudo sh -c 'echo 3 > /proc/sys/vm/drop_caches'
+		Write-Host 'Waiting 10 seconds for caches to settle... (and let the system cool down)' -ForegroundColor Magenta
+		Start-Sleep -Seconds 10
+
 		Write-Host " Benchmarking $($app.Name)..." -ForegroundColor Magenta
 		foreach ($testXml in $testXmls) {
 
@@ -281,6 +286,7 @@ Task Benchmark ReadConfigs, {
 			Invoke-AppBenchmark -app $app -testXml $testXml -outFileBase $outFileBase -counter $i
 			$i++
 		}
+		
 	}
 
 	# TODO: write app comparison to baseline
