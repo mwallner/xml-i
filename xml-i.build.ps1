@@ -5,7 +5,11 @@ param(
 
 	[Parameter(Mandatory = $false)]
 	[string]
-	$TestFileFilter = $null
+	$TestFileFilter = $null,
+
+	[Parameter(Mandatory = $false)]
+	[switch]
+	$Quick
 )
 
 $global:configs = @{}
@@ -100,7 +104,7 @@ function Invoke-AppBenchmark {
 	}
 }
 
-function Write-BenchmarkResults {
+function Write-BenchmarkResultsMarkdown {
 	param (
 		[Parameter(Mandatory)]
 		[hashtable]$Configs,
@@ -160,6 +164,8 @@ function Write-BenchmarkResults {
 	$mdResult += ''
 	$mdResult += '## Overall Results'
 	$mdResult += ''
+	$mdResult += '![benchmark results](benchmark_tp_line.svg)'
+	$mdResult += ''
 
 	$appList = $Configs.GetEnumerator() | ForEach-Object {
 		$_.Value
@@ -169,8 +175,17 @@ function Write-BenchmarkResults {
 		$pos = 1
 
 		$groupSize = $group.Group[0].File.Length
+		$groupSizeMB = [math]::Round($groupSize / 1MB, 2)
+		if ($groupSizeMB -eq 0) {
+			$groupSizeKB = [math]::Round($groupSize / 1KB, 1)
+			$sizeLabel = "$groupSizeKB KB"
+		}
+		else {
+			$sizeLabel = "$groupSizeMB MB"
+		}
+    
 		$mdResult += ''
-		$mdResult += '### {0} ({1:N2} MB)' -f $group.Name, ($groupSize / 1MB)
+		$mdResult += '### {0} ({1})' -f $group.Name, $sizeLabel
 		$mdResult += ''
 		$mdResult += '| Rank | Variant                   | Time (s)   | Throughput (MB/s) | Max Mem (MB) |'
 		$mdResult += '|------|---------------------------|------------|-------------------|--------------|'
@@ -197,6 +212,283 @@ function Write-BenchmarkResults {
 
 	$mdResult | Out-File -FilePath $MarkdownFilePath -Encoding UTF8
 	Write-Host "Benchmark results written to $MarkdownFilePath." -ForegroundColor Green
+}
+
+function Write-BenchmarkLineSVG {
+	param (
+		[Parameter(Mandatory)]
+		[hashtable]$Configs,
+
+		[Parameter(Mandatory)]
+		[string]$SvgFilePath
+	)
+
+	# Gather all test files and apps
+	$testFiles = @()
+	$apps = @()
+	foreach ($app in $Configs.Values) {
+		$apps += $app.Name
+		foreach ($result in $app.Results.Values) {
+			if ($testFiles -notcontains $result.File.Name) {
+				$testFiles += $result.File.Name
+			}
+		}
+	}
+	$testFiles = $testFiles | Sort-Object
+	$apps = $apps | Sort-Object
+
+	# Build throughput table: $table[app][file] = throughput
+	$table = @{}
+	foreach ($app in $Configs.Values) {
+		$row = @{}
+		foreach ($result in $app.Results.Values) {
+			$tp = [math]::Round(($result.File.Length / 1MB) / ($result.Milliseconds / 1000), 2)
+			$row[$result.File.Name] = $tp
+		}
+		$table[$app.Name] = $row
+	}
+
+	# SVG layout
+	$width = 900
+	$height = 500
+	$marginLeft = 100
+	$marginBottom = 60
+	$marginTop = 80
+	$marginRight = 40
+	$plotWidth = $width - $marginLeft - $marginRight
+	$plotHeight = $height - $marginTop - $marginBottom
+
+	# Find max throughput for scaling
+	$maxTp = ($table.Values | ForEach-Object { $_.Values } | ForEach-Object { $_ } | Measure-Object -Maximum).Maximum
+	if (-not $maxTp) { $maxTp = 1 }
+
+	# Colors for lines
+	$colors = @('#4e79a7', '#f28e2b', '#e15759', '#76b7b2', '#59a14f', '#edc949', '#af7aa1', '#ff9da7', '#9c755f', '#bab0ab')
+
+	$svg = @()
+	$svg += '<?xml version="1.0" encoding="UTF-8" standalone="no"?>'
+	$svg += "<svg xmlns='http://www.w3.org/2000/svg' width='$width' height='$height'>"
+	$svg += '<style> .label { font: 13px sans-serif; } .legend { font: 13px sans-serif; } .axis { stroke: #333; stroke-width: 1; } .chart-title { font: bold 20px sans-serif; } </style>'
+
+	# Add chart title
+	$svg += "<text x='$([int]($width/2))' y='30' text-anchor='middle' class='chart-title'>Max. Throughput (top 10)</text>"
+
+	# Add Y axis label
+	$svg += "<text x='$([int]($marginLeft)-55)' y='$([int]($marginTop + $plotHeight/2))' text-anchor='middle' class='label' font-size='16px' transform='rotate(-90 $([int]($marginLeft)-55),$([int]($marginTop + $plotHeight/2)))'>MB/sec</text>"
+
+	# Axes
+	$svg += "<line x1='$marginLeft' y1='$marginTop' x2='$marginLeft' y2='$($height-$marginBottom)' class='axis'/>"
+	$svg += "<line x1='$marginLeft' y1='$($height-$marginBottom)' x2='$($width-$marginRight)' y2='$($height-$marginBottom)' class='axis'/>"
+
+	# Y-axis labels and grid
+	$yTicks = 6
+	for ($i = 0; $i -le $yTicks; $i++) {
+		$yVal = [math]::Round($maxTp * ($i / $yTicks), 1)
+		$y = $marginTop + $plotHeight - [math]::Round($plotHeight * ($i / $yTicks))
+		$svg += "<text x='$($marginLeft-10)' y='$([int]$y+5)' text-anchor='end' class='label'>$yVal</text>"
+		if ($i -ne 0 -and $i -ne $yTicks) {
+			$svg += "<line x1='$marginLeft' y1='$y' x2='$($width-$marginRight)' y2='$y' stroke='#ccc' stroke-dasharray='2,2'/>"
+		}
+	}
+
+	# X-axis labels (with file size)
+	$n = $testFiles.Count
+	for ($i = 0; $i -lt $n; $i++) {
+		$x = $marginLeft + [math]::Round($plotWidth * $i / [math]::Max($n - 1, 1))
+		$fileName = $testFiles[$i]
+		# Find the file size from any app's results
+		$fileSizeBytes = $null
+		foreach ($app in $Configs.Values) {
+			if ($app.Results.ContainsKey($fileName)) {
+				$fileSizeBytes = $app.Results[$fileName].File.Length
+				break
+			}
+		}
+		if ($fileSizeBytes -ne $null) {
+			$fileSizeMB = [math]::Round($fileSizeBytes / 1MB, 2)
+			if ($fileSizeMB -eq 0) {
+				$fileSizeKB = [math]::Round($fileSizeBytes / 1KB, 1)
+				$sizeLabel = "$fileSizeKB KB"
+			}
+			else {
+				$sizeLabel = "$fileSizeMB MB"
+			}
+		}
+		else {
+			$sizeLabel = ''
+		}
+		$svg += "<text x='$x' y='$($height-$marginBottom+20)' text-anchor='middle' class='label'>$fileName</text>"
+		$svg += "<text x='$x' y='$($height-$marginBottom+36)' text-anchor='middle' class='label' font-size='11px'>$sizeLabel</text>"
+	}
+
+	# Compute average throughput per app for legend ordering
+	$avgThroughput = @{}
+	foreach ($app in $apps) {
+		$sum = 0
+		$count = 0
+		foreach ($file in $testFiles) {
+			$tp = $table[$app][$file]
+			if ($tp -ne $null) {
+				$sum += $tp
+				$count++
+			}
+		}
+		$avgThroughput[$app] = if ($count -gt 0) { $sum / $count } else { 0 }
+	}
+	# Order apps by average throughput descending
+	$appsSorted = $apps | Sort-Object { - $avgThroughput[$_] }
+
+
+	$numberToDisplay = 10
+	if ($appsSorted.Count -gt $numberToDisplay) {
+		$appsSorted = $appsSorted[0..($numberToDisplay - 1)]
+	}
+
+	# Draw lines for each app, in sorted order
+	for ($a = 0; $a -lt $appsSorted.Count; $a++) {
+		$app = $appsSorted[$a]
+		$color = $colors[$a % $colors.Count]
+		$points = @()
+		for ($i = 0; $i -lt $n; $i++) {
+			$tp = $table[$app][$testFiles[$i]]
+			$x = $marginLeft + [math]::Round($plotWidth * $i / [math]::Max($n - 1, 1))
+			$y = $marginTop + $plotHeight - [math]::Round($plotHeight * $tp / $maxTp)
+			$points += "$x,$y"
+		}
+		$svg += "<polyline fill='none' stroke='$color' stroke-width='2' points='" + ($points -join ' ') + "'/>"
+		# Draw points with tooltips
+		for ($i = 0; $i -lt $n; $i++) {
+			$tp = $table[$app][$testFiles[$i]]
+			$x = $marginLeft + [math]::Round($plotWidth * $i / [math]::Max($n - 1, 1))
+			$y = $marginTop + $plotHeight - [math]::Round($plotHeight * $tp / $maxTp)
+			$tooltip = "$app / $($testFiles[$i]): $tp MB/s"
+			$svg += "<circle cx='$x' cy='$y' r='4' fill='$color'><title>$tooltip</title></circle>"
+		}
+	}
+
+	# Legend (wrap every 5 entries), now ordered by performance
+	$legendPerRow = 5
+	$legendSpacingX = 160
+	$legendSpacingY = 18
+	for ($a = 0; $a -lt $appsSorted.Count; $a++) {
+		$app = $appsSorted[$a]
+		$color = $colors[$a % $colors.Count]
+		$row = [math]::Floor($a / $legendPerRow)
+		$col = $a % $legendPerRow
+		$lx = $marginLeft + $col * $legendSpacingX
+		$legendTop = 45  # space for title at y=30, then legend starts at y=45
+		$ly = $legendTop + $row * $legendSpacingY
+		$svg += "<rect x='$lx' y='$ly' width='18' height='10' fill='$color'/>"
+		$svg += "<text x='$($lx+24)' y='$($ly+10)' class='legend'>$app</text>"
+	}
+
+	$svg += '</svg>'
+	$svgContent = $svg -join "`n"
+	Set-Content -Path $SvgFilePath -Value $svgContent -Encoding UTF8
+	Write-Host "SVG line chart written to $SvgFilePath" -ForegroundColor Green
+}
+
+function Write-BenchmarkSVG {
+	param (
+		[Parameter(Mandatory)]
+		[hashtable]$Configs,
+
+		[Parameter(Mandatory)]
+		[string]$SvgFilePath
+	)
+
+	# Gather data: { TestFile => [ { AppName, Throughput } ] }
+	$data = @{}
+	foreach ($app in $Configs.Values) {
+		foreach ($result in $app.Results.Values) {
+			$file = $result.File.Name
+			$tp = [math]::Round(($result.File.Length / 1MB) / ($result.Milliseconds / 1000), 2)
+			if (-not $data.ContainsKey($file)) { $data[$file] = @() }
+			$data[$file] += [PSCustomObject]@{
+				AppName    = $app.Name
+				Throughput = $tp
+				FileSize   = $result.File.Length
+			}
+		}
+	}
+
+	# Find the largest file by size
+	$largestFile = $null
+	$largestSize = 0
+	foreach ($file in $data.Keys) {
+		$size = $data[$file][0].FileSize
+		if ($size -gt $largestSize) {
+			$largestSize = $size
+			$largestFile = $file
+		}
+	}
+
+	if (-not $largestFile) {
+		Write-Host 'No files found for SVG generation.' -ForegroundColor Red
+		return
+	}
+
+	# SVG layout parameters
+	$barHeight = 24
+	$barGap = 8
+	$leftMargin = 160
+	$topMargin = 40
+	$barWidthMax = 400
+	$colors = @('#4e79a7', '#f28e2b', '#e15759', '#76b7b2', '#59a14f', '#edc949', '#af7aa1', '#ff9da7', '#9c755f', '#bab0ab')
+
+	# Calculate required SVG height
+	$numBars = $Configs.Count
+	$svgHeight = $topMargin + $numBars * ($barHeight + $barGap) + 20
+
+	$svg = @()
+	$svg += '<?xml version="1.0" encoding="UTF-8" standalone="no"?>'
+	$svg += "<svg xmlns='http://www.w3.org/2000/svg' width='900' height='$svgHeight'>"
+	$svg += '<style> .label { font: 14px sans-serif; } .title { font: bold 18px sans-serif; } </style>'
+
+	$yOffset = $topMargin
+	$yOffset = $topMargin
+
+	# Build a list of all apps, filling in throughput=0 if missing
+	$allApps = @()
+	foreach ($app in $Configs.Values) {
+		$result = $null
+		if ($data[$largestFile]) {
+			$result = $data[$largestFile] | Where-Object { $_.AppName -eq $app.Name }
+		}
+		if ($result) {
+			$allApps += [PSCustomObject]@{
+				AppName    = $app.Name
+				Throughput = $result.Throughput
+			}
+		}
+		else {
+			$allApps += [PSCustomObject]@{
+				AppName    = $app.Name
+				Throughput = 0
+			}
+		}
+	}
+	$apps = $allApps | Sort-Object -Property Throughput -Descending
+	$maxTp = ($apps | Measure-Object -Property Throughput -Maximum).Maximum
+	$title = '{0} ({1:N2} MB)' -f $largestFile, ($largestSize / 1MB)
+	$svg += "<text x='10' y='$($yOffset-16)' class='title'>$title</text>"
+
+	$i = 0
+	foreach ($app in $apps) {
+		$barLen = if ($maxTp -eq 0) { 0 } else { [math]::Round($barWidthMax * $app.Throughput / $maxTp) }
+		$color = $colors[$i % $colors.Count]
+		$y = $yOffset + $i * ($barHeight + $barGap)
+		$svg += "<rect x='$leftMargin' y='$y' width='$barLen' height='$barHeight' fill='$color' />"
+		$svg += "<text x='10' y='$([int]($y+$barHeight*0.7))' class='label'>$($app.AppName)</text>"
+		$svg += "<text x='$([int]($leftMargin+$barLen+8))' y='$([int]($y+$barHeight*0.7))' class='label'>" +
+            ($(if ($app.Throughput -eq 0) { 'N/A' } else { "$($app.Throughput) MB/s" })) + '</text>'
+		$i++
+	}
+
+	$svg += '</svg>'
+	$svgContent = $svg -join "`n"
+	Set-Content -Path $SvgFilePath -Value $svgContent -Encoding UTF8
+	Write-Host "SVG throughput chart written to $SvgFilePath (largest file: $largestFile)" -ForegroundColor Green
 }
 
 Task ReadConfigs {
@@ -248,7 +540,7 @@ Task Benchmark ReadConfigs, {
 	$testXmls = Get-ChildItem 'test' -Filter '*.xml'
 	$outFileBase = (Get-Item 'test').FullName
 
- # Sort apps: Rust* first, then the rest
+	# Sort apps: Rust* first, then the rest
 	$sortedApps = $global:configs.GetEnumerator() | Sort-Object { if ($_.Value.Name -like 'Rust*') { 0 } else { 1 } }, { $_.Value.Name }
 
 	$baseline = $null
@@ -272,8 +564,10 @@ Task Benchmark ReadConfigs, {
 
 		Write-Host 'Dropping caches 4 fair benchmarking... ' -ForegroundColor Magenta
 		sudo sh -c 'echo 3 > /proc/sys/vm/drop_caches'
-		Write-Host 'Waiting 10 seconds for caches to settle... (and let the system cool down)' -ForegroundColor Magenta
-		Start-Sleep -Seconds 10
+		if (-Not $Quick) {
+			Write-Host 'Waiting 10 seconds for caches to settle... (and let the system cool down)' -ForegroundColor Magenta
+			Start-Sleep -Seconds 10
+		}
 
 		Write-Host " Benchmarking $($app.Name)..." -ForegroundColor Magenta
 		foreach ($testXml in $testXmls) {
@@ -293,7 +587,9 @@ Task Benchmark ReadConfigs, {
 	# TODO: compare outputs (should all be equivalent except line order)
 
 	Write-Host "Benchmarking completed for $($global:configs.Count) applications." -ForegroundColor Green
-	Write-BenchmarkResults -Configs $global:configs -MarkdownFilePath (Join-Path $outFileBase 'benchmark_results.md')
+	Write-BenchmarkResultsMarkdown -Configs $global:configs -MarkdownFilePath (Join-Path $outFileBase 'benchmark_results.md')
+	Write-BenchmarkSVG -Configs $global:configs -SvgFilePath (Join-Path $outFileBase 'benchmark_tp.svg')
+	Write-BenchmarkLineSVG -Configs $global:configs -SvgFilePath (Join-Path $outFileBase 'benchmark_tp_line.svg')
 }
 
 Task MakeTestData {
@@ -368,4 +664,5 @@ Task MakeTestData {
 	Generate-TestXml -FilePath "$outputDir/large.xml" -MinSizeMB 100
 	Generate-TestXml -FilePath "$outputDir/huge.xml" -MinSizeMB 500
 	Generate-TestXml -FilePath "$outputDir/giant.xml" -MinSizeMB 2000
+	Generate-TestXml -FilePath "$outputDir/behemoth.xml" -MinSizeMB 4000
 }

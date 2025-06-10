@@ -62,6 +62,7 @@ Basis for my [benchmark-results](test/benchmark_results.md):
 
 ![quick-xml go brr](https://i.imgflip.com/9w3r5t.jpg)
 
+![benchmark results](test/benchmark_tp.svg)
 
 ## Motivation
 
