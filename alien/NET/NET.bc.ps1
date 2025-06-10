@@ -2,7 +2,7 @@
 # will be dot-sourced by xml-i.build.ps1
 
 $decl = @{
-	Name        = '.NET' 
+	Name        = '.NET 8 - XmlReader' 
 	Description = 'xml-i in .NET'
 	Origin      = $PSScriptRoot
 	Meta        = {	dotnet --version }

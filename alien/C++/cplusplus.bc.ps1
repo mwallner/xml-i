@@ -42,7 +42,7 @@ $decl_pugi = @{
 New-AppDecl @decl_pugi
 
 $decl_libxml2 = @{
-	Name        = 'C++ (libxml2)' 
+	Name        = 'C++ (libxml2 - SAX)' 
 	Description = 'xml-i in C++ powered by libxml2'
 	Origin      = $PSScriptRoot
 	Meta        = {	}
