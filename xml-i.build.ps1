@@ -88,6 +88,7 @@ function Invoke-AppBenchmark {
 		catch {}
 		$timeDuration = (Get-Date) - $timeBegin
 		$app.Results[$testXml.Name] = @{
+			Content      = Get-Content -Path $outFileName
 			Me           = $app
 			File         = $testXml
 			Milliseconds = $timeDuration.TotalMilliseconds
@@ -556,12 +557,6 @@ Task Benchmark ReadConfigs, {
 			return
 		}
 
-		if (-Not $baseline) {
-			# Set the first app as baseline
-			$baseline = $app
-			Write-Host "Setting $($app.Name) as baseline." -ForegroundColor Cyan
-		}
-
 		Write-Host 'Dropping caches 4 fair benchmarking... ' -ForegroundColor Magenta
 		sudo sh -c 'echo 3 > /proc/sys/vm/drop_caches'
 		if (-Not $Quick) {
@@ -581,10 +576,30 @@ Task Benchmark ReadConfigs, {
 			$i++
 		}
 		
-	}
+		if (-Not $baseline) {
+			# Set the first app as baseline
+			$baseline = $app
+			Write-Host "Setting $($app.Name) as baseline." -ForegroundColor Cyan
+		}
+		else {
+			# Compare with baseline
+			Write-Host "Comparing $($app.Name) with baseline $($baseline.Name)..." -ForegroundColor Cyan
+			$app.BaselineResults = @{}
+			foreach ($testXml in $testXmls) {
+				$base = $baseline.Results[$testXml.Name]
+				$test = $app.Results[$testXml.Name]
+				$a = $base.Content | Sort-Object
+				$b = $test.Content | Sort-Object
+				if (Compare-Object -ReferenceObject $a -DifferenceObject $b -SyncWindow 0 -IncludeEqual | Where-Object { $_.SideIndicator -ne '==' }) {
+					Write-Host "  Differences found in $($testXml.Name) for $($app.Name) vs baseline." -ForegroundColor Red
+				}
+				else {
+					Write-Host "  No differences in $($testXml.Name) for $($app.Name) vs baseline." -ForegroundColor Green
+				}
+			}	
+		}
 
-	# TODO: write app comparison to baseline
-	# TODO: compare outputs (should all be equivalent except line order)
+	}
 
 	Write-Host "Benchmarking completed for $($global:configs.Count) applications." -ForegroundColor Green
 	Write-BenchmarkResultsMarkdown -Configs $global:configs -MarkdownFilePath (Join-Path $outFileBase 'benchmark_results.md')

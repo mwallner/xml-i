@@ -21,25 +21,15 @@ A basic benchmarking feature is included to demonstrate and compare the performa
 ## Example Usage
 
 ```
-xml-i on  main [!] is 📦 v0.1.0 via 🦀 v1.86.0
-❯ file ./test/huge.xml
-./test/huge.xml: XML 1.0 document, Unicode text, UTF-8 (with BOM) text, with very long lines (453)
-
-❯ du -h ./test/huge.xml
-647M	./test/huge.xml
-
-❯ ./target/release/xml-i ./test/huge.xml
+./target/release/xml-i ./test/huge.xml boing blips
 Node counts:
-blips: 1287
-blip: 1287000
-boing: 1334440
-start: 1
-boings: 1335
+boing: 1342440
+blips: 1279
 
-❯ ./target/release/xml-i ./test/huge.xml boing blips
+./alien/bin/xml-i-xerces ./test/_/huge.xml boing blips
 Node counts:
-blips: 1287
-boing: 1334440
+boing: 1342440
+blips: 1279
 ```
 
 ## Build / TestData / Benchmarking
