@@ -9,7 +9,12 @@ function SetJavaDeclObj($JavaVersion, $publicClassName) {
 	}
 }
 
-@('java-11', 'java-21', 'java-24') | ForEach-Object {
+$javaVersions = @(
+	# 'java-11'
+	'java-21'
+	# 'java-24'
+)
+$javaversions | ForEach-Object {
 	$v = $_
 	$decl = @{
 		Name        = "$v - StAX"
