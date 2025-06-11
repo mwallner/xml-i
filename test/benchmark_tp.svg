@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns='http://www.w3.org/2000/svg' width='900' height='732'>
+<svg xmlns='http://www.w3.org/2000/svg' width='900' height='732' style="background-color:#fff"> 
 <style> .label { font: 14px sans-serif; } .title { font: bold 18px sans-serif; } </style>
 <text x='10' y='24' class='title'>behemoth.xml (5,171.67 MB)</text>
 <rect x='160' y='40' width='400' height='24' fill='#4e79a7' />
