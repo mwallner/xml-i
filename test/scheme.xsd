@@ -3,15 +3,12 @@
 
   <!-- Root element -->
   <xs:element name="start">
-
     <xs:complexType>
-      <xs:sequence>
-
-        <!-- Allow multiple <blips> and <boings> elements -->
-        <xs:element name="blips" minOccurs="0" maxOccurs="unbounded">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <!-- <blips> element -->
+        <xs:element name="blips">
           <xs:complexType>
             <xs:sequence>
-              <!-- Allow multiple <blip> elements -->
               <xs:element name="blip" minOccurs="0" maxOccurs="unbounded">
                 <xs:complexType>
                   <xs:simpleContent>
@@ -33,11 +30,10 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-
-        <xs:element name="boings" minOccurs="0" maxOccurs="unbounded">
+        <!-- <boings> element -->
+        <xs:element name="boings">
           <xs:complexType>
             <xs:sequence>
-              <!-- Allow multiple <boing> elements -->
               <xs:element name="boing" minOccurs="0" maxOccurs="unbounded">
                 <xs:complexType>
                   <xs:simpleContent>
@@ -59,8 +55,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-
-      </xs:sequence>
+      </xs:choice>
     </xs:complexType>
   </xs:element>
 

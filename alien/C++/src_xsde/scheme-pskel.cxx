@@ -381,6 +381,13 @@ boing_pskel (boing_pskel* impl, void*)
 //
 
 void start_pskel::
+choice_arm (choice_arm_tag x)
+{
+  if (this->start_impl_)
+    this->start_impl_->choice_arm (x);
+}
+
+void start_pskel::
 blips ()
 {
   if (this->start_impl_)
@@ -791,14 +798,14 @@ _start_element_impl (const ::xsde::cxx::ro_string& ns,
       if (s != ~0UL)
       {
         vd->count++;
-        vd->state = ~0UL;
 
         vd = vs.data + vs.size++;
-        vd->func = &start_pskel::sequence_0;
+        vd->func = &start_pskel::choice_0;
         vd->state = s;
         vd->count = 0;
 
-        this->sequence_0 (vd->state, vd->count, ns, n, true);
+        this->choice_arm (static_cast< choice_arm_tag > (s));
+        this->choice_0 (vd->state, vd->count, ns, n, true);
       }
       else
       {
@@ -875,88 +882,67 @@ _post_e_validate ()
 }
 
 void start_pskel::
-sequence_0 (unsigned long& state,
-            unsigned long& count,
-            const ::xsde::cxx::ro_string& ns,
-            const ::xsde::cxx::ro_string& n,
-            bool start)
+choice_0 (unsigned long& state,
+          unsigned long& count,
+          const ::xsde::cxx::ro_string& ns,
+          const ::xsde::cxx::ro_string& n,
+          bool start)
 {
   ::xsde::cxx::parser::context& ctx = this->_context ();
 
+  XSDE_UNUSED (count);
+  XSDE_UNUSED (ns);
+  XSDE_UNUSED (n);
   XSDE_UNUSED (ctx);
 
   switch (state)
   {
     case 0UL:
     {
-      if (n == "blips" && ns.empty ())
+      if (start)
       {
-        if (start)
+        if (this->blips_parser_)
         {
-          if (this->blips_parser_)
-          {
-            this->blips_parser_->pre ();
-            ctx.nested_parser (this->blips_parser_);
-          }
+          this->blips_parser_->pre ();
+          ctx.nested_parser (this->blips_parser_);
         }
-        else
-        {
-          if (this->blips_parser_ != 0)
-          {
-            this->blips_parser_->post_blips ();
-            this->blips ();
-          }
-
-          count++;
-        }
-
-        break;
       }
       else
       {
-        assert (start);
-        count = 0;
-        state = 1UL;
-        // Fall through.
+        if (this->blips_parser_ != 0)
+        {
+          this->blips_parser_->post_blips ();
+          this->blips ();
+        }
+
+        state = ~0UL;
       }
+
+      break;
     }
-    // Fall through.
     case 1UL:
     {
-      if (n == "boings" && ns.empty ())
+      if (start)
       {
-        if (start)
+        if (this->boings_parser_)
         {
-          if (this->boings_parser_)
-          {
-            this->boings_parser_->pre ();
-            ctx.nested_parser (this->boings_parser_);
-          }
+          this->boings_parser_->pre ();
+          ctx.nested_parser (this->boings_parser_);
         }
-        else
-        {
-          if (this->boings_parser_ != 0)
-          {
-            this->boings_parser_->post_boings ();
-            this->boings ();
-          }
-
-          count++;
-        }
-
-        break;
       }
       else
       {
-        assert (start);
-        count = 0;
+        if (this->boings_parser_ != 0)
+        {
+          this->boings_parser_->post_boings ();
+          this->boings ();
+        }
+
         state = ~0UL;
-        // Fall through.
       }
-    }
-    // Fall through.
-    case ~0UL:
+
       break;
+    }
   }
 }
 

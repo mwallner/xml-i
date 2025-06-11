@@ -10,7 +10,7 @@ $decl_rapid = @{
 	Origin      = $PSScriptRoot
 	Meta        = {	}
 	Builder     = {
-		exec {
+		Exec {
 			& $CXX @($CXXFLAGS) '-I./rapidxml/RapidXML' -o '../bin/xml-i-rapidxml' 'src/main_rapidxml.cpp'
 		}
 	}
@@ -27,10 +27,10 @@ $decl_pugi = @{
 	Origin      = $PSScriptRoot
 	Meta        = {	}
 	Builder     = {
-		exec {
+		Exec {
 			& $CXX @($CXXFLAGS) '-c' 'src/main_pugixml.cpp' '-o' 'src/main_pugixml.o'
 		}
-		exec {
+		Exec {
 			& $CXX @($CXXFLAGS) '-lpugixml' '-o' '../bin/xml-i-pugixml' 'src/main_pugixml.o'
 		}
 	}
@@ -54,10 +54,10 @@ $decl_libxml2 = @{
 		$LIBXML2_OBJ = $LIBXML2_SRC -replace '\.cpp$', '.o'
 		$LIBXML2_TARGET = '../bin/xml-i-libxml2'
 
-		exec {
+		Exec {
 			& $CXX @($CXXFLAGS) "-I$LIBXML2_INC" '-c' $LIBXML2_SRC '-o' $LIBXML2_OBJ
 		}
-		exec {
+		Exec {
 			& $CXX @($CXXFLAGS) "-I$LIBXML2_INC" "-L$LIBXML2_LIB" '-lxml2' '-o' $LIBXML2_TARGET $LIBXML2_OBJ
 		}
 	}
@@ -81,10 +81,10 @@ $decl_libxml2_xmlreader = @{
 		$LIBXML2_OBJ = $LIBXML2_SRC -replace '\.cpp$', '.o'
 		$LIBXML2_TARGET = '../bin/xml-i-libxml2-xmlreader'
 
-		exec {
+		Exec {
 			& $CXX @($CXXFLAGS) "-I$LIBXML2_INC" '-c' $LIBXML2_SRC '-o' $LIBXML2_OBJ
 		}
-		exec {
+		Exec {
 			& $CXX @($CXXFLAGS) "-I$LIBXML2_INC" "-L$LIBXML2_LIB" '-lxml2' '-o' $LIBXML2_TARGET $LIBXML2_OBJ
 		}
 	}
@@ -101,10 +101,10 @@ $decl_apache_xerces = @{
 	Origin      = $PSScriptRoot
 	Meta        = {	}
 	Builder     = {
-		exec {
+		Exec {
 			& $CXX @($CXXFLAGS) '-I/usr/include/xerces-c' '-c' 'src/main_xerces.cpp' '-o' 'src/main_xerces.o'
 		}
-		exec {
+		Exec {
 			& $CXX @($CXXFLAGS) '-lxerces-c' '-o' '../bin/xml-i-xerces' 'src/main_xerces.o'
 		}
 	}
@@ -114,3 +114,29 @@ $decl_apache_xerces = @{
 	}
 }
 New-AppDecl @decl_apache_xerces	
+
+$decl_xsde = @{
+	Name        = 'C++ (xsde)' 
+	Description = 'xml-i in C++ powered by CodeSynthesis xsde'
+	Origin      = $PSScriptRoot
+	Meta        = {	}
+	Builder     = {
+		Push-Location 'src'
+		try {
+			Exec {
+				& $CXX @($CXXFLAGS) '-I/usr/include/xsde' '-c' '../src_xsde/scheme-pskel.cxx' 'main_xsde.cpp'
+			}
+			Exec {
+				& $CXX @($CXXFLAGS) '-o' '../../bin/xml-i-xsde' 'scheme-pskel.o' 'main_xsde.o' '-lexpat' '-lxsde'
+			}
+		}
+		finally {
+			Pop-Location
+		}
+	}
+	Tester      = @{
+		Executable   = '../bin/xml-i-xsde'
+		ArgumentList = @()
+	}
+}
+New-AppDecl @decl_xsde

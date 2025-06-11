@@ -285,6 +285,15 @@ class start_pskel: public ::xsde::cxx::parser::validating::complex_content
 
   // Elements.
   //
+  enum choice_arm_tag
+  {
+    blips_tag,
+    boings_tag
+  };
+
+  virtual void
+  choice_arm (choice_arm_tag);
+
   virtual void
   blips ();
 
@@ -364,11 +373,11 @@ class start_pskel: public ::xsde::cxx::parser::validating::complex_content
   _post_e_validate ();
 
   void
-  sequence_0 (unsigned long&,
-              unsigned long&,
-              const ::xsde::cxx::ro_string&,
-              const ::xsde::cxx::ro_string&,
-              bool);
+  choice_0 (unsigned long&,
+            unsigned long&,
+            const ::xsde::cxx::ro_string&,
+            const ::xsde::cxx::ro_string&,
+            bool);
 };
 
 class blips_pskel: public ::xsde::cxx::parser::validating::complex_content
