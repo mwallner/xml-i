@@ -24,27 +24,26 @@ public:
 										const XMLCh *const qname,
 										const Attributes &attrs) override
 	{
-		std::string_view nodeName = XMLChToStringView(localname);
+		std::string nodeName = XMLChToString(qname); // Use qname instead of localname
 
-		if (filterNodes->empty() || filterNodes->find(std::string(nodeName)) != filterNodes->end())
+		if (filterNodes->empty() || filterNodes->find(nodeName) != filterNodes->end())
 		{
 			nodeCounts[nodeName]++;
 		}
 	}
 
-	const std::unordered_map<std::string_view, size_t> &getNodeCounts() const
+	const std::unordered_map<std::string, size_t> &getNodeCounts() const
 	{
 		return nodeCounts;
 	}
 
 private:
-	std::unordered_map<std::string_view, size_t> nodeCounts;
+	std::unordered_map<std::string, size_t> nodeCounts;
 	const std::unordered_set<std::string> *filterNodes;
-
-	std::string_view XMLChToStringView(const XMLCh *xmlCh)
+	std::string XMLChToString(const XMLCh *xmlCh)
 	{
 		char *temp = XMLString::transcode(xmlCh);
-		std::string_view result(temp);
+		std::string result(temp);
 		XMLString::release(&temp);
 		return result;
 	}
