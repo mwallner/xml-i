@@ -267,7 +267,7 @@ function Write-BenchmarkLineSVG {
 
 	$svg = @()
 	$svg += '<?xml version="1.0" encoding="UTF-8" standalone="no"?>'
-	$svg += "<svg xmlns='http://www.w3.org/2000/svg' width='$width' height='$height'>"
+	$svg += "<svg xmlns='http://www.w3.org/2000/svg' width='$width' height='$height' style='background-color:#fff'>"
 	$svg += '<style> .label { font: 13px sans-serif; } .legend { font: 13px sans-serif; } .axis { stroke: #333; stroke-width: 1; } .chart-title { font: bold 20px sans-serif; } </style>'
 
 	# Add chart title
@@ -442,7 +442,7 @@ function Write-BenchmarkSVG {
 
 	$svg = @()
 	$svg += '<?xml version="1.0" encoding="UTF-8" standalone="no"?>'
-	$svg += "<svg xmlns='http://www.w3.org/2000/svg' width='900' height='$svgHeight'>"
+	$svg += "<svg xmlns='http://www.w3.org/2000/svg' width='900' height='$svgHeight' style='background-color:#fff'>"
 	$svg += '<style> .label { font: 14px sans-serif; } .title { font: bold 18px sans-serif; } </style>'
 
 	$yOffset = $topMargin
