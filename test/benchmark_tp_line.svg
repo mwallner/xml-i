@@ -6,17 +6,17 @@
 <line x1='100' y1='80' x2='100' y2='440' class='axis'/>
 <line x1='100' y1='440' x2='860' y2='440' class='axis'/>
 <text x='90' y='445' text-anchor='end' class='label'>0</text>
-<text x='90' y='385' text-anchor='end' class='label'>173.9</text>
+<text x='90' y='385' text-anchor='end' class='label'>170</text>
 <line x1='100' y1='380' x2='860' y2='380' stroke='#ccc' stroke-dasharray='2,2'/>
-<text x='90' y='325' text-anchor='end' class='label'>347.8</text>
+<text x='90' y='325' text-anchor='end' class='label'>339.9</text>
 <line x1='100' y1='320' x2='860' y2='320' stroke='#ccc' stroke-dasharray='2,2'/>
-<text x='90' y='265' text-anchor='end' class='label'>521.7</text>
+<text x='90' y='265' text-anchor='end' class='label'>509.9</text>
 <line x1='100' y1='260' x2='860' y2='260' stroke='#ccc' stroke-dasharray='2,2'/>
-<text x='90' y='205' text-anchor='end' class='label'>695.6</text>
+<text x='90' y='205' text-anchor='end' class='label'>679.8</text>
 <line x1='100' y1='200' x2='860' y2='200' stroke='#ccc' stroke-dasharray='2,2'/>
-<text x='90' y='145' text-anchor='end' class='label'>869.5</text>
+<text x='90' y='145' text-anchor='end' class='label'>849.8</text>
 <line x1='100' y1='140' x2='860' y2='140' stroke='#ccc' stroke-dasharray='2,2'/>
-<text x='90' y='85' text-anchor='end' class='label'>1043.4</text>
+<text x='90' y='85' text-anchor='end' class='label'>1019.8</text>
 <text x='100' y='460' text-anchor='middle' class='label'>behemoth.xml</text>
 <text x='100' y='476' text-anchor='middle' class='label' font-size='11px'>3232.62 MB</text>
 <text x='209' y='460' text-anchor='middle' class='label'>giant.xml</text>
@@ -33,95 +33,95 @@
 <text x='751' y='476' text-anchor='middle' class='label' font-size='11px'>1.28 MB</text>
 <text x='860' y='460' text-anchor='middle' class='label'>micro.xml</text>
 <text x='860' y='476' text-anchor='middle' class='label' font-size='11px'>0.2 KB</text>
-<polyline fill='none' stroke='#4e79a7' stroke-width='2' points='100,82 209,98 317,80 426,112 534,142 643,287 751,321 860,440'/>
-<circle cx='100' cy='82' r='4' fill='#4e79a7'><title>Rust (quick-xml) / behemoth.xml: 1038.35 MB/s</title></circle>
-<circle cx='209' cy='98' r='4' fill='#4e79a7'><title>Rust (quick-xml) / giant.xml: 991.53 MB/s</title></circle>
-<circle cx='317' cy='80' r='4' fill='#4e79a7'><title>Rust (quick-xml) / huge.xml: 1043.42 MB/s</title></circle>
-<circle cx='426' cy='112' r='4' fill='#4e79a7'><title>Rust (quick-xml) / large.xml: 949.61 MB/s</title></circle>
-<circle cx='534' cy='142' r='4' fill='#4e79a7'><title>Rust (quick-xml) / mid.xml: 863.36 MB/s</title></circle>
-<circle cx='643' cy='287' r='4' fill='#4e79a7'><title>Rust (quick-xml) / small.xml: 444.4 MB/s</title></circle>
-<circle cx='751' cy='321' r='4' fill='#4e79a7'><title>Rust (quick-xml) / tiny.xml: 345.63 MB/s</title></circle>
-<circle cx='860' cy='440' r='4' fill='#4e79a7'><title>Rust (quick-xml) / micro.xml: 0.09 MB/s</title></circle>
-<polyline fill='none' stroke='#f28e2b' stroke-width='2' points='100,207 209,249 317,259 426,260 534,284 643,355 751,371 860,440'/>
-<circle cx='100' cy='207' r='4' fill='#f28e2b'><title>C++ (pugixml) / behemoth.xml: 674.93 MB/s</title></circle>
-<circle cx='209' cy='249' r='4' fill='#f28e2b'><title>C++ (pugixml) / giant.xml: 553.63 MB/s</title></circle>
-<circle cx='317' cy='259' r='4' fill='#f28e2b'><title>C++ (pugixml) / huge.xml: 524.6 MB/s</title></circle>
-<circle cx='426' cy='260' r='4' fill='#f28e2b'><title>C++ (pugixml) / large.xml: 521.84 MB/s</title></circle>
-<circle cx='534' cy='284' r='4' fill='#f28e2b'><title>C++ (pugixml) / mid.xml: 451.96 MB/s</title></circle>
-<circle cx='643' cy='355' r='4' fill='#f28e2b'><title>C++ (pugixml) / small.xml: 246.5 MB/s</title></circle>
-<circle cx='751' cy='371' r='4' fill='#f28e2b'><title>C++ (pugixml) / tiny.xml: 200.64 MB/s</title></circle>
-<circle cx='860' cy='440' r='4' fill='#f28e2b'><title>C++ (pugixml) / micro.xml: 0.08 MB/s</title></circle>
-<polyline fill='none' stroke='#e15759' stroke-width='2' points='100,239 209,274 317,273 426,279 534,299 643,344 751,387 860,440'/>
-<circle cx='100' cy='239' r='4' fill='#e15759'><title>C++ (rapidxml) / behemoth.xml: 583.66 MB/s</title></circle>
-<circle cx='209' cy='274' r='4' fill='#e15759'><title>C++ (rapidxml) / giant.xml: 482.33 MB/s</title></circle>
-<circle cx='317' cy='273' r='4' fill='#e15759'><title>C++ (rapidxml) / huge.xml: 483.31 MB/s</title></circle>
-<circle cx='426' cy='279' r='4' fill='#e15759'><title>C++ (rapidxml) / large.xml: 466.22 MB/s</title></circle>
-<circle cx='534' cy='299' r='4' fill='#e15759'><title>C++ (rapidxml) / mid.xml: 407.59 MB/s</title></circle>
-<circle cx='643' cy='344' r='4' fill='#e15759'><title>C++ (rapidxml) / small.xml: 277.56 MB/s</title></circle>
-<circle cx='751' cy='387' r='4' fill='#e15759'><title>C++ (rapidxml) / tiny.xml: 154.02 MB/s</title></circle>
+<polyline fill='none' stroke='#4e79a7' stroke-width='2' points='100,81 209,90 317,90 426,80 534,219 643,290 751,314 860,440'/>
+<circle cx='100' cy='81' r='4' fill='#4e79a7'><title>Rust (quick-xml) / behemoth.xml: 1018.31 MB/s</title></circle>
+<circle cx='209' cy='90' r='4' fill='#4e79a7'><title>Rust (quick-xml) / giant.xml: 992.37 MB/s</title></circle>
+<circle cx='317' cy='90' r='4' fill='#4e79a7'><title>Rust (quick-xml) / huge.xml: 990.19 MB/s</title></circle>
+<circle cx='426' cy='80' r='4' fill='#4e79a7'><title>Rust (quick-xml) / large.xml: 1019.75 MB/s</title></circle>
+<circle cx='534' cy='219' r='4' fill='#4e79a7'><title>Rust (quick-xml) / mid.xml: 625.65 MB/s</title></circle>
+<circle cx='643' cy='290' r='4' fill='#4e79a7'><title>Rust (quick-xml) / small.xml: 424.1 MB/s</title></circle>
+<circle cx='751' cy='314' r='4' fill='#4e79a7'><title>Rust (quick-xml) / tiny.xml: 356.04 MB/s</title></circle>
+<circle cx='860' cy='440' r='4' fill='#4e79a7'><title>Rust (quick-xml) / micro.xml: 0.12 MB/s</title></circle>
+<polyline fill='none' stroke='#f28e2b' stroke-width='2' points='100,210 209,252 317,254 426,260 534,279 643,329 751,382 860,440'/>
+<circle cx='100' cy='210' r='4' fill='#f28e2b'><title>C++ (pugixml) / behemoth.xml: 651.33 MB/s</title></circle>
+<circle cx='209' cy='252' r='4' fill='#f28e2b'><title>C++ (pugixml) / giant.xml: 531.15 MB/s</title></circle>
+<circle cx='317' cy='254' r='4' fill='#f28e2b'><title>C++ (pugixml) / huge.xml: 527.3 MB/s</title></circle>
+<circle cx='426' cy='260' r='4' fill='#f28e2b'><title>C++ (pugixml) / large.xml: 510.94 MB/s</title></circle>
+<circle cx='534' cy='279' r='4' fill='#f28e2b'><title>C++ (pugixml) / mid.xml: 454.89 MB/s</title></circle>
+<circle cx='643' cy='329' r='4' fill='#f28e2b'><title>C++ (pugixml) / small.xml: 315.65 MB/s</title></circle>
+<circle cx='751' cy='382' r='4' fill='#f28e2b'><title>C++ (pugixml) / tiny.xml: 164.76 MB/s</title></circle>
+<circle cx='860' cy='440' r='4' fill='#f28e2b'><title>C++ (pugixml) / micro.xml: 0.07 MB/s</title></circle>
+<polyline fill='none' stroke='#e15759' stroke-width='2' points='100,237 209,272 317,269 426,276 534,305 643,359 751,374 860,440'/>
+<circle cx='100' cy='237' r='4' fill='#e15759'><title>C++ (rapidxml) / behemoth.xml: 574.73 MB/s</title></circle>
+<circle cx='209' cy='272' r='4' fill='#e15759'><title>C++ (rapidxml) / giant.xml: 474.91 MB/s</title></circle>
+<circle cx='317' cy='269' r='4' fill='#e15759'><title>C++ (rapidxml) / huge.xml: 483.05 MB/s</title></circle>
+<circle cx='426' cy='276' r='4' fill='#e15759'><title>C++ (rapidxml) / large.xml: 464.43 MB/s</title></circle>
+<circle cx='534' cy='305' r='4' fill='#e15759'><title>C++ (rapidxml) / mid.xml: 383.11 MB/s</title></circle>
+<circle cx='643' cy='359' r='4' fill='#e15759'><title>C++ (rapidxml) / small.xml: 229.68 MB/s</title></circle>
+<circle cx='751' cy='374' r='4' fill='#e15759'><title>C++ (rapidxml) / tiny.xml: 186.8 MB/s</title></circle>
 <circle cx='860' cy='440' r='4' fill='#e15759'><title>C++ (rapidxml) / micro.xml: 0.07 MB/s</title></circle>
-<polyline fill='none' stroke='#76b7b2' stroke-width='2' points='100,234 209,256 317,309 426,367 534,414 643,428 751,434 860,440'/>
-<circle cx='100' cy='234' r='4' fill='#76b7b2'><title>.NET 8 - XmlReader / behemoth.xml: 596.84 MB/s</title></circle>
-<circle cx='209' cy='256' r='4' fill='#76b7b2'><title>.NET 8 - XmlReader / giant.xml: 532.4 MB/s</title></circle>
-<circle cx='317' cy='309' r='4' fill='#76b7b2'><title>.NET 8 - XmlReader / huge.xml: 381.04 MB/s</title></circle>
-<circle cx='426' cy='367' r='4' fill='#76b7b2'><title>.NET 8 - XmlReader / large.xml: 210.34 MB/s</title></circle>
-<circle cx='534' cy='414' r='4' fill='#76b7b2'><title>.NET 8 - XmlReader / mid.xml: 75.88 MB/s</title></circle>
+<polyline fill='none' stroke='#76b7b2' stroke-width='2' points='100,233 209,231 317,271 426,350 534,402 643,428 751,431 860,440'/>
+<circle cx='100' cy='233' r='4' fill='#76b7b2'><title>.NET 8 - XmlReader / behemoth.xml: 587.43 MB/s</title></circle>
+<circle cx='209' cy='231' r='4' fill='#76b7b2'><title>.NET 8 - XmlReader / giant.xml: 591.62 MB/s</title></circle>
+<circle cx='317' cy='271' r='4' fill='#76b7b2'><title>.NET 8 - XmlReader / huge.xml: 478.26 MB/s</title></circle>
+<circle cx='426' cy='350' r='4' fill='#76b7b2'><title>.NET 8 - XmlReader / large.xml: 256.23 MB/s</title></circle>
+<circle cx='534' cy='402' r='4' fill='#76b7b2'><title>.NET 8 - XmlReader / mid.xml: 106.98 MB/s</title></circle>
 <circle cx='643' cy='428' r='4' fill='#76b7b2'><title>.NET 8 - XmlReader / small.xml: 33.91 MB/s</title></circle>
-<circle cx='751' cy='434' r='4' fill='#76b7b2'><title>.NET 8 - XmlReader / tiny.xml: 18.49 MB/s</title></circle>
+<circle cx='751' cy='431' r='4' fill='#76b7b2'><title>.NET 8 - XmlReader / tiny.xml: 25.32 MB/s</title></circle>
 <circle cx='860' cy='440' r='4' fill='#76b7b2'><title>.NET 8 - XmlReader / micro.xml: 0 MB/s</title></circle>
-<polyline fill='none' stroke='#59a14f' stroke-width='2' points='100,361 209,371 317,360 426,362 534,371 643,391 751,398 860,440'/>
-<circle cx='100' cy='361' r='4' fill='#59a14f'><title>C++ (libxml2 - SAX) / behemoth.xml: 228.52 MB/s</title></circle>
-<circle cx='209' cy='371' r='4' fill='#59a14f'><title>C++ (libxml2 - SAX) / giant.xml: 201.18 MB/s</title></circle>
-<circle cx='317' cy='360' r='4' fill='#59a14f'><title>C++ (libxml2 - SAX) / huge.xml: 233.08 MB/s</title></circle>
-<circle cx='426' cy='362' r='4' fill='#59a14f'><title>C++ (libxml2 - SAX) / large.xml: 225.29 MB/s</title></circle>
-<circle cx='534' cy='371' r='4' fill='#59a14f'><title>C++ (libxml2 - SAX) / mid.xml: 200.76 MB/s</title></circle>
-<circle cx='643' cy='391' r='4' fill='#59a14f'><title>C++ (libxml2 - SAX) / small.xml: 142.94 MB/s</title></circle>
-<circle cx='751' cy='398' r='4' fill='#59a14f'><title>C++ (libxml2 - SAX) / tiny.xml: 121.46 MB/s</title></circle>
+<polyline fill='none' stroke='#59a14f' stroke-width='2' points='100,351 209,362 317,362 426,362 534,367 643,386 751,395 860,440'/>
+<circle cx='100' cy='351' r='4' fill='#59a14f'><title>C++ (libxml2 - SAX) / behemoth.xml: 251.75 MB/s</title></circle>
+<circle cx='209' cy='362' r='4' fill='#59a14f'><title>C++ (libxml2 - SAX) / giant.xml: 220.74 MB/s</title></circle>
+<circle cx='317' cy='362' r='4' fill='#59a14f'><title>C++ (libxml2 - SAX) / huge.xml: 220.33 MB/s</title></circle>
+<circle cx='426' cy='362' r='4' fill='#59a14f'><title>C++ (libxml2 - SAX) / large.xml: 219.84 MB/s</title></circle>
+<circle cx='534' cy='367' r='4' fill='#59a14f'><title>C++ (libxml2 - SAX) / mid.xml: 206.61 MB/s</title></circle>
+<circle cx='643' cy='386' r='4' fill='#59a14f'><title>C++ (libxml2 - SAX) / small.xml: 152.11 MB/s</title></circle>
+<circle cx='751' cy='395' r='4' fill='#59a14f'><title>C++ (libxml2 - SAX) / tiny.xml: 128.87 MB/s</title></circle>
 <circle cx='860' cy='440' r='4' fill='#59a14f'><title>C++ (libxml2 - SAX) / micro.xml: 0.06 MB/s</title></circle>
-<polyline fill='none' stroke='#edc949' stroke-width='2' points='100,309 209,340 317,345 426,366 534,414 643,433 751,437 860,440'/>
-<circle cx='100' cy='309' r='4' fill='#edc949'><title>java-21 - SAX / behemoth.xml: 379.01 MB/s</title></circle>
-<circle cx='209' cy='340' r='4' fill='#edc949'><title>java-21 - SAX / giant.xml: 289.35 MB/s</title></circle>
-<circle cx='317' cy='345' r='4' fill='#edc949'><title>java-21 - SAX / huge.xml: 275.99 MB/s</title></circle>
-<circle cx='426' cy='366' r='4' fill='#edc949'><title>java-21 - SAX / large.xml: 213.48 MB/s</title></circle>
-<circle cx='534' cy='414' r='4' fill='#edc949'><title>java-21 - SAX / mid.xml: 76.14 MB/s</title></circle>
-<circle cx='643' cy='433' r='4' fill='#edc949'><title>java-21 - SAX / small.xml: 19.32 MB/s</title></circle>
-<circle cx='751' cy='437' r='4' fill='#edc949'><title>java-21 - SAX / tiny.xml: 9.99 MB/s</title></circle>
+<polyline fill='none' stroke='#edc949' stroke-width='2' points='100,316 209,340 317,343 426,366 534,413 643,434 751,437 860,440'/>
+<circle cx='100' cy='316' r='4' fill='#edc949'><title>java-21 - SAX / behemoth.xml: 351.69 MB/s</title></circle>
+<circle cx='209' cy='340' r='4' fill='#edc949'><title>java-21 - SAX / giant.xml: 283.93 MB/s</title></circle>
+<circle cx='317' cy='343' r='4' fill='#edc949'><title>java-21 - SAX / huge.xml: 274.5 MB/s</title></circle>
+<circle cx='426' cy='366' r='4' fill='#edc949'><title>java-21 - SAX / large.xml: 210.36 MB/s</title></circle>
+<circle cx='534' cy='413' r='4' fill='#edc949'><title>java-21 - SAX / mid.xml: 75.42 MB/s</title></circle>
+<circle cx='643' cy='434' r='4' fill='#edc949'><title>java-21 - SAX / small.xml: 17.7 MB/s</title></circle>
+<circle cx='751' cy='437' r='4' fill='#edc949'><title>java-21 - SAX / tiny.xml: 9.27 MB/s</title></circle>
 <circle cx='860' cy='440' r='4' fill='#edc949'><title>java-21 - SAX / micro.xml: 0 MB/s</title></circle>
-<polyline fill='none' stroke='#af7aa1' stroke-width='2' points='100,334 209,351 317,354 426,371 534,416 643,434 751,436 860,440'/>
-<circle cx='100' cy='334' r='4' fill='#af7aa1'><title>java-21 - StAX / behemoth.xml: 306.05 MB/s</title></circle>
-<circle cx='209' cy='351' r='4' fill='#af7aa1'><title>java-21 - StAX / giant.xml: 258.86 MB/s</title></circle>
-<circle cx='317' cy='354' r='4' fill='#af7aa1'><title>java-21 - StAX / huge.xml: 249.26 MB/s</title></circle>
-<circle cx='426' cy='371' r='4' fill='#af7aa1'><title>java-21 - StAX / large.xml: 200.08 MB/s</title></circle>
-<circle cx='534' cy='416' r='4' fill='#af7aa1'><title>java-21 - StAX / mid.xml: 68.37 MB/s</title></circle>
-<circle cx='643' cy='434' r='4' fill='#af7aa1'><title>java-21 - StAX / small.xml: 18.48 MB/s</title></circle>
-<circle cx='751' cy='436' r='4' fill='#af7aa1'><title>java-21 - StAX / tiny.xml: 10.25 MB/s</title></circle>
+<polyline fill='none' stroke='#af7aa1' stroke-width='2' points='100,338 209,349 317,353 426,371 534,417 643,434 751,436 860,440'/>
+<circle cx='100' cy='338' r='4' fill='#af7aa1'><title>java-21 - StAX / behemoth.xml: 288.39 MB/s</title></circle>
+<circle cx='209' cy='349' r='4' fill='#af7aa1'><title>java-21 - StAX / giant.xml: 258.29 MB/s</title></circle>
+<circle cx='317' cy='353' r='4' fill='#af7aa1'><title>java-21 - StAX / huge.xml: 246.28 MB/s</title></circle>
+<circle cx='426' cy='371' r='4' fill='#af7aa1'><title>java-21 - StAX / large.xml: 196.48 MB/s</title></circle>
+<circle cx='534' cy='417' r='4' fill='#af7aa1'><title>java-21 - StAX / mid.xml: 64.85 MB/s</title></circle>
+<circle cx='643' cy='434' r='4' fill='#af7aa1'><title>java-21 - StAX / small.xml: 16.61 MB/s</title></circle>
+<circle cx='751' cy='436' r='4' fill='#af7aa1'><title>java-21 - StAX / tiny.xml: 9.96 MB/s</title></circle>
 <circle cx='860' cy='440' r='4' fill='#af7aa1'><title>java-21 - StAX / micro.xml: 0 MB/s</title></circle>
-<polyline fill='none' stroke='#ff9da7' stroke-width='2' points='100,389 209,393 317,393 426,392 534,395 643,400 751,412 860,440'/>
-<circle cx='100' cy='389' r='4' fill='#ff9da7'><title>C++ (libxml2 XMLReader) / behemoth.xml: 148.43 MB/s</title></circle>
-<circle cx='209' cy='393' r='4' fill='#ff9da7'><title>C++ (libxml2 XMLReader) / giant.xml: 136.53 MB/s</title></circle>
-<circle cx='317' cy='393' r='4' fill='#ff9da7'><title>C++ (libxml2 XMLReader) / huge.xml: 137.55 MB/s</title></circle>
-<circle cx='426' cy='392' r='4' fill='#ff9da7'><title>C++ (libxml2 XMLReader) / large.xml: 137.95 MB/s</title></circle>
-<circle cx='534' cy='395' r='4' fill='#ff9da7'><title>C++ (libxml2 XMLReader) / mid.xml: 130.23 MB/s</title></circle>
-<circle cx='643' cy='400' r='4' fill='#ff9da7'><title>C++ (libxml2 XMLReader) / small.xml: 115.44 MB/s</title></circle>
-<circle cx='751' cy='412' r='4' fill='#ff9da7'><title>C++ (libxml2 XMLReader) / tiny.xml: 82.59 MB/s</title></circle>
+<polyline fill='none' stroke='#ff9da7' stroke-width='2' points='100,388 209,392 317,392 426,392 534,395 643,401 751,410 860,440'/>
+<circle cx='100' cy='388' r='4' fill='#ff9da7'><title>C++ (libxml2 XMLReader) / behemoth.xml: 146.37 MB/s</title></circle>
+<circle cx='209' cy='392' r='4' fill='#ff9da7'><title>C++ (libxml2 XMLReader) / giant.xml: 134.92 MB/s</title></circle>
+<circle cx='317' cy='392' r='4' fill='#ff9da7'><title>C++ (libxml2 XMLReader) / huge.xml: 135.51 MB/s</title></circle>
+<circle cx='426' cy='392' r='4' fill='#ff9da7'><title>C++ (libxml2 XMLReader) / large.xml: 134.66 MB/s</title></circle>
+<circle cx='534' cy='395' r='4' fill='#ff9da7'><title>C++ (libxml2 XMLReader) / mid.xml: 128.65 MB/s</title></circle>
+<circle cx='643' cy='401' r='4' fill='#ff9da7'><title>C++ (libxml2 XMLReader) / small.xml: 111.34 MB/s</title></circle>
+<circle cx='751' cy='410' r='4' fill='#ff9da7'><title>C++ (libxml2 XMLReader) / tiny.xml: 84.68 MB/s</title></circle>
 <circle cx='860' cy='440' r='4' fill='#ff9da7'><title>C++ (libxml2 XMLReader) / micro.xml: 0.05 MB/s</title></circle>
-<polyline fill='none' stroke='#9c755f' stroke-width='2' points='100,349 209,353 317,368 426,404 534,434 643,439 751,439 860,440'/>
-<circle cx='100' cy='349' r='4' fill='#9c755f'><title>Scala / behemoth.xml: 263.17 MB/s</title></circle>
-<circle cx='209' cy='353' r='4' fill='#9c755f'><title>Scala / giant.xml: 250.73 MB/s</title></circle>
-<circle cx='317' cy='368' r='4' fill='#9c755f'><title>Scala / huge.xml: 208.52 MB/s</title></circle>
-<circle cx='426' cy='404' r='4' fill='#9c755f'><title>Scala / large.xml: 105.25 MB/s</title></circle>
-<circle cx='534' cy='434' r='4' fill='#9c755f'><title>Scala / mid.xml: 16.49 MB/s</title></circle>
-<circle cx='643' cy='439' r='4' fill='#9c755f'><title>Scala / small.xml: 3.54 MB/s</title></circle>
-<circle cx='751' cy='439' r='4' fill='#9c755f'><title>Scala / tiny.xml: 1.82 MB/s</title></circle>
+<polyline fill='none' stroke='#9c755f' stroke-width='2' points='100,355 209,358 317,369 426,404 534,434 643,439 751,439 860,440'/>
+<circle cx='100' cy='355' r='4' fill='#9c755f'><title>Scala / behemoth.xml: 240.67 MB/s</title></circle>
+<circle cx='209' cy='358' r='4' fill='#9c755f'><title>Scala / giant.xml: 232.69 MB/s</title></circle>
+<circle cx='317' cy='369' r='4' fill='#9c755f'><title>Scala / huge.xml: 201.15 MB/s</title></circle>
+<circle cx='426' cy='404' r='4' fill='#9c755f'><title>Scala / large.xml: 101.07 MB/s</title></circle>
+<circle cx='534' cy='434' r='4' fill='#9c755f'><title>Scala / mid.xml: 16.2 MB/s</title></circle>
+<circle cx='643' cy='439' r='4' fill='#9c755f'><title>Scala / small.xml: 3.46 MB/s</title></circle>
+<circle cx='751' cy='439' r='4' fill='#9c755f'><title>Scala / tiny.xml: 1.77 MB/s</title></circle>
 <circle cx='860' cy='440' r='4' fill='#9c755f'><title>Scala / micro.xml: 0 MB/s</title></circle>
-<polyline fill='none' stroke='#bab0ab' stroke-width='2' points='100,363 209,372 317,385 426,410 534,430 643,437 751,439 860,440'/>
-<circle cx='100' cy='363' r='4' fill='#bab0ab'><title>PowerShell Core / behemoth.xml: 223.23 MB/s</title></circle>
-<circle cx='209' cy='372' r='4' fill='#bab0ab'><title>PowerShell Core / giant.xml: 197.03 MB/s</title></circle>
-<circle cx='317' cy='385' r='4' fill='#bab0ab'><title>PowerShell Core / huge.xml: 159.18 MB/s</title></circle>
-<circle cx='426' cy='410' r='4' fill='#bab0ab'><title>PowerShell Core / large.xml: 85.95 MB/s</title></circle>
-<circle cx='534' cy='430' r='4' fill='#bab0ab'><title>PowerShell Core / mid.xml: 27.67 MB/s</title></circle>
-<circle cx='643' cy='437' r='4' fill='#bab0ab'><title>PowerShell Core / small.xml: 8.08 MB/s</title></circle>
-<circle cx='751' cy='439' r='4' fill='#bab0ab'><title>PowerShell Core / tiny.xml: 4.1 MB/s</title></circle>
+<polyline fill='none' stroke='#bab0ab' stroke-width='2' points='100,365 209,375 317,383 426,410 534,430 643,437 751,439 860,440'/>
+<circle cx='100' cy='365' r='4' fill='#bab0ab'><title>PowerShell Core / behemoth.xml: 212.01 MB/s</title></circle>
+<circle cx='209' cy='375' r='4' fill='#bab0ab'><title>PowerShell Core / giant.xml: 184.91 MB/s</title></circle>
+<circle cx='317' cy='383' r='4' fill='#bab0ab'><title>PowerShell Core / huge.xml: 160.55 MB/s</title></circle>
+<circle cx='426' cy='410' r='4' fill='#bab0ab'><title>PowerShell Core / large.xml: 85.39 MB/s</title></circle>
+<circle cx='534' cy='430' r='4' fill='#bab0ab'><title>PowerShell Core / mid.xml: 27.66 MB/s</title></circle>
+<circle cx='643' cy='437' r='4' fill='#bab0ab'><title>PowerShell Core / small.xml: 7.75 MB/s</title></circle>
+<circle cx='751' cy='439' r='4' fill='#bab0ab'><title>PowerShell Core / tiny.xml: 4.23 MB/s</title></circle>
 <circle cx='860' cy='440' r='4' fill='#bab0ab'><title>PowerShell Core / micro.xml: 0 MB/s</title></circle>
 <rect x='100' y='45' width='18' height='10' fill='#4e79a7'/>
 <text x='124' y='55' class='legend'>Rust (quick-xml)</text>
