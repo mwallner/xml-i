@@ -4,7 +4,7 @@ function SetJavaDeclObj($JavaVersion, $publicClassName) {
 	$decl.Meta = [scriptblock]::Create(" & '/usr/lib/jvm/$JavaVersion-openjdk/bin/java' --version ")
 	$decl.Builder = [scriptblock]::Create(" & '/usr/lib/jvm/$JavaVersion-openjdk/bin/javac' 'src/${PublicClassName}.java' -d 'bin/$JavaVersion' ")
 	$decl.Tester = @{
-		ArgumentList = @('-cp', "bin/$JavaVersion", $publicClassName)
+		ArgumentList = @('-cp', "bin/$JavaVersion", '-Xms32M', '-Xmx16G', $publicClassName)
 		Executable   = "/usr/lib/jvm/$JavaVersion-openjdk/bin/java"
 	}
 }

@@ -88,15 +88,21 @@ function Invoke-AppBenchmark {
 		catch {}
 		$timeDuration = (Get-Date) - $timeBegin
 		$app.Results[$testXml.Name] = @{
-			Content      = Get-Content -Path $outFileName
 			Me           = $app
 			File         = $testXml
+			Success      = $true
+			Content      = Get-Content -Path $outFileName
 			Milliseconds = $timeDuration.TotalMilliseconds
 			MaxMemMB     = $maxMem
 		}
 		Write-Host (' ... ok ({0:N2} sec)' -f $timeDuration.TotalSeconds) -ForegroundColor Green
 	}
 	catch {
+		$app.Results[$testXml.Name] = @{
+			Me      = $app
+			File    = $testXml
+			Success = $false
+		}
 		Write-Host " Error benchmarking $($app.Name): $_ / $($testXml.Name)" -ForegroundColor Red
 		Get-Error
 	}
@@ -132,7 +138,7 @@ function Write-BenchmarkResultsMarkdown {
 			''
 			'| File                      | Time (s)   | Throughput (MB/s) | Max Mem (MB) |'
 			'|---------------------------|------------|-------------------|--------------|'
-			$app.Results.Values | Sort-Object Milliseconds -Descending | ForEach-Object {
+			$app.Results.Values | Where-Object Success | Sort-Object Milliseconds -Descending | ForEach-Object {
 				$fileSizeMB = $_.File.Length / 1MB
 				$tp = $fileSizeMB / ($_.Milliseconds / 1000)
 				'| {0,-25} | {1,-10:N3} | {2,-17:N3} | {3,-12:N2} |' -f $_.File.Name, ($_.Milliseconds / 1000), $tp, $_.MaxMemMB
@@ -171,7 +177,7 @@ function Write-BenchmarkResultsMarkdown {
 	$appList = $Configs.GetEnumerator() | ForEach-Object {
 		$_.Value
 	}
-	$appList.Results.Values | Group-Object { $_.File.Name } | ForEach-Object {
+	$appList.Results.Values | Sort-Object { $_.File.Length } -Descending | Group-Object { $_.File.Name } | ForEach-Object {
 		$group = $_
 		$pos = 1
 
@@ -190,7 +196,7 @@ function Write-BenchmarkResultsMarkdown {
 		$mdResult += ''
 		$mdResult += '| Rank | Variant                   | Time (s)   | Throughput (MB/s) | Max Mem (MB) |'
 		$mdResult += '|------|---------------------------|------------|-------------------|--------------|'
-		$group.Group | Sort-Object -Property Milliseconds | ForEach-Object {
+		$group.Group | Where-Object Success | Sort-Object -Property Milliseconds | ForEach-Object {
 			$tp = $groupSize / 1MB / ($_.Milliseconds / 1000)
 			$mdResult += '| {0,-4} | {1,-25} | {3,-10:N3} | {4,-17:N3} | {5,-12:N2} |' -f $pos, $_.Me.Name, $_.File.Name, ($_.Milliseconds / 1000), $tp, $_.MaxMemMB
 			$pos++
@@ -230,12 +236,12 @@ function Write-BenchmarkLineSVG {
 	foreach ($app in $Configs.Values) {
 		$apps += $app.Name
 		foreach ($result in $app.Results.Values) {
-			if ($testFiles -notcontains $result.File.Name) {
-				$testFiles += $result.File.Name
+			if ($testFiles -notcontains $result.File) {
+				$testFiles += $result.File
 			}
 		}
 	}
-	$testFiles = $testFiles | Sort-Object
+	$testFiles = $testFiles | Sort-Object { $_.Length } -Descending
 	$apps = $apps | Sort-Object
 
 	# Build throughput table: $table[app][file] = throughput
@@ -296,15 +302,10 @@ function Write-BenchmarkLineSVG {
 	$n = $testFiles.Count
 	for ($i = 0; $i -lt $n; $i++) {
 		$x = $marginLeft + [math]::Round($plotWidth * $i / [math]::Max($n - 1, 1))
-		$fileName = $testFiles[$i]
+		$fileName = $testFiles[$i].Name
+		$fileSizeBytes = $testFiles[$i].Length
 		# Find the file size from any app's results
-		$fileSizeBytes = $null
-		foreach ($app in $Configs.Values) {
-			if ($app.Results.ContainsKey($fileName)) {
-				$fileSizeBytes = $app.Results[$fileName].File.Length
-				break
-			}
-		}
+		
 		if ($fileSizeBytes -ne $null) {
 			$fileSizeMB = [math]::Round($fileSizeBytes / 1MB, 2)
 			if ($fileSizeMB -eq 0) {
@@ -328,7 +329,7 @@ function Write-BenchmarkLineSVG {
 		$sum = 0
 		$count = 0
 		foreach ($file in $testFiles) {
-			$tp = $table[$app][$file]
+			$tp = $table[$app][$file.Name]
 			if ($tp -ne $null) {
 				$sum += $tp
 				$count++
@@ -351,7 +352,7 @@ function Write-BenchmarkLineSVG {
 		$color = $colors[$a % $colors.Count]
 		$points = @()
 		for ($i = 0; $i -lt $n; $i++) {
-			$tp = $table[$app][$testFiles[$i]]
+			$tp = $table[$app][$testFiles[$i].Name]
 			$x = $marginLeft + [math]::Round($plotWidth * $i / [math]::Max($n - 1, 1))
 			$y = $marginTop + $plotHeight - [math]::Round($plotHeight * $tp / $maxTp)
 			$points += "$x,$y"
@@ -359,10 +360,10 @@ function Write-BenchmarkLineSVG {
 		$svg += "<polyline fill='none' stroke='$color' stroke-width='2' points='" + ($points -join ' ') + "'/>"
 		# Draw points with tooltips
 		for ($i = 0; $i -lt $n; $i++) {
-			$tp = $table[$app][$testFiles[$i]]
+			$tp = $table[$app][$testFiles[$i].Name]
 			$x = $marginLeft + [math]::Round($plotWidth * $i / [math]::Max($n - 1, 1))
 			$y = $marginTop + $plotHeight - [math]::Round($plotHeight * $tp / $maxTp)
-			$tooltip = "$app / $($testFiles[$i]): $tp MB/s"
+			$tooltip = "$app / $($testFiles[$i].Name): $tp MB/s"
 			$svg += "<circle cx='$x' cy='$y' r='4' fill='$color'><title>$tooltip</title></circle>"
 		}
 	}
@@ -541,8 +542,19 @@ Task Benchmark ReadConfigs, {
 	$testXmls = Get-ChildItem 'test' -Filter '*.xml'
 	$outFileBase = (Get-Item 'test').FullName
 
+	if (-not $testXmls) {
+		Write-Host "No test XML files found in 'test' directory." -ForegroundColor Red
+		Write-Host "Run target 'MakeTestData to generate some sample files!" -ForegroundColor Red
+		return
+	}
+
+	if (Test-Path "$outFileBase/tmp") {
+		Remove-Item -Path "$outFileBase/tmp" -Recurse -Force
+	}
+	New-Item -ItemType Directory -Path "$outFileBase/tmp" | Out-Null
+	
 	# Sort apps: Rust* first, then the rest
-	$sortedApps = $global:configs.GetEnumerator() | Sort-Object { if ($_.Value.Name -like 'Rust*') { 0 } else { 1 } }, { $_.Value.Name }
+	$sortedApps = $global:configs.GetEnumerator() | Sort-Object { if ($_.Value.Name -like '(quick-xml)') { 0 } else { 1 } }, { $_.Value.Name }
 
 	$baseline = $null
 
@@ -588,6 +600,10 @@ Task Benchmark ReadConfigs, {
 			foreach ($testXml in $testXmls) {
 				$base = $baseline.Results[$testXml.Name]
 				$test = $app.Results[$testXml.Name]
+				if (-Not $test.Success) {
+					Write-Host "  Skipping $($testXml.Name) for $($app.Name) due to previous failure." -ForegroundColor Yellow
+					continue
+				}
 				$a = $base.Content | Sort-Object
 				$b = $test.Content | Sort-Object
 				if (Compare-Object -ReferenceObject $a -DifferenceObject $b -SyncWindow 0 -IncludeEqual | Where-Object { $_.SideIndicator -ne '==' }) {
@@ -673,11 +689,12 @@ Task MakeTestData {
 		New-Item -ItemType Directory -Path $outputDir | Out-Null
 	}
 
-	Generate-TestXml -FilePath "$outputDir/tiny.xml" -MinSizeMB 0.5
-	Generate-TestXml -FilePath "$outputDir/small.xml" -MinSizeMB 1
+	Generate-TestXml -FilePath "$outputDir/micro.xml" -MinSizeMB 0.5
+	Generate-TestXml -FilePath "$outputDir/tiny.xml" -MinSizeMB 0.8
+	Generate-TestXml -FilePath "$outputDir/small.xml" -MinSizeMB 2
 	Generate-TestXml -FilePath "$outputDir/mid.xml" -MinSizeMB 10
 	Generate-TestXml -FilePath "$outputDir/large.xml" -MinSizeMB 100
 	Generate-TestXml -FilePath "$outputDir/huge.xml" -MinSizeMB 500
-	Generate-TestXml -FilePath "$outputDir/giant.xml" -MinSizeMB 2000
-	Generate-TestXml -FilePath "$outputDir/behemoth.xml" -MinSizeMB 4000
+	Generate-TestXml -FilePath "$outputDir/giant.xml" -MinSizeMB 1500
+	Generate-TestXml -FilePath "$outputDir/behemoth.xml" -MinSizeMB 2500
 }

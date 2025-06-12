@@ -29,7 +29,7 @@ $decl = @{
 	Tester      = @{
 		Executable   = 'java'
 		ArgumentList = @(
-			'-jar', './saxon/saxon-he-12.7.jar', '-xsl:src/CountXmlNodes.xsl'
+			'-Xms32M', '-Xmx16G', '-jar', './saxon/saxon-he-12.7.jar', '-xsl:src/CountXmlNodes.xsl'
 		)
 	}
 }
