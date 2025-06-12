@@ -461,7 +461,7 @@ xml-i in pwsh
 
 Name                           Value
 ----                           -----
-PSVersion                      {[Major, 7], [Minor, 4], [Patch, 7], [PreReleaseLabel, ]…
+PSVersion                      {[Major, 7], [Minor, 4], [Patch, 7], [PreReleaseLabel, ]…}
 PSEdition                      Core
 BuildVersion                   
 CLRVersion                     

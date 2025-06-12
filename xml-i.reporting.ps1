@@ -556,7 +556,8 @@ function Write-BenchmarkXYSVG {
 			$seconds = $table[$app].Seconds
 			$x = GetLogX $mem
 			$y = $plotTop + $plotHeight - [math]::Round($plotHeight * $seconds / $maxTime)
-			$tooltip = "$app / $($largestFile.Name): $mem MB, $seconds s"
+
+			$tooltip = '"{0}" - Test "{1}" : {2:N2} GB in {3:N2} seconds using {4:N2} MB RAM' -f $app, $largestFile.Name, ($largestFile.Length / 1GB), $seconds, $mem
 			$num = $appNumbers[$app]
 			$svg += "<circle cx='$x' cy='$y' r='8' fill='$color'><title>$tooltip</title></circle>"
 			# Number to the right of the point
