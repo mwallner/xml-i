@@ -114,7 +114,7 @@ function Invoke-AppBenchmark {
 function Write-BenchmarkResultsMarkdown {
 	param (
 		[Parameter(Mandatory)]
-		[hashtable]$Configs,
+		[hashtable]$Results,
 
 		[Parameter(Mandatory)]
 		[string]$MarkdownFilePath
@@ -122,11 +122,10 @@ function Write-BenchmarkResultsMarkdown {
 
 
 	function FormatSection($app) {
-		if ($app.Name -And $app.Description -And $app.Meta) {
+		if ($app.Name -And $app.Description) {
 			''
 			"### $($app.Name)"
-			$meta = $app.Meta.Invoke()
-			$metaInfo = $meta
+			$metaInfo = $app.MetaInfo
 			''
 			$app.Description
 			''
@@ -148,7 +147,7 @@ function Write-BenchmarkResultsMarkdown {
 	}
 
 	$mdResult = @()
-	$mdResult += "# Benchmark Results $(Get-Date)"
+	$mdResult += "# Benchmark Results $($Results.BenchmarkDate)"
 	$mdResult += ''
 	if ($AppFilter) {
 		$mdResult += "AppFilter: ``$AppFilter``"
@@ -174,10 +173,10 @@ function Write-BenchmarkResultsMarkdown {
 	$mdResult += '![benchmark results](benchmark_tp_line.svg)'
 	$mdResult += ''
 
-	$appList = $Configs.GetEnumerator() | ForEach-Object {
+	$appList = $Results.BenchmarkResults.GetEnumerator() | ForEach-Object {
 		$_.Value
 	}
-	$appList.Results.Values | Sort-Object { $_.File.Length } -Descending | Group-Object { $_.File.Name } | ForEach-Object {
+	$appList.Results.Values | Group-Object { $_.File.Name } | Sort-Object { $_.Group[0].File.Length } -Descending | ForEach-Object {
 		$group = $_
 		$pos = 1
 
@@ -208,12 +207,13 @@ function Write-BenchmarkResultsMarkdown {
 	$mdResult += '## App - Results'
 	$mdResult += ''
 
-	$Configs.Values | Sort-Object Name | ForEach-Object {
+	$Results.BenchmarkResults.Values | Sort-Object Name | ForEach-Object {
 		$app = $_
 		if ($AppFilter -and $app.Name -notlike "*$AppFilter*") {
 			Write-Host "Skipping $($app.Name) due to filter." -ForegroundColor Yellow
 			return
 		}
+		Write-Host "  formatting $($app.Name) results..."
 		$mdResult += FormatSection $app
 	}
 
@@ -224,7 +224,7 @@ function Write-BenchmarkResultsMarkdown {
 function Write-BenchmarkLineSVG {
 	param (
 		[Parameter(Mandatory)]
-		[hashtable]$Configs,
+		[hashtable]$Results,
 
 		[Parameter(Mandatory)]
 		[string]$SvgFilePath
@@ -233,10 +233,10 @@ function Write-BenchmarkLineSVG {
 	# Gather all test files and apps
 	$testFiles = @()
 	$apps = @()
-	foreach ($app in $Configs.Values) {
+	foreach ($app in $Results.Values) {
 		$apps += $app.Name
 		foreach ($result in $app.Results.Values) {
-			if ($testFiles -notcontains $result.File) {
+			if ($testFiles.Name -notcontains $result.File.Name) {
 				$testFiles += $result.File
 			}
 		}
@@ -246,7 +246,7 @@ function Write-BenchmarkLineSVG {
 
 	# Build throughput table: $table[app][file] = throughput
 	$table = @{}
-	foreach ($app in $Configs.Values) {
+	foreach ($app in $Results.Values) {
 		$row = @{}
 		foreach ($result in $app.Results.Values) {
 			$tp = [math]::Round(($result.File.Length / 1MB) / ($result.Milliseconds / 1000), 2)
@@ -305,6 +305,7 @@ function Write-BenchmarkLineSVG {
 		$fileName = $testFiles[$i].Name
 		$fileSizeBytes = $testFiles[$i].Length
 		# Find the file size from any app's results
+		Write-Host " ($fileName - $fileSizeBytes)"
 		
 		if ($fileSizeBytes -ne $null) {
 			$fileSizeMB = [math]::Round($fileSizeBytes / 1MB, 2)
@@ -393,7 +394,7 @@ function Write-BenchmarkLineSVG {
 function Write-BenchmarkSVG {
 	param (
 		[Parameter(Mandatory)]
-		[hashtable]$Configs,
+		[hashtable]$Results,
 
 		[Parameter(Mandatory)]
 		[string]$SvgFilePath
@@ -401,7 +402,7 @@ function Write-BenchmarkSVG {
 
 	# Gather data: { TestFile => [ { AppName, Throughput } ] }
 	$data = @{}
-	foreach ($app in $Configs.Values) {
+	foreach ($app in $Results.Values) {
 		foreach ($result in $app.Results.Values) {
 			$file = $result.File.Name
 			$tp = [math]::Round(($result.File.Length / 1MB) / ($result.Milliseconds / 1000), 2)
@@ -439,7 +440,7 @@ function Write-BenchmarkSVG {
 	$colors = @('#4e79a7', '#f28e2b', '#e15759', '#76b7b2', '#59a14f', '#edc949', '#af7aa1', '#ff9da7', '#9c755f', '#bab0ab')
 
 	# Calculate required SVG height
-	$numBars = $Configs.Count
+	$numBars = $Results.Count
 	$svgHeight = $topMargin + $numBars * ($barHeight + $barGap) + 20
 
 	$svg = @()
@@ -452,7 +453,7 @@ function Write-BenchmarkSVG {
 
 	# Build a list of all apps, filling in throughput=0 if missing
 	$allApps = @()
-	foreach ($app in $Configs.Values) {
+	foreach ($app in $Results.Values) {
 		$result = $null
 		if ($data[$largestFile]) {
 			$result = $data[$largestFile] | Where-Object { $_.AppName -eq $app.Name }
@@ -554,7 +555,7 @@ Task Benchmark ReadConfigs, {
 	New-Item -ItemType Directory -Path "$outFileBase/tmp" | Out-Null
 	
 	# Sort apps: Rust* first, then the rest
-	$sortedApps = $global:configs.GetEnumerator() | Sort-Object { if ($_.Value.Name -like '(quick-xml)') { 0 } else { 1 } }, { $_.Value.Name }
+	$sortedApps = $global:configs.GetEnumerator() | Sort-Object { if ($_.Key -match [regex]::Escape('Rust (quick-xml)')) { 0 } else { 1 } }, { $_.Key }
 
 	$baseline = $null
 
@@ -569,14 +570,30 @@ Task Benchmark ReadConfigs, {
 			return
 		}
 
-		Write-Host 'Dropping caches 4 fair benchmarking... ' -ForegroundColor Magenta
-		sudo sh -c 'echo 3 > /proc/sys/vm/drop_caches'
+		Write-Host ' ==================================== ' -ForegroundColor Blue
+		$app.MetaInfo = if ($app.Meta) {
+			$app.Meta.Invoke()
+		}
+		else {	''	}
+
+		if ($PSVersionTable.Platform -eq 'Unix') {
+			Write-Host 'Dropping caches 4 fair benchmarking... ' -ForegroundColor Magenta
+			if (Test-Path '/proc/sys/vm/drop_caches' ) {
+				sudo sh -c 'echo 3 > /proc/sys/vm/drop_caches'
+			}
+			else {
+				Write-Host 'Warning: /proc/sys/vm/drop_caches not found. Skipping cache drop.' -ForegroundColor Yellow
+			}
+			sudo sh -c 'echo 3 > /proc/sys/vm/drop_caches'
+		}
 		if (-Not $Quick) {
-			Write-Host 'Waiting 10 seconds for caches to settle... (and let the system cool down)' -ForegroundColor Magenta
+			Write-Host 'Waiting 10 seconds for caches to settle... & the system cool down' -ForegroundColor Magenta
 			Start-Sleep -Seconds 10
 		}
 
-		Write-Host " Benchmarking $($app.Name)..." -ForegroundColor Magenta
+		Write-Host " Benchmarking $($app.Name)..." -ForegroundColor Blue
+		Write-Host ' ==================================== ' -ForegroundColor Blue
+
 		foreach ($testXml in $testXmls) {
 
 			if ($TestFileFilter -and $testXml.Name -notlike "*$TestFileFilter*") {
@@ -618,9 +635,38 @@ Task Benchmark ReadConfigs, {
 	}
 
 	Write-Host "Benchmarking completed for $($global:configs.Count) applications." -ForegroundColor Green
-	Write-BenchmarkResultsMarkdown -Configs $global:configs -MarkdownFilePath (Join-Path $outFileBase 'benchmark_results.md')
-	Write-BenchmarkSVG -Configs $global:configs -SvgFilePath (Join-Path $outFileBase 'benchmark_tp.svg')
-	Write-BenchmarkLineSVG -Configs $global:configs -SvgFilePath (Join-Path $outFileBase 'benchmark_tp_line.svg')
+	$exportConfigs = @{}
+	foreach ($key in $global:configs.Keys) {
+		$app = $global:configs[$key].PSObject.Copy()
+		$app.Remove('Builder')
+		$app.Remove('Tester')
+		$app.Remove('Meta')
+		if ($app.Results) {
+			foreach ($testXml in $app.Results.Keys) {
+				$app.Results[$testXml].File = @{
+					Name   = $app.Results[$testXml].File.Name
+					Length = $app.Results[$testXml].File.Length
+				}
+				$app.Results[$testXml].Me = @{
+					Name   = $app.Results[$testXml].Me.Name
+					Origin = $app.Results[$testXml].Me.Origin
+				}
+			}
+		}
+		$exportConfigs[$key] = $app
+	}
+	@{
+		BenchmarkDate    = (Get-Date)
+		BenchmarkResults = $exportConfigs 
+	}	| ConvertTo-Json -Depth 5 | Set-Content -Path (Join-Path $outFileBase 'benchmark_result.json') -Encoding UTF8
+}
+
+Task GenerateBenchmarkResults {
+	$outFileBase = 'test'
+	$cfg = Get-Content -Path (Join-Path $outFileBase 'benchmark_result.json') | ConvertFrom-Json -AsHashtable
+	Write-BenchmarkResultsMarkdown -Results $cfg -MarkdownFilePath (Join-Path $outFileBase 'benchmark_results.md')
+	Write-BenchmarkSVG -Results $cfg.BenchmarkResults -SvgFilePath (Join-Path $outFileBase 'benchmark_tp.svg')
+	Write-BenchmarkLineSVG -Results $cfg.BenchmarkResults -SvgFilePath (Join-Path $outFileBase 'benchmark_tp_line.svg')
 }
 
 Task MakeTestData {
