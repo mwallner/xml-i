@@ -1,0 +1,3534 @@
+{
+  "BenchmarkResults": {
+    "Rust (xml-rs)": {
+      "OutFiles": [
+        "/home/mw/git/xml-i/test/tmp/Rust (xml-rs)-0.out",
+        "/home/mw/git/xml-i/test/tmp/Rust (xml-rs)-1.out",
+        "/home/mw/git/xml-i/test/tmp/Rust (xml-rs)-2.out",
+        "/home/mw/git/xml-i/test/tmp/Rust (xml-rs)-3.out",
+        "/home/mw/git/xml-i/test/tmp/Rust (xml-rs)-4.out",
+        "/home/mw/git/xml-i/test/tmp/Rust (xml-rs)-5.out",
+        "/home/mw/git/xml-i/test/tmp/Rust (xml-rs)-6.out",
+        "/home/mw/git/xml-i/test/tmp/Rust (xml-rs)-7.out"
+      ],
+      "Description": "xml-i in Rust with xml-rs",
+      "MetaInfo": "cargo 1.86.0 (adf9b6ad1 2025-02-28)",
+      "Origin": "/home/mw/git/xml-i/alien/Rust",
+      "Results": {
+        "huge.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Rust",
+            "Name": "Rust (xml-rs)"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 1285",
+            "boings: 1337",
+            "blip: 1284440",
+            "boing: 1337000",
+            "start: 1"
+          ],
+          "MaxMemMB": 2.03125,
+          "Milliseconds": 20785.1845,
+          "File": {
+            "Length": 677868540,
+            "Name": "huge.xml"
+          },
+          "Success": true
+        },
+        "behemoth.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Rust",
+            "Name": "Rust (xml-rs)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 6498200",
+            "boings: 6609",
+            "blips: 6499",
+            "boing: 6609000",
+            "start: 1"
+          ],
+          "MaxMemMB": 2.0625,
+          "Milliseconds": 102524.1271,
+          "File": {
+            "Length": 3389643641,
+            "Name": "behemoth.xml"
+          },
+          "Success": true
+        },
+        "tiny.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Rust",
+            "Name": "Rust (xml-rs)"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 4",
+            "boings: 2",
+            "boing: 1243",
+            "blip: 4000"
+          ],
+          "MaxMemMB": 2.06640625,
+          "Milliseconds": 46.8741,
+          "File": {
+            "Length": 1343483,
+            "Name": "tiny.xml"
+          },
+          "Success": true
+        },
+        "large.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Rust",
+            "Name": "Rust (xml-rs)"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blip: 269000",
+            "boings: 256",
+            "blips: 269",
+            "boing: 255288"
+          ],
+          "MaxMemMB": 1.984375,
+          "Milliseconds": 4165.7142,
+          "File": {
+            "Length": 135754723,
+            "Name": "large.xml"
+          },
+          "Success": true
+        },
+        "micro.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Rust",
+            "Name": "Rust (xml-rs)"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 1",
+            "blip: 1"
+          ],
+          "MaxMemMB": 2.1796875,
+          "Milliseconds": 2.4076,
+          "File": {
+            "Length": 229,
+            "Name": "micro.xml"
+          },
+          "Success": true
+        },
+        "mid.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Rust",
+            "Name": "Rust (xml-rs)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 30429",
+            "blips: 22",
+            "blip: 22000",
+            "start: 1",
+            "boings: 31"
+          ],
+          "MaxMemMB": 1.953125,
+          "Milliseconds": 419.0284,
+          "File": {
+            "Length": 13522870,
+            "Name": "mid.xml"
+          },
+          "Success": true
+        },
+        "small.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Rust",
+            "Name": "Rust (xml-rs)"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 4",
+            "boing: 6486",
+            "blip: 4000",
+            "boings: 7"
+          ],
+          "MaxMemMB": 1.84765625,
+          "Milliseconds": 88.46,
+          "File": {
+            "Length": 2727816,
+            "Name": "small.xml"
+          },
+          "Success": true
+        },
+        "giant.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Rust",
+            "Name": "Rust (xml-rs)"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "boings: 4015",
+            "blips: 3850",
+            "blip: 3849320",
+            "boing: 4015000"
+          ],
+          "MaxMemMB": 2.04296875,
+          "Milliseconds": 62160.9593,
+          "File": {
+            "Length": 2033569804,
+            "Name": "giant.xml"
+          },
+          "Success": true
+        }
+      },
+      "BaselineResults": {},
+      "Name": "Rust (xml-rs)"
+    },
+    "java-21 - SAX": {
+      "OutFiles": [
+        "/home/mw/git/xml-i/test/tmp/java-21 - SAX-0.out",
+        "/home/mw/git/xml-i/test/tmp/java-21 - SAX-1.out",
+        "/home/mw/git/xml-i/test/tmp/java-21 - SAX-2.out",
+        "/home/mw/git/xml-i/test/tmp/java-21 - SAX-3.out",
+        "/home/mw/git/xml-i/test/tmp/java-21 - SAX-4.out",
+        "/home/mw/git/xml-i/test/tmp/java-21 - SAX-5.out",
+        "/home/mw/git/xml-i/test/tmp/java-21 - SAX-6.out",
+        "/home/mw/git/xml-i/test/tmp/java-21 - SAX-7.out"
+      ],
+      "Description": "xml-i in pure Java (java-21-openjdk), using org.xml.sax",
+      "MetaInfo": [
+        "openjdk 21.0.7 2025-04-15",
+        "OpenJDK Runtime Environment (build 21.0.7+6)",
+        "OpenJDK 64-Bit Server VM (build 21.0.7+6, mixed mode, sharing)"
+      ],
+      "Origin": "/home/mw/git/xml-i/alien/java",
+      "Results": {
+        "huge.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - SAX"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 1285",
+            "boings: 1337",
+            "start: 1",
+            "boing: 1337000",
+            "blip: 1284440"
+          ],
+          "MaxMemMB": 76.0625,
+          "Milliseconds": 2355.1026,
+          "File": {
+            "Length": 677868540,
+            "Name": "huge.xml"
+          },
+          "Success": true
+        },
+        "behemoth.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - SAX"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 6499",
+            "boings: 6609",
+            "start: 1",
+            "boing: 6609000",
+            "blip: 6498200"
+          ],
+          "MaxMemMB": 84.23828125,
+          "Milliseconds": 9191.6061,
+          "File": {
+            "Length": 3389643641,
+            "Name": "behemoth.xml"
+          },
+          "Success": true
+        },
+        "tiny.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - SAX"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 4",
+            "boings: 2",
+            "start: 1",
+            "boing: 1243",
+            "blip: 4000"
+          ],
+          "MaxMemMB": 63.9140625,
+          "Milliseconds": 138.1773,
+          "File": {
+            "Length": 1343483,
+            "Name": "tiny.xml"
+          },
+          "Success": true
+        },
+        "large.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - SAX"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 269",
+            "boings: 256",
+            "start: 1",
+            "boing: 255288",
+            "blip: 269000"
+          ],
+          "MaxMemMB": 76.953125,
+          "Milliseconds": 615.4601,
+          "File": {
+            "Length": 135754723,
+            "Name": "large.xml"
+          },
+          "Success": true
+        },
+        "micro.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - SAX"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 1",
+            "start: 1",
+            "blip: 1"
+          ],
+          "MaxMemMB": 45.48828125,
+          "Milliseconds": 58.6771,
+          "File": {
+            "Length": 229,
+            "Name": "micro.xml"
+          },
+          "Success": true
+        },
+        "mid.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - SAX"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 22",
+            "boings: 31",
+            "start: 1",
+            "boing: 30429",
+            "blip: 22000"
+          ],
+          "MaxMemMB": 68.51171875,
+          "Milliseconds": 170.9918,
+          "File": {
+            "Length": 13522870,
+            "Name": "mid.xml"
+          },
+          "Success": true
+        },
+        "small.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - SAX"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 4",
+            "boings: 7",
+            "start: 1",
+            "boing: 6486",
+            "blip: 4000"
+          ],
+          "MaxMemMB": 67.01953125,
+          "Milliseconds": 146.9983,
+          "File": {
+            "Length": 2727816,
+            "Name": "small.xml"
+          },
+          "Success": true
+        },
+        "giant.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - SAX"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 3850",
+            "boings: 4015",
+            "start: 1",
+            "boing: 4015000",
+            "blip: 3849320"
+          ],
+          "MaxMemMB": 86.2265625,
+          "Milliseconds": 6830.4272,
+          "File": {
+            "Length": 2033569804,
+            "Name": "giant.xml"
+          },
+          "Success": true
+        }
+      },
+      "BaselineResults": {},
+      "Name": "java-21 - SAX"
+    },
+    "PowerShell Core": {
+      "OutFiles": [
+        "/home/mw/git/xml-i/test/tmp/PowerShell Core-0.out",
+        "/home/mw/git/xml-i/test/tmp/PowerShell Core-1.out",
+        "/home/mw/git/xml-i/test/tmp/PowerShell Core-2.out",
+        "/home/mw/git/xml-i/test/tmp/PowerShell Core-3.out",
+        "/home/mw/git/xml-i/test/tmp/PowerShell Core-4.out",
+        "/home/mw/git/xml-i/test/tmp/PowerShell Core-5.out",
+        "/home/mw/git/xml-i/test/tmp/PowerShell Core-6.out",
+        "/home/mw/git/xml-i/test/tmp/PowerShell Core-7.out"
+      ],
+      "Description": "xml-i in pwsh",
+      "MetaInfo": {
+        "PSVersion": {
+          "Major": 7,
+          "Minor": 4,
+          "Patch": 7,
+          "PreReleaseLabel": null,
+          "BuildLabel": null
+        },
+        "PSEdition": "Core",
+        "BuildVersion": null,
+        "CLRVersion": null,
+        "OS": "Manjaro Linux"
+      },
+      "Origin": "/home/mw/git/xml-i/alien/pwsh",
+      "Results": {
+        "huge.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/pwsh",
+            "Name": "PowerShell Core"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blip: 1284440",
+            "boing: 1337000",
+            "boings: 1337",
+            "blips: 1285"
+          ],
+          "MaxMemMB": 139.58984375,
+          "Milliseconds": 4026.5206,
+          "File": {
+            "Length": 677868540,
+            "Name": "huge.xml"
+          },
+          "Success": true
+        },
+        "behemoth.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/pwsh",
+            "Name": "PowerShell Core"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 6498200",
+            "boings: 6609",
+            "boing: 6609000",
+            "start: 1",
+            "blips: 6499"
+          ],
+          "MaxMemMB": 140.04296875,
+          "Milliseconds": 15247.3113,
+          "File": {
+            "Length": 3389643641,
+            "Name": "behemoth.xml"
+          },
+          "Success": true
+        },
+        "tiny.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/pwsh",
+            "Name": "PowerShell Core"
+          },
+          "Content": [
+            "Node counts:",
+            "boings: 2",
+            "boing: 1243",
+            "blips: 4",
+            "blip: 4000",
+            "start: 1"
+          ],
+          "MaxMemMB": 136.1953125,
+          "Milliseconds": 303.2274,
+          "File": {
+            "Length": 1343483,
+            "Name": "tiny.xml"
+          },
+          "Success": true
+        },
+        "large.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/pwsh",
+            "Name": "PowerShell Core"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "boings: 256",
+            "blip: 269000",
+            "boing: 255288",
+            "blips: 269"
+          ],
+          "MaxMemMB": 140.13671875,
+          "Milliseconds": 1516.1115,
+          "File": {
+            "Length": 135754723,
+            "Name": "large.xml"
+          },
+          "Success": true
+        },
+        "micro.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/pwsh",
+            "Name": "PowerShell Core"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 1",
+            "start: 1",
+            "blips: 1"
+          ],
+          "MaxMemMB": 128.66015625,
+          "Milliseconds": 278.2868,
+          "File": {
+            "Length": 229,
+            "Name": "micro.xml"
+          },
+          "Success": true
+        },
+        "mid.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/pwsh",
+            "Name": "PowerShell Core"
+          },
+          "Content": [
+            "Node counts:",
+            "boings: 31",
+            "start: 1",
+            "blips: 22",
+            "boing: 30429",
+            "blip: 22000"
+          ],
+          "MaxMemMB": 138.9921875,
+          "Milliseconds": 466.3233,
+          "File": {
+            "Length": 13522870,
+            "Name": "mid.xml"
+          },
+          "Success": true
+        },
+        "small.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/pwsh",
+            "Name": "PowerShell Core"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 4",
+            "boings: 7",
+            "boing: 6486",
+            "blip: 4000"
+          ],
+          "MaxMemMB": 139.2421875,
+          "Milliseconds": 335.7267,
+          "File": {
+            "Length": 2727816,
+            "Name": "small.xml"
+          },
+          "Success": true
+        },
+        "giant.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/pwsh",
+            "Name": "PowerShell Core"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 3849320",
+            "start: 1",
+            "boings: 4015",
+            "boing: 4015000",
+            "blips: 3850"
+          ],
+          "MaxMemMB": 139.33203125,
+          "Milliseconds": 10488.3654,
+          "File": {
+            "Length": 2033569804,
+            "Name": "giant.xml"
+          },
+          "Success": true
+        }
+      },
+      "BaselineResults": {},
+      "Name": "PowerShell Core"
+    },
+    "C++ (libxml2 XMLReader)": {
+      "OutFiles": [
+        "/home/mw/git/xml-i/test/tmp/C++ (libxml2 XMLReader)-0.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (libxml2 XMLReader)-1.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (libxml2 XMLReader)-2.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (libxml2 XMLReader)-3.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (libxml2 XMLReader)-4.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (libxml2 XMLReader)-5.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (libxml2 XMLReader)-6.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (libxml2 XMLReader)-7.out"
+      ],
+      "Description": "xml-i in C++ powered by libxml2 XMLReader",
+      "MetaInfo": null,
+      "Origin": "/home/mw/git/xml-i/alien/C++",
+      "Results": {
+        "huge.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (libxml2 XMLReader)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 1337000",
+            "boings: 1337",
+            "blip: 1284440",
+            "blips: 1285",
+            "start: 1"
+          ],
+          "MaxMemMB": 7.12890625,
+          "Milliseconds": 4770.7283,
+          "File": {
+            "Length": 677868540,
+            "Name": "huge.xml"
+          },
+          "Success": true
+        },
+        "behemoth.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (libxml2 XMLReader)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 6609000",
+            "boings: 6609",
+            "blip: 6498200",
+            "blips: 6499",
+            "start: 1"
+          ],
+          "MaxMemMB": 7.35546875,
+          "Milliseconds": 22085.1288,
+          "File": {
+            "Length": 3389643641,
+            "Name": "behemoth.xml"
+          },
+          "Success": true
+        },
+        "tiny.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (libxml2 XMLReader)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 1243",
+            "boings: 2",
+            "blip: 4000",
+            "blips: 4",
+            "start: 1"
+          ],
+          "MaxMemMB": 7.21875,
+          "Milliseconds": 15.1301,
+          "File": {
+            "Length": 1343483,
+            "Name": "tiny.xml"
+          },
+          "Success": true
+        },
+        "large.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (libxml2 XMLReader)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 269000",
+            "blips: 269",
+            "boing: 255288",
+            "boings: 256",
+            "start: 1"
+          ],
+          "MaxMemMB": 7.0859375,
+          "Milliseconds": 961.4511,
+          "File": {
+            "Length": 135754723,
+            "Name": "large.xml"
+          },
+          "Success": true
+        },
+        "micro.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (libxml2 XMLReader)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 1",
+            "blips: 1",
+            "start: 1"
+          ],
+          "MaxMemMB": 5.9765625,
+          "Milliseconds": 4.1926,
+          "File": {
+            "Length": 229,
+            "Name": "micro.xml"
+          },
+          "Success": true
+        },
+        "mid.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (libxml2 XMLReader)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 22000",
+            "blips: 22",
+            "boing: 30429",
+            "boings: 31",
+            "start: 1"
+          ],
+          "MaxMemMB": 7.03515625,
+          "Milliseconds": 100.2468,
+          "File": {
+            "Length": 13522870,
+            "Name": "mid.xml"
+          },
+          "Success": true
+        },
+        "small.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (libxml2 XMLReader)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 4000",
+            "blips: 4",
+            "boing: 6486",
+            "boings: 7",
+            "start: 1"
+          ],
+          "MaxMemMB": 6.8984375,
+          "Milliseconds": 23.3653,
+          "File": {
+            "Length": 2727816,
+            "Name": "small.xml"
+          },
+          "Success": true
+        },
+        "giant.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (libxml2 XMLReader)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 4015000",
+            "boings: 4015",
+            "blip: 3849320",
+            "blips: 3850",
+            "start: 1"
+          ],
+          "MaxMemMB": 7.20703125,
+          "Milliseconds": 14374.4707,
+          "File": {
+            "Length": 2033569804,
+            "Name": "giant.xml"
+          },
+          "Success": true
+        }
+      },
+      "BaselineResults": {},
+      "Name": "C++ (libxml2 XMLReader)"
+    },
+    "Scala": {
+      "OutFiles": [
+        "/home/mw/git/xml-i/test/tmp/Scala-0.out",
+        "/home/mw/git/xml-i/test/tmp/Scala-1.out",
+        "/home/mw/git/xml-i/test/tmp/Scala-2.out",
+        "/home/mw/git/xml-i/test/tmp/Scala-3.out",
+        "/home/mw/git/xml-i/test/tmp/Scala-4.out",
+        "/home/mw/git/xml-i/test/tmp/Scala-5.out",
+        "/home/mw/git/xml-i/test/tmp/Scala-6.out",
+        "/home/mw/git/xml-i/test/tmp/Scala-7.out"
+      ],
+      "Description": "xml-i in Scala",
+      "MetaInfo": [
+        "Scala code runner version: 1.8.0",
+        "Scala version (default): 3.7.1"
+      ],
+      "Origin": "/home/mw/git/xml-i/alien/Scala",
+      "Results": {
+        "huge.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Scala",
+            "Name": "Scala"
+          },
+          "Content": [
+            "Node counts:",
+            "boings: 1337",
+            "boing: 1337000",
+            "blips: 1285",
+            "start: 1",
+            "blip: 1284440"
+          ],
+          "MaxMemMB": 5.21484375,
+          "Milliseconds": 3213.8,
+          "File": {
+            "Length": 677868540,
+            "Name": "huge.xml"
+          },
+          "Success": true
+        },
+        "behemoth.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Scala",
+            "Name": "Scala"
+          },
+          "Content": [
+            "Node counts:",
+            "boings: 6609",
+            "boing: 6609000",
+            "blips: 6499",
+            "start: 1",
+            "blip: 6498200"
+          ],
+          "MaxMemMB": 5.3046875,
+          "Milliseconds": 13431.6858,
+          "File": {
+            "Length": 3389643641,
+            "Name": "behemoth.xml"
+          },
+          "Success": true
+        },
+        "tiny.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Scala",
+            "Name": "Scala"
+          },
+          "Content": [
+            "Node counts:",
+            "boings: 2",
+            "boing: 1243",
+            "blips: 4",
+            "start: 1",
+            "blip: 4000"
+          ],
+          "MaxMemMB": 5.23828125,
+          "Milliseconds": 723.7321,
+          "File": {
+            "Length": 1343483,
+            "Name": "tiny.xml"
+          },
+          "Success": true
+        },
+        "large.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Scala",
+            "Name": "Scala"
+          },
+          "Content": [
+            "Node counts:",
+            "boings: 256",
+            "boing: 255288",
+            "blips: 269",
+            "start: 1",
+            "blip: 269000"
+          ],
+          "MaxMemMB": 5.3125,
+          "Milliseconds": 1280.9823,
+          "File": {
+            "Length": 135754723,
+            "Name": "large.xml"
+          },
+          "Success": true
+        },
+        "micro.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Scala",
+            "Name": "Scala"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 1",
+            "start: 1",
+            "blip: 1"
+          ],
+          "MaxMemMB": 5.4140625,
+          "Milliseconds": 645.1763,
+          "File": {
+            "Length": 229,
+            "Name": "micro.xml"
+          },
+          "Success": true
+        },
+        "mid.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Scala",
+            "Name": "Scala"
+          },
+          "Content": [
+            "Node counts:",
+            "boings: 31",
+            "boing: 30429",
+            "blips: 22",
+            "start: 1",
+            "blip: 22000"
+          ],
+          "MaxMemMB": 5.34765625,
+          "Milliseconds": 796.2584,
+          "File": {
+            "Length": 13522870,
+            "Name": "mid.xml"
+          },
+          "Success": true
+        },
+        "small.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Scala",
+            "Name": "Scala"
+          },
+          "Content": [
+            "Node counts:",
+            "boings: 7",
+            "boing: 6486",
+            "blips: 4",
+            "start: 1",
+            "blip: 4000"
+          ],
+          "MaxMemMB": 5.21484375,
+          "Milliseconds": 752.6735,
+          "File": {
+            "Length": 2727816,
+            "Name": "small.xml"
+          },
+          "Success": true
+        },
+        "giant.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Scala",
+            "Name": "Scala"
+          },
+          "Content": [
+            "Node counts:",
+            "boings: 4015",
+            "boing: 4015000",
+            "blips: 3850",
+            "start: 1",
+            "blip: 3849320"
+          ],
+          "MaxMemMB": 5.1796875,
+          "Milliseconds": 8334.5431,
+          "File": {
+            "Length": 2033569804,
+            "Name": "giant.xml"
+          },
+          "Success": true
+        }
+      },
+      "BaselineResults": {},
+      "Name": "Scala"
+    },
+    "Go - xmlquery": {
+      "OutFiles": [
+        "/home/mw/git/xml-i/test/tmp/Go - xmlquery-0.out",
+        "/home/mw/git/xml-i/test/tmp/Go - xmlquery-1.out",
+        "/home/mw/git/xml-i/test/tmp/Go - xmlquery-2.out",
+        "/home/mw/git/xml-i/test/tmp/Go - xmlquery-3.out",
+        "/home/mw/git/xml-i/test/tmp/Go - xmlquery-4.out",
+        "/home/mw/git/xml-i/test/tmp/Go - xmlquery-5.out",
+        "/home/mw/git/xml-i/test/tmp/Go - xmlquery-6.out",
+        "/home/mw/git/xml-i/test/tmp/Go - xmlquery-7.out"
+      ],
+      "Description": "xml-i in Go (using antchfx/xmlquery)",
+      "MetaInfo": "go version go1.24.3 linux/amd64",
+      "Origin": "/home/mw/git/xml-i/alien/Go",
+      "Results": {
+        "huge.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Go",
+            "Name": "Go - xmlquery"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 1285",
+            "blip: 1284440",
+            "boings: 1337",
+            "boing: 1337000"
+          ],
+          "MaxMemMB": 3493.6796875,
+          "Milliseconds": 15967.019,
+          "File": {
+            "Length": 677868540,
+            "Name": "huge.xml"
+          },
+          "Success": true
+        },
+        "behemoth.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Go",
+            "Name": "Go - xmlquery"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 6499",
+            "blip: 6498200",
+            "boings: 6609",
+            "boing: 6609000"
+          ],
+          "MaxMemMB": 17395.10546875,
+          "Milliseconds": 77935.6484,
+          "File": {
+            "Length": 3389643641,
+            "Name": "behemoth.xml"
+          },
+          "Success": true
+        },
+        "tiny.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Go",
+            "Name": "Go - xmlquery"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 4",
+            "blip: 4000",
+            "boings: 2",
+            "boing: 1243",
+            "start: 1"
+          ],
+          "MaxMemMB": 16.140625,
+          "Milliseconds": 39.5922,
+          "File": {
+            "Length": 1343483,
+            "Name": "tiny.xml"
+          },
+          "Success": true
+        },
+        "large.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Go",
+            "Name": "Go - xmlquery"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 255288",
+            "blips: 269",
+            "blip: 269000",
+            "start: 1",
+            "boings: 256"
+          ],
+          "MaxMemMB": 730.41796875,
+          "Milliseconds": 3227.37,
+          "File": {
+            "Length": 135754723,
+            "Name": "large.xml"
+          },
+          "Success": true
+        },
+        "micro.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Go",
+            "Name": "Go - xmlquery"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 1",
+            "blip: 1"
+          ],
+          "MaxMemMB": 8.9609375,
+          "Milliseconds": 3.9751,
+          "File": {
+            "Length": 229,
+            "Name": "micro.xml"
+          },
+          "Success": true
+        },
+        "mid.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Go",
+            "Name": "Go - xmlquery"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "boings: 31",
+            "boing: 30429",
+            "blips: 22",
+            "blip: 22000"
+          ],
+          "MaxMemMB": 79.71875,
+          "Milliseconds": 345.482,
+          "File": {
+            "Length": 13522870,
+            "Name": "mid.xml"
+          },
+          "Success": true
+        },
+        "small.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Go",
+            "Name": "Go - xmlquery"
+          },
+          "Content": [
+            "Node counts:",
+            "boings: 7",
+            "boing: 6486",
+            "blips: 4",
+            "blip: 4000",
+            "start: 1"
+          ],
+          "MaxMemMB": 24.328125,
+          "Milliseconds": 82.1922,
+          "File": {
+            "Length": 2727816,
+            "Name": "small.xml"
+          },
+          "Success": true
+        },
+        "giant.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Go",
+            "Name": "Go - xmlquery"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 3850",
+            "blip: 3849320",
+            "boings: 4015",
+            "boing: 4015000"
+          ],
+          "MaxMemMB": 9991.03125,
+          "Milliseconds": 48255.9144,
+          "File": {
+            "Length": 2033569804,
+            "Name": "giant.xml"
+          },
+          "Success": true
+        }
+      },
+      "BaselineResults": {},
+      "Name": "Go - xmlquery"
+    },
+    "Python 3": {
+      "OutFiles": [
+        "/home/mw/git/xml-i/test/tmp/Python 3-0.out",
+        "/home/mw/git/xml-i/test/tmp/Python 3-1.out",
+        "/home/mw/git/xml-i/test/tmp/Python 3-2.out",
+        "/home/mw/git/xml-i/test/tmp/Python 3-3.out",
+        "/home/mw/git/xml-i/test/tmp/Python 3-4.out",
+        "/home/mw/git/xml-i/test/tmp/Python 3-5.out",
+        "/home/mw/git/xml-i/test/tmp/Python 3-6.out",
+        "/home/mw/git/xml-i/test/tmp/Python 3-7.out"
+      ],
+      "Description": "xml-i in Python 3",
+      "MetaInfo": "Python 3.13.3",
+      "Origin": "/home/mw/git/xml-i/alien/python",
+      "Results": {
+        "huge.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/python",
+            "Name": "Python 3"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 1285",
+            "blip: 1284440",
+            "boings: 1337",
+            "boing: 1337000"
+          ],
+          "MaxMemMB": 2532.1875,
+          "Milliseconds": 15462.4309,
+          "File": {
+            "Length": 677868540,
+            "Name": "huge.xml"
+          },
+          "Success": true
+        },
+        "behemoth.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/python",
+            "Name": "Python 3"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 6499",
+            "blip: 6498200",
+            "boings: 6609",
+            "boing: 6609000"
+          ],
+          "MaxMemMB": 12610.80859375,
+          "Milliseconds": 75924.1235,
+          "File": {
+            "Length": 3389643641,
+            "Name": "behemoth.xml"
+          },
+          "Success": true
+        },
+        "tiny.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/python",
+            "Name": "Python 3"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 4",
+            "blip: 4000",
+            "boings: 2",
+            "boing: 1243"
+          ],
+          "MaxMemMB": 17.71484375,
+          "Milliseconds": 53.5292,
+          "File": {
+            "Length": 1343483,
+            "Name": "tiny.xml"
+          },
+          "Success": true
+        },
+        "large.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/python",
+            "Name": "Python 3"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "boings: 256",
+            "boing: 255288",
+            "blips: 269",
+            "blip: 269000"
+          ],
+          "MaxMemMB": 517.04296875,
+          "Milliseconds": 2936.9292,
+          "File": {
+            "Length": 135754723,
+            "Name": "large.xml"
+          },
+          "Success": true
+        },
+        "micro.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/python",
+            "Name": "Python 3"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 1",
+            "blip: 1"
+          ],
+          "MaxMemMB": 12.78125,
+          "Milliseconds": 30.2544,
+          "File": {
+            "Length": 229,
+            "Name": "micro.xml"
+          },
+          "Success": true
+        },
+        "mid.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/python",
+            "Name": "Python 3"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "boings: 31",
+            "boing: 30429",
+            "blips: 22",
+            "blip: 22000"
+          ],
+          "MaxMemMB": 63.2109375,
+          "Milliseconds": 265.8441,
+          "File": {
+            "Length": 13522870,
+            "Name": "mid.xml"
+          },
+          "Success": true
+        },
+        "small.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/python",
+            "Name": "Python 3"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "boings: 7",
+            "boing: 6486",
+            "blips: 4",
+            "blip: 4000"
+          ],
+          "MaxMemMB": 23.01171875,
+          "Milliseconds": 74.7098,
+          "File": {
+            "Length": 2727816,
+            "Name": "small.xml"
+          },
+          "Success": true
+        },
+        "giant.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/python",
+            "Name": "Python 3"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 3850",
+            "blip: 3849320",
+            "boings: 4015",
+            "boing: 4015000"
+          ],
+          "MaxMemMB": 7571.21875,
+          "Milliseconds": 47400.7291,
+          "File": {
+            "Length": 2033569804,
+            "Name": "giant.xml"
+          },
+          "Success": true
+        }
+      },
+      "BaselineResults": {},
+      "Name": "Python 3"
+    },
+    "C++ (pugixml)": {
+      "OutFiles": [
+        "/home/mw/git/xml-i/test/tmp/C++ (pugixml)-0.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (pugixml)-1.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (pugixml)-2.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (pugixml)-3.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (pugixml)-4.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (pugixml)-5.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (pugixml)-6.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (pugixml)-7.out"
+      ],
+      "Description": "xml-i in C++ powered by pugixml",
+      "MetaInfo": null,
+      "Origin": "/home/mw/git/xml-i/alien/C++",
+      "Results": {
+        "huge.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (pugixml)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 1337000",
+            "boings: 1337",
+            "blip: 1284440",
+            "blips: 1285",
+            "start: 1"
+          ],
+          "MaxMemMB": 1522.03125,
+          "Milliseconds": 1225.9949,
+          "File": {
+            "Length": 677868540,
+            "Name": "huge.xml"
+          },
+          "Success": true
+        },
+        "behemoth.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (pugixml)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 6609000",
+            "boings: 6609",
+            "blip: 6498200",
+            "blips: 6499",
+            "start: 1"
+          ],
+          "MaxMemMB": 7596.58203125,
+          "Milliseconds": 4963.1085,
+          "File": {
+            "Length": 3389643641,
+            "Name": "behemoth.xml"
+          },
+          "Success": true
+        },
+        "tiny.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (pugixml)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 1243",
+            "boings: 2",
+            "blip: 4000",
+            "blips: 4",
+            "start: 1"
+          ],
+          "MaxMemMB": 6.45703125,
+          "Milliseconds": 7.7762,
+          "File": {
+            "Length": 1343483,
+            "Name": "tiny.xml"
+          },
+          "Success": true
+        },
+        "large.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (pugixml)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 269000",
+            "blips: 269",
+            "boing: 255288",
+            "boings: 256",
+            "start: 1"
+          ],
+          "MaxMemMB": 307.32421875,
+          "Milliseconds": 253.3864,
+          "File": {
+            "Length": 135754723,
+            "Name": "large.xml"
+          },
+          "Success": true
+        },
+        "micro.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (pugixml)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 1",
+            "blips: 1",
+            "start: 1"
+          ],
+          "MaxMemMB": 3.390625,
+          "Milliseconds": 2.9927,
+          "File": {
+            "Length": 229,
+            "Name": "micro.xml"
+          },
+          "Success": true
+        },
+        "mid.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (pugixml)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 22000",
+            "blips: 22",
+            "boing: 30429",
+            "boings: 31",
+            "start: 1"
+          ],
+          "MaxMemMB": 33.59765625,
+          "Milliseconds": 28.3507,
+          "File": {
+            "Length": 13522870,
+            "Name": "mid.xml"
+          },
+          "Success": true
+        },
+        "small.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (pugixml)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 4000",
+            "blips: 4",
+            "boing: 6486",
+            "boings: 7",
+            "start: 1"
+          ],
+          "MaxMemMB": 9.5546875,
+          "Milliseconds": 8.2415,
+          "File": {
+            "Length": 2727816,
+            "Name": "small.xml"
+          },
+          "Success": true
+        },
+        "giant.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (pugixml)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 4015000",
+            "boings: 4015",
+            "blip: 3849320",
+            "blips: 3850",
+            "start: 1"
+          ],
+          "MaxMemMB": 4558.94140625,
+          "Milliseconds": 3651.274,
+          "File": {
+            "Length": 2033569804,
+            "Name": "giant.xml"
+          },
+          "Success": true
+        }
+      },
+      "BaselineResults": {},
+      "Name": "C++ (pugixml)"
+    },
+    "C++ (xsde)": {
+      "OutFiles": [
+        "/home/mw/git/xml-i/test/tmp/C++ (xsde)-0.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (xsde)-1.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (xsde)-2.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (xsde)-3.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (xsde)-4.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (xsde)-5.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (xsde)-6.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (xsde)-7.out"
+      ],
+      "Description": "xml-i in C++ powered by CodeSynthesis xsde",
+      "MetaInfo": null,
+      "Origin": "/home/mw/git/xml-i/alien/C++",
+      "Results": {
+        "huge.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (xsde)"
+          },
+          "Content": [
+            "Node counts:",
+            "boings: 1337",
+            "boing: 1337000",
+            "blips: 1285",
+            "blip: 1284440"
+          ],
+          "MaxMemMB": 3.3671875,
+          "Milliseconds": 6625.1313,
+          "File": {
+            "Length": 677868540,
+            "Name": "huge.xml"
+          },
+          "Success": true
+        },
+        "behemoth.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (xsde)"
+          },
+          "Content": [
+            "Node counts:",
+            "boings: 6609",
+            "boing: 6609000",
+            "blips: 6499",
+            "blip: 6498200"
+          ],
+          "MaxMemMB": 3.7421875,
+          "Milliseconds": 31279.0362,
+          "File": {
+            "Length": 3389643641,
+            "Name": "behemoth.xml"
+          },
+          "Success": true
+        },
+        "tiny.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (xsde)"
+          },
+          "Content": [
+            "Node counts:",
+            "boings: 2",
+            "boing: 1243",
+            "blips: 4",
+            "blip: 4000"
+          ],
+          "MaxMemMB": 3.7265625,
+          "Milliseconds": 17.7612,
+          "File": {
+            "Length": 1343483,
+            "Name": "tiny.xml"
+          },
+          "Success": true
+        },
+        "large.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (xsde)"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 269",
+            "blip: 269000",
+            "boings: 256",
+            "boing: 255288"
+          ],
+          "MaxMemMB": 3.74609375,
+          "Milliseconds": 1330.8674,
+          "File": {
+            "Length": 135754723,
+            "Name": "large.xml"
+          },
+          "Success": true
+        },
+        "micro.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (xsde)"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 1",
+            "blip: 1"
+          ],
+          "MaxMemMB": 3.30078125,
+          "Milliseconds": 3.0894,
+          "File": {
+            "Length": 229,
+            "Name": "micro.xml"
+          },
+          "Success": true
+        },
+        "mid.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (xsde)"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 22",
+            "blip: 22000",
+            "boings: 31",
+            "boing: 30429"
+          ],
+          "MaxMemMB": 3.50390625,
+          "Milliseconds": 141.1703,
+          "File": {
+            "Length": 13522870,
+            "Name": "mid.xml"
+          },
+          "Success": true
+        },
+        "small.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (xsde)"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 4",
+            "blip: 4000",
+            "boings: 7",
+            "boing: 6486"
+          ],
+          "MaxMemMB": 3.671875,
+          "Milliseconds": 29.963,
+          "File": {
+            "Length": 2727816,
+            "Name": "small.xml"
+          },
+          "Success": true
+        },
+        "giant.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (xsde)"
+          },
+          "Content": [
+            "Node counts:",
+            "boings: 4015",
+            "boing: 4015000",
+            "blips: 3850",
+            "blip: 3849320"
+          ],
+          "MaxMemMB": 3.87890625,
+          "Milliseconds": 19868.9731,
+          "File": {
+            "Length": 2033569804,
+            "Name": "giant.xml"
+          },
+          "Success": true
+        }
+      },
+      "BaselineResults": {},
+      "Name": "C++ (xsde)"
+    },
+    "Node.js": {
+      "OutFiles": [
+        "/home/mw/git/xml-i/test/tmp/Node.js-0.out",
+        "/home/mw/git/xml-i/test/tmp/Node.js-1.out",
+        "/home/mw/git/xml-i/test/tmp/Node.js-2.out",
+        "/home/mw/git/xml-i/test/tmp/Node.js-3.out",
+        "/home/mw/git/xml-i/test/tmp/Node.js-4.out",
+        "/home/mw/git/xml-i/test/tmp/Node.js-5.out",
+        "/home/mw/git/xml-i/test/tmp/Node.js-6.out",
+        "/home/mw/git/xml-i/test/tmp/Node.js-7.out"
+      ],
+      "Description": "xml-i in Node.js",
+      "MetaInfo": "v22.15.1",
+      "Origin": "/home/mw/git/xml-i/alien/node",
+      "Results": {
+        "huge.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/node",
+            "Name": "Node.js"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 1285",
+            "blip: 1284440",
+            "boings: 1337",
+            "boing: 1337000"
+          ],
+          "MaxMemMB": 69.14453125,
+          "Milliseconds": 20365.9469,
+          "File": {
+            "Length": 677868540,
+            "Name": "huge.xml"
+          },
+          "Success": true
+        },
+        "behemoth.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/node",
+            "Name": "Node.js"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 6499",
+            "blip: 6498200",
+            "boings: 6609",
+            "boing: 6609000"
+          ],
+          "MaxMemMB": 87.74609375,
+          "Milliseconds": 100736.4364,
+          "File": {
+            "Length": 3389643641,
+            "Name": "behemoth.xml"
+          },
+          "Success": true
+        },
+        "tiny.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/node",
+            "Name": "Node.js"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 4",
+            "blip: 4000",
+            "boings: 2",
+            "boing: 1243"
+          ],
+          "MaxMemMB": 57.53515625,
+          "Milliseconds": 108.961,
+          "File": {
+            "Length": 1343483,
+            "Name": "tiny.xml"
+          },
+          "Success": true
+        },
+        "large.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/node",
+            "Name": "Node.js"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "boings: 256",
+            "boing: 255288",
+            "blips: 269",
+            "blip: 269000"
+          ],
+          "MaxMemMB": 61.0390625,
+          "Milliseconds": 4180.1515,
+          "File": {
+            "Length": 135754723,
+            "Name": "large.xml"
+          },
+          "Success": true
+        },
+        "micro.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/node",
+            "Name": "Node.js"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 1",
+            "blip: 1"
+          ],
+          "MaxMemMB": 45.11328125,
+          "Milliseconds": 34.7708,
+          "File": {
+            "Length": 229,
+            "Name": "micro.xml"
+          },
+          "Success": true
+        },
+        "mid.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/node",
+            "Name": "Node.js"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "boings: 31",
+            "boing: 30429",
+            "blips: 22",
+            "blip: 22000"
+          ],
+          "MaxMemMB": 58.02734375,
+          "Milliseconds": 492.7633,
+          "File": {
+            "Length": 13522870,
+            "Name": "mid.xml"
+          },
+          "Success": true
+        },
+        "small.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/node",
+            "Name": "Node.js"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "boings: 7",
+            "boing: 6486",
+            "blips: 4",
+            "blip: 4000"
+          ],
+          "MaxMemMB": 57.51171875,
+          "Milliseconds": 148.5263,
+          "File": {
+            "Length": 2727816,
+            "Name": "small.xml"
+          },
+          "Success": true
+        },
+        "giant.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/node",
+            "Name": "Node.js"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 3850",
+            "blip: 3849320",
+            "boings: 4015",
+            "boing: 4015000"
+          ],
+          "MaxMemMB": 82.72265625,
+          "Milliseconds": 61250.4014,
+          "File": {
+            "Length": 2033569804,
+            "Name": "giant.xml"
+          },
+          "Success": true
+        }
+      },
+      "BaselineResults": {},
+      "Name": "Node.js"
+    },
+    "Saxon HE 12": {
+      "OutFiles": [
+        "/home/mw/git/xml-i/test/tmp/Saxon HE 12-0.out",
+        "/home/mw/git/xml-i/test/tmp/Saxon HE 12-1.out",
+        "/home/mw/git/xml-i/test/tmp/Saxon HE 12-2.out",
+        "/home/mw/git/xml-i/test/tmp/Saxon HE 12-3.out",
+        "/home/mw/git/xml-i/test/tmp/Saxon HE 12-4.out",
+        "/home/mw/git/xml-i/test/tmp/Saxon HE 12-5.out",
+        "/home/mw/git/xml-i/test/tmp/Saxon HE 12-6.out",
+        "/home/mw/git/xml-i/test/tmp/Saxon HE 12-7.out"
+      ],
+      "Description": "xml-i in xslt powered by Saxon HE 12",
+      "MetaInfo": "SaxonHE12-7J.zip",
+      "Origin": "/home/mw/git/xml-i/alien/xslt",
+      "Results": {
+        "huge.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/xslt",
+            "Name": "Saxon HE 12"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 1285",
+            "blip: 1284440",
+            "boings: 1337",
+            "boing: 1337000"
+          ],
+          "MaxMemMB": 3078,
+          "Milliseconds": 7897.7845,
+          "File": {
+            "Length": 677868540,
+            "Name": "huge.xml"
+          },
+          "Success": true
+        },
+        "behemoth.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/xslt",
+            "Name": "Saxon HE 12"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 6499",
+            "blip: 6498200",
+            "boings: 6609",
+            "boing: 6609000"
+          ],
+          "MaxMemMB": 10969.90234375,
+          "Milliseconds": 31391.3381,
+          "File": {
+            "Length": 3389643641,
+            "Name": "behemoth.xml"
+          },
+          "Success": true
+        },
+        "tiny.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/xslt",
+            "Name": "Saxon HE 12"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 4",
+            "blip: 4000",
+            "boings: 2",
+            "boing: 1243"
+          ],
+          "MaxMemMB": 161.04296875,
+          "Milliseconds": 942.5374,
+          "File": {
+            "Length": 1343483,
+            "Name": "tiny.xml"
+          },
+          "Success": true
+        },
+        "large.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/xslt",
+            "Name": "Saxon HE 12"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "boings: 256",
+            "boing: 255288",
+            "blips: 269",
+            "blip: 269000"
+          ],
+          "MaxMemMB": 860.34375,
+          "Milliseconds": 2633.7013,
+          "File": {
+            "Length": 135754723,
+            "Name": "large.xml"
+          },
+          "Success": true
+        },
+        "micro.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/xslt",
+            "Name": "Saxon HE 12"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 1",
+            "blip: 1"
+          ],
+          "MaxMemMB": 119.3046875,
+          "Milliseconds": 807.5277,
+          "File": {
+            "Length": 229,
+            "Name": "micro.xml"
+          },
+          "Success": true
+        },
+        "mid.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/xslt",
+            "Name": "Saxon HE 12"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "boings: 31",
+            "boing: 30429",
+            "blips: 22",
+            "blip: 22000"
+          ],
+          "MaxMemMB": 255.328125,
+          "Milliseconds": 1245.7694,
+          "File": {
+            "Length": 13522870,
+            "Name": "mid.xml"
+          },
+          "Success": true
+        },
+        "small.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/xslt",
+            "Name": "Saxon HE 12"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "boings: 7",
+            "boing: 6486",
+            "blips: 4",
+            "blip: 4000"
+          ],
+          "MaxMemMB": 191.19921875,
+          "Milliseconds": 1088.8844,
+          "File": {
+            "Length": 2727816,
+            "Name": "small.xml"
+          },
+          "Success": true
+        },
+        "giant.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/xslt",
+            "Name": "Saxon HE 12"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 3850",
+            "blip: 3849320",
+            "boings: 4015",
+            "boing: 4015000"
+          ],
+          "MaxMemMB": 6723.5234375,
+          "Milliseconds": 22087.8223,
+          "File": {
+            "Length": 2033569804,
+            "Name": "giant.xml"
+          },
+          "Success": true
+        }
+      },
+      "BaselineResults": {},
+      "Name": "Saxon HE 12"
+    },
+    "C++ (Apache Xerces)": {
+      "OutFiles": [
+        "/home/mw/git/xml-i/test/tmp/C++ (Apache Xerces)-0.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (Apache Xerces)-1.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (Apache Xerces)-2.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (Apache Xerces)-3.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (Apache Xerces)-4.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (Apache Xerces)-5.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (Apache Xerces)-6.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (Apache Xerces)-7.out"
+      ],
+      "Description": "xml-i in C++ powered by Apache Xerces",
+      "MetaInfo": null,
+      "Origin": "/home/mw/git/xml-i/alien/C++",
+      "Results": {
+        "huge.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (Apache Xerces)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 1337000",
+            "boings: 1337",
+            "blip: 1284440",
+            "blips: 1285",
+            "start: 1"
+          ],
+          "MaxMemMB": 15.38671875,
+          "Milliseconds": 8542.8389,
+          "File": {
+            "Length": 677868540,
+            "Name": "huge.xml"
+          },
+          "Success": true
+        },
+        "behemoth.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (Apache Xerces)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 6609000",
+            "boings: 6609",
+            "blip: 6498200",
+            "blips: 6499",
+            "start: 1"
+          ],
+          "MaxMemMB": 15.53515625,
+          "Milliseconds": 33714.5393,
+          "File": {
+            "Length": 3389643641,
+            "Name": "behemoth.xml"
+          },
+          "Success": true
+        },
+        "tiny.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (Apache Xerces)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 1243",
+            "boings: 2",
+            "blip: 4000",
+            "blips: 4",
+            "start: 1"
+          ],
+          "MaxMemMB": 15.671875,
+          "Milliseconds": 28.4022,
+          "File": {
+            "Length": 1343483,
+            "Name": "tiny.xml"
+          },
+          "Success": true
+        },
+        "large.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (Apache Xerces)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 269000",
+            "blips: 269",
+            "boing: 255288",
+            "boings: 256",
+            "start: 1"
+          ],
+          "MaxMemMB": 15.29296875,
+          "Milliseconds": 1722.2119,
+          "File": {
+            "Length": 135754723,
+            "Name": "large.xml"
+          },
+          "Success": true
+        },
+        "micro.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (Apache Xerces)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 1",
+            "blips: 1",
+            "start: 1"
+          ],
+          "MaxMemMB": 15.234375,
+          "Milliseconds": 11.0761,
+          "File": {
+            "Length": 229,
+            "Name": "micro.xml"
+          },
+          "Success": true
+        },
+        "mid.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (Apache Xerces)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 22000",
+            "blips: 22",
+            "boing: 30429",
+            "boings: 31",
+            "start: 1"
+          ],
+          "MaxMemMB": 15.4453125,
+          "Milliseconds": 180.3236,
+          "File": {
+            "Length": 13522870,
+            "Name": "mid.xml"
+          },
+          "Success": true
+        },
+        "small.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (Apache Xerces)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 4000",
+            "blips: 4",
+            "boing: 6486",
+            "boings: 7",
+            "start: 1"
+          ],
+          "MaxMemMB": 15.46875,
+          "Milliseconds": 46.7788,
+          "File": {
+            "Length": 2727816,
+            "Name": "small.xml"
+          },
+          "Success": true
+        },
+        "giant.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (Apache Xerces)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 4015000",
+            "boings: 4015",
+            "blip: 3849320",
+            "blips: 3850",
+            "start: 1"
+          ],
+          "MaxMemMB": 15.24609375,
+          "Milliseconds": 22491.7025,
+          "File": {
+            "Length": 2033569804,
+            "Name": "giant.xml"
+          },
+          "Success": true
+        }
+      },
+      "BaselineResults": {},
+      "Name": "C++ (Apache Xerces)"
+    },
+    ".NET 8 - XmlReader": {
+      "OutFiles": [
+        "/home/mw/git/xml-i/test/tmp/.NET 8 - XmlReader-0.out",
+        "/home/mw/git/xml-i/test/tmp/.NET 8 - XmlReader-1.out",
+        "/home/mw/git/xml-i/test/tmp/.NET 8 - XmlReader-2.out",
+        "/home/mw/git/xml-i/test/tmp/.NET 8 - XmlReader-3.out",
+        "/home/mw/git/xml-i/test/tmp/.NET 8 - XmlReader-4.out",
+        "/home/mw/git/xml-i/test/tmp/.NET 8 - XmlReader-5.out",
+        "/home/mw/git/xml-i/test/tmp/.NET 8 - XmlReader-6.out",
+        "/home/mw/git/xml-i/test/tmp/.NET 8 - XmlReader-7.out"
+      ],
+      "Description": "xml-i in .NET",
+      "MetaInfo": "9.0.105",
+      "Origin": "/home/mw/git/xml-i/alien/NET",
+      "Results": {
+        "huge.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/NET",
+            "Name": ".NET 8 - XmlReader"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 1285",
+            "blip: 1284440",
+            "boings: 1337",
+            "boing: 1337000"
+          ],
+          "MaxMemMB": 46.21875,
+          "Milliseconds": 1351.7161,
+          "File": {
+            "Length": 677868540,
+            "Name": "huge.xml"
+          },
+          "Success": true
+        },
+        "behemoth.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/NET",
+            "Name": ".NET 8 - XmlReader"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 6499",
+            "blip: 6498200",
+            "boings: 6609",
+            "boing: 6609000"
+          ],
+          "MaxMemMB": 46.0390625,
+          "Milliseconds": 5502.9651,
+          "File": {
+            "Length": 3389643641,
+            "Name": "behemoth.xml"
+          },
+          "Success": true
+        },
+        "tiny.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/NET",
+            "Name": ".NET 8 - XmlReader"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 4",
+            "blip: 4000",
+            "boings: 2",
+            "boing: 1243"
+          ],
+          "MaxMemMB": 34.74609375,
+          "Milliseconds": 50.6081,
+          "File": {
+            "Length": 1343483,
+            "Name": "tiny.xml"
+          },
+          "Success": true
+        },
+        "large.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/NET",
+            "Name": ".NET 8 - XmlReader"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "boings: 256",
+            "boing: 255288",
+            "blips: 269",
+            "blip: 269000"
+          ],
+          "MaxMemMB": 43.86328125,
+          "Milliseconds": 505.2665,
+          "File": {
+            "Length": 135754723,
+            "Name": "large.xml"
+          },
+          "Success": true
+        },
+        "micro.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/NET",
+            "Name": ".NET 8 - XmlReader"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 1",
+            "blip: 1"
+          ],
+          "MaxMemMB": 33.49609375,
+          "Milliseconds": 47.2681,
+          "File": {
+            "Length": 229,
+            "Name": "micro.xml"
+          },
+          "Success": true
+        },
+        "mid.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/NET",
+            "Name": ".NET 8 - XmlReader"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "boings: 31",
+            "boing: 30429",
+            "blips: 22",
+            "blip: 22000"
+          ],
+          "MaxMemMB": 35.35546875,
+          "Milliseconds": 120.5538,
+          "File": {
+            "Length": 13522870,
+            "Name": "mid.xml"
+          },
+          "Success": true
+        },
+        "small.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/NET",
+            "Name": ".NET 8 - XmlReader"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "boings: 7",
+            "boing: 6486",
+            "blips: 4",
+            "blip: 4000"
+          ],
+          "MaxMemMB": 34.73046875,
+          "Milliseconds": 76.727,
+          "File": {
+            "Length": 2727816,
+            "Name": "small.xml"
+          },
+          "Success": true
+        },
+        "giant.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/NET",
+            "Name": ".NET 8 - XmlReader"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 3850",
+            "blip: 3849320",
+            "boings: 4015",
+            "boing: 4015000"
+          ],
+          "MaxMemMB": 46.203125,
+          "Milliseconds": 3278.0805,
+          "File": {
+            "Length": 2033569804,
+            "Name": "giant.xml"
+          },
+          "Success": true
+        }
+      },
+      "BaselineResults": {},
+      "Name": ".NET 8 - XmlReader"
+    },
+    "Go - std": {
+      "OutFiles": [
+        "/home/mw/git/xml-i/test/tmp/Go - std-0.out",
+        "/home/mw/git/xml-i/test/tmp/Go - std-1.out",
+        "/home/mw/git/xml-i/test/tmp/Go - std-2.out",
+        "/home/mw/git/xml-i/test/tmp/Go - std-3.out",
+        "/home/mw/git/xml-i/test/tmp/Go - std-4.out",
+        "/home/mw/git/xml-i/test/tmp/Go - std-5.out",
+        "/home/mw/git/xml-i/test/tmp/Go - std-6.out",
+        "/home/mw/git/xml-i/test/tmp/Go - std-7.out"
+      ],
+      "Description": "xml-i in Go (using standard library encoding/xml)",
+      "MetaInfo": "go version go1.24.3 linux/amd64",
+      "Origin": "/home/mw/git/xml-i/alien/Go",
+      "Results": {
+        "huge.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Go",
+            "Name": "Go - std"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 1284440",
+            "boings: 1337",
+            "boing: 1337000",
+            "start: 1",
+            "blips: 1285"
+          ],
+          "MaxMemMB": 8.34375,
+          "Milliseconds": 13103.6082,
+          "File": {
+            "Length": 677868540,
+            "Name": "huge.xml"
+          },
+          "Success": true
+        },
+        "behemoth.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Go",
+            "Name": "Go - std"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 6609000",
+            "start: 1",
+            "blips: 6499",
+            "blip: 6498200",
+            "boings: 6609"
+          ],
+          "MaxMemMB": 8.47265625,
+          "Milliseconds": 63504.536,
+          "File": {
+            "Length": 3389643641,
+            "Name": "behemoth.xml"
+          },
+          "Success": true
+        },
+        "tiny.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Go",
+            "Name": "Go - std"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 4",
+            "blip: 4000",
+            "boings: 2",
+            "boing: 1243"
+          ],
+          "MaxMemMB": 7.6875,
+          "Milliseconds": 32.6802,
+          "File": {
+            "Length": 1343483,
+            "Name": "tiny.xml"
+          },
+          "Success": true
+        },
+        "large.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Go",
+            "Name": "Go - std"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 255288",
+            "blips: 269",
+            "blip: 269000",
+            "start: 1",
+            "boings: 256"
+          ],
+          "MaxMemMB": 8.41015625,
+          "Milliseconds": 2610.5958,
+          "File": {
+            "Length": 135754723,
+            "Name": "large.xml"
+          },
+          "Success": true
+        },
+        "micro.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Go",
+            "Name": "Go - std"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 1",
+            "blip: 1"
+          ],
+          "MaxMemMB": 3.51953125,
+          "Milliseconds": 2.5026,
+          "File": {
+            "Length": 229,
+            "Name": "micro.xml"
+          },
+          "Success": true
+        },
+        "mid.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Go",
+            "Name": "Go - std"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 30429",
+            "blips: 22",
+            "blip: 22000",
+            "start: 1",
+            "boings: 31"
+          ],
+          "MaxMemMB": 8.16796875,
+          "Milliseconds": 267.723,
+          "File": {
+            "Length": 13522870,
+            "Name": "mid.xml"
+          },
+          "Success": true
+        },
+        "small.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Go",
+            "Name": "Go - std"
+          },
+          "Content": [
+            "Node counts:",
+            "boings: 7",
+            "boing: 6486",
+            "blips: 4",
+            "blip: 4000",
+            "start: 1"
+          ],
+          "MaxMemMB": 8.13671875,
+          "Milliseconds": 64.2863,
+          "File": {
+            "Length": 2727816,
+            "Name": "small.xml"
+          },
+          "Success": true
+        },
+        "giant.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Go",
+            "Name": "Go - std"
+          },
+          "Content": [
+            "Node counts:",
+            "boings: 4015",
+            "boing: 4015000",
+            "start: 1",
+            "blips: 3850",
+            "blip: 3849320"
+          ],
+          "MaxMemMB": 8.61328125,
+          "Milliseconds": 39126.8105,
+          "File": {
+            "Length": 2033569804,
+            "Name": "giant.xml"
+          },
+          "Success": true
+        }
+      },
+      "BaselineResults": {},
+      "Name": "Go - std"
+    },
+    "C++ (libxml2 - SAX)": {
+      "OutFiles": [
+        "/home/mw/git/xml-i/test/tmp/C++ (libxml2 - SAX)-0.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (libxml2 - SAX)-1.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (libxml2 - SAX)-2.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (libxml2 - SAX)-3.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (libxml2 - SAX)-4.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (libxml2 - SAX)-5.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (libxml2 - SAX)-6.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (libxml2 - SAX)-7.out"
+      ],
+      "Description": "xml-i in C++ powered by libxml2",
+      "MetaInfo": null,
+      "Origin": "/home/mw/git/xml-i/alien/C++",
+      "Results": {
+        "huge.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (libxml2 - SAX)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 1337000",
+            "boings: 1337",
+            "blip: 1284440",
+            "blips: 1285",
+            "start: 1"
+          ],
+          "MaxMemMB": 7.16015625,
+          "Milliseconds": 2934.0739,
+          "File": {
+            "Length": 677868540,
+            "Name": "huge.xml"
+          },
+          "Success": true
+        },
+        "behemoth.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (libxml2 - SAX)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 6609000",
+            "boings: 6609",
+            "blip: 6498200",
+            "blips: 6499",
+            "start: 1"
+          ],
+          "MaxMemMB": 7.07421875,
+          "Milliseconds": 12840.5906,
+          "File": {
+            "Length": 3389643641,
+            "Name": "behemoth.xml"
+          },
+          "Success": true
+        },
+        "tiny.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (libxml2 - SAX)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 1243",
+            "boings: 2",
+            "blip: 4000",
+            "blips: 4",
+            "start: 1"
+          ],
+          "MaxMemMB": 6.76171875,
+          "Milliseconds": 9.9422,
+          "File": {
+            "Length": 1343483,
+            "Name": "tiny.xml"
+          },
+          "Success": true
+        },
+        "large.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (libxml2 - SAX)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 269000",
+            "blips: 269",
+            "boing: 255288",
+            "boings: 256",
+            "start: 1"
+          ],
+          "MaxMemMB": 6.73046875,
+          "Milliseconds": 588.9173,
+          "File": {
+            "Length": 135754723,
+            "Name": "large.xml"
+          },
+          "Success": true
+        },
+        "micro.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (libxml2 - SAX)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 1",
+            "blips: 1",
+            "start: 1"
+          ],
+          "MaxMemMB": 7.04296875,
+          "Milliseconds": 3.5938,
+          "File": {
+            "Length": 229,
+            "Name": "micro.xml"
+          },
+          "Success": true
+        },
+        "mid.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (libxml2 - SAX)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 22000",
+            "blips: 22",
+            "boing: 30429",
+            "boings: 31",
+            "start: 1"
+          ],
+          "MaxMemMB": 6.95703125,
+          "Milliseconds": 62.4184,
+          "File": {
+            "Length": 13522870,
+            "Name": "mid.xml"
+          },
+          "Success": true
+        },
+        "small.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (libxml2 - SAX)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 4000",
+            "blips: 4",
+            "boing: 6486",
+            "boings: 7",
+            "start: 1"
+          ],
+          "MaxMemMB": 7.31640625,
+          "Milliseconds": 17.1024,
+          "File": {
+            "Length": 2727816,
+            "Name": "small.xml"
+          },
+          "Success": true
+        },
+        "giant.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (libxml2 - SAX)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 4015000",
+            "boings: 4015",
+            "blip: 3849320",
+            "blips: 3850",
+            "start: 1"
+          ],
+          "MaxMemMB": 7.328125,
+          "Milliseconds": 8785.7485,
+          "File": {
+            "Length": 2033569804,
+            "Name": "giant.xml"
+          },
+          "Success": true
+        }
+      },
+      "BaselineResults": {},
+      "Name": "C++ (libxml2 - SAX)"
+    },
+    "C++ (rapidxml)": {
+      "OutFiles": [
+        "/home/mw/git/xml-i/test/tmp/C++ (rapidxml)-0.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (rapidxml)-1.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (rapidxml)-2.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (rapidxml)-3.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (rapidxml)-4.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (rapidxml)-5.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (rapidxml)-6.out",
+        "/home/mw/git/xml-i/test/tmp/C++ (rapidxml)-7.out"
+      ],
+      "Description": "xml-i in C++ powered by rapidxml",
+      "MetaInfo": null,
+      "Origin": "/home/mw/git/xml-i/alien/C++",
+      "Results": {
+        "huge.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (rapidxml)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 1337000",
+            "boings: 1337",
+            "blip: 1284440",
+            "blips: 1285",
+            "start: 1"
+          ],
+          "MaxMemMB": 1900.81640625,
+          "Milliseconds": 1338.2912,
+          "File": {
+            "Length": 677868540,
+            "Name": "huge.xml"
+          },
+          "Success": true
+        },
+        "behemoth.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (rapidxml)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 6609000",
+            "boings: 6609",
+            "blip: 6498200",
+            "blips: 6499",
+            "start: 1"
+          ],
+          "MaxMemMB": 9491.92578125,
+          "Milliseconds": 5624.5874,
+          "File": {
+            "Length": 3389643641,
+            "Name": "behemoth.xml"
+          },
+          "Success": true
+        },
+        "tiny.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (rapidxml)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 1243",
+            "boings: 2",
+            "blip: 4000",
+            "blips: 4",
+            "start: 1"
+          ],
+          "MaxMemMB": 7.08203125,
+          "Milliseconds": 6.8589,
+          "File": {
+            "Length": 1343483,
+            "Name": "tiny.xml"
+          },
+          "Success": true
+        },
+        "large.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (rapidxml)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 269000",
+            "blips: 269",
+            "boing: 255288",
+            "boings: 256",
+            "start: 1"
+          ],
+          "MaxMemMB": 383.1875,
+          "Milliseconds": 278.7609,
+          "File": {
+            "Length": 135754723,
+            "Name": "large.xml"
+          },
+          "Success": true
+        },
+        "micro.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (rapidxml)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 1",
+            "blips: 1",
+            "start: 1"
+          ],
+          "MaxMemMB": 3.44140625,
+          "Milliseconds": 3.0129,
+          "File": {
+            "Length": 229,
+            "Name": "micro.xml"
+          },
+          "Success": true
+        },
+        "mid.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (rapidxml)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 22000",
+            "blips: 22",
+            "boing: 30429",
+            "boings: 31",
+            "start: 1"
+          ],
+          "MaxMemMB": 40.98828125,
+          "Milliseconds": 33.6622,
+          "File": {
+            "Length": 13522870,
+            "Name": "mid.xml"
+          },
+          "Success": true
+        },
+        "small.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (rapidxml)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 4000",
+            "blips: 4",
+            "boing: 6486",
+            "boings: 7",
+            "start: 1"
+          ],
+          "MaxMemMB": 10.89453125,
+          "Milliseconds": 11.3266,
+          "File": {
+            "Length": 2727816,
+            "Name": "small.xml"
+          },
+          "Success": true
+        },
+        "giant.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/C++",
+            "Name": "C++ (rapidxml)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 4015000",
+            "boings: 4015",
+            "blip: 3849320",
+            "blips: 3850",
+            "start: 1"
+          ],
+          "MaxMemMB": 5695.94140625,
+          "Milliseconds": 4083.6489,
+          "File": {
+            "Length": 2033569804,
+            "Name": "giant.xml"
+          },
+          "Success": true
+        }
+      },
+      "BaselineResults": {},
+      "Name": "C++ (rapidxml)"
+    },
+    "Rust (quick-xml)": {
+      "OutFiles": [
+        "/home/mw/git/xml-i/test/tmp/Rust (quick-xml)-0.out",
+        "/home/mw/git/xml-i/test/tmp/Rust (quick-xml)-1.out",
+        "/home/mw/git/xml-i/test/tmp/Rust (quick-xml)-2.out",
+        "/home/mw/git/xml-i/test/tmp/Rust (quick-xml)-3.out",
+        "/home/mw/git/xml-i/test/tmp/Rust (quick-xml)-4.out",
+        "/home/mw/git/xml-i/test/tmp/Rust (quick-xml)-5.out",
+        "/home/mw/git/xml-i/test/tmp/Rust (quick-xml)-6.out",
+        "/home/mw/git/xml-i/test/tmp/Rust (quick-xml)-7.out"
+      ],
+      "Description": "xml-i in Rust with quick-xml",
+      "MetaInfo": "cargo 1.86.0 (adf9b6ad1 2025-02-28)",
+      "Origin": "/home/mw/git/xml-i/src",
+      "Results": {
+        "huge.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/src",
+            "Name": "Rust (quick-xml)"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blip: 1284440",
+            "boings: 1337",
+            "boing: 1337000",
+            "blips: 1285"
+          ],
+          "MaxMemMB": 1.86328125,
+          "Milliseconds": 652.8724,
+          "File": {
+            "Length": 677868540,
+            "Name": "huge.xml"
+          },
+          "Success": true
+        },
+        "behemoth.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/src",
+            "Name": "Rust (quick-xml)"
+          },
+          "Content": [
+            "Node counts:",
+            "boings: 6609",
+            "boing: 6609000",
+            "blip: 6498200",
+            "start: 1",
+            "blips: 6499"
+          ],
+          "MaxMemMB": 2.05859375,
+          "Milliseconds": 3174.4928,
+          "File": {
+            "Length": 3389643641,
+            "Name": "behemoth.xml"
+          },
+          "Success": true
+        },
+        "tiny.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/src",
+            "Name": "Rust (quick-xml)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 1243",
+            "blip: 4000",
+            "blips: 4",
+            "start: 1",
+            "boings: 2"
+          ],
+          "MaxMemMB": 1.94921875,
+          "Milliseconds": 3.5986,
+          "File": {
+            "Length": 1343483,
+            "Name": "tiny.xml"
+          },
+          "Success": true
+        },
+        "large.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/src",
+            "Name": "Rust (quick-xml)"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 269",
+            "boings: 256",
+            "boing: 255288",
+            "blip: 269000"
+          ],
+          "MaxMemMB": 1.79296875,
+          "Milliseconds": 126.9581,
+          "File": {
+            "Length": 135754723,
+            "Name": "large.xml"
+          },
+          "Success": true
+        },
+        "micro.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/src",
+            "Name": "Rust (quick-xml)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 1",
+            "start: 1",
+            "blips: 1"
+          ],
+          "MaxMemMB": 2.0234375,
+          "Milliseconds": 1.8701,
+          "File": {
+            "Length": 229,
+            "Name": "micro.xml"
+          },
+          "Success": true
+        },
+        "mid.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/src",
+            "Name": "Rust (quick-xml)"
+          },
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "boing: 30429",
+            "blip: 22000",
+            "blips: 22",
+            "boings: 31"
+          ],
+          "MaxMemMB": 1.94921875,
+          "Milliseconds": 20.6129,
+          "File": {
+            "Length": 13522870,
+            "Name": "mid.xml"
+          },
+          "Success": true
+        },
+        "small.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/src",
+            "Name": "Rust (quick-xml)"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 4",
+            "start: 1",
+            "blip: 4000",
+            "boings: 7",
+            "boing: 6486"
+          ],
+          "MaxMemMB": 1.99609375,
+          "Milliseconds": 6.1341,
+          "File": {
+            "Length": 2727816,
+            "Name": "small.xml"
+          },
+          "Success": true
+        },
+        "giant.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/src",
+            "Name": "Rust (quick-xml)"
+          },
+          "Content": [
+            "Node counts:",
+            "boing: 4015000",
+            "blip: 3849320",
+            "blips: 3850",
+            "start: 1",
+            "boings: 4015"
+          ],
+          "MaxMemMB": 1.98828125,
+          "Milliseconds": 1954.268,
+          "File": {
+            "Length": 2033569804,
+            "Name": "giant.xml"
+          },
+          "Success": true
+        }
+      },
+      "Name": "Rust (quick-xml)"
+    },
+    "java-21 - StAX": {
+      "OutFiles": [
+        "/home/mw/git/xml-i/test/tmp/java-21 - StAX-0.out",
+        "/home/mw/git/xml-i/test/tmp/java-21 - StAX-1.out",
+        "/home/mw/git/xml-i/test/tmp/java-21 - StAX-2.out",
+        "/home/mw/git/xml-i/test/tmp/java-21 - StAX-3.out",
+        "/home/mw/git/xml-i/test/tmp/java-21 - StAX-4.out",
+        "/home/mw/git/xml-i/test/tmp/java-21 - StAX-5.out",
+        "/home/mw/git/xml-i/test/tmp/java-21 - StAX-6.out",
+        "/home/mw/git/xml-i/test/tmp/java-21 - StAX-7.out"
+      ],
+      "Description": "xml-i in pure Java (java-21-openjdk), using javax.xml.stream",
+      "MetaInfo": [
+        "openjdk 21.0.7 2025-04-15",
+        "OpenJDK Runtime Environment (build 21.0.7+6)",
+        "OpenJDK 64-Bit Server VM (build 21.0.7+6, mixed mode, sharing)"
+      ],
+      "Origin": "/home/mw/git/xml-i/alien/java",
+      "Results": {
+        "huge.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - StAX"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 1285",
+            "boings: 1337",
+            "start: 1",
+            "boing: 1337000",
+            "blip: 1284440"
+          ],
+          "MaxMemMB": 121.14453125,
+          "Milliseconds": 2624.9289,
+          "File": {
+            "Length": 677868540,
+            "Name": "huge.xml"
+          },
+          "Success": true
+        },
+        "behemoth.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - StAX"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 6499",
+            "boings: 6609",
+            "start: 1",
+            "boing: 6609000",
+            "blip: 6498200"
+          ],
+          "MaxMemMB": 119.41796875,
+          "Milliseconds": 11209.1046,
+          "File": {
+            "Length": 3389643641,
+            "Name": "behemoth.xml"
+          },
+          "Success": true
+        },
+        "tiny.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - StAX"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 4",
+            "boings: 2",
+            "start: 1",
+            "boing: 1243",
+            "blip: 4000"
+          ],
+          "MaxMemMB": 78.82421875,
+          "Milliseconds": 128.6347,
+          "File": {
+            "Length": 1343483,
+            "Name": "tiny.xml"
+          },
+          "Success": true
+        },
+        "large.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - StAX"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 269",
+            "boings: 256",
+            "start: 1",
+            "boing: 255288",
+            "blip: 269000"
+          ],
+          "MaxMemMB": 96.8828125,
+          "Milliseconds": 658.9202,
+          "File": {
+            "Length": 135754723,
+            "Name": "large.xml"
+          },
+          "Success": true
+        },
+        "micro.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - StAX"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 1",
+            "start: 1",
+            "blip: 1"
+          ],
+          "MaxMemMB": 61.2578125,
+          "Milliseconds": 75.6723,
+          "File": {
+            "Length": 229,
+            "Name": "micro.xml"
+          },
+          "Success": true
+        },
+        "mid.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - StAX"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 22",
+            "boings: 31",
+            "start: 1",
+            "boing: 30429",
+            "blip: 22000"
+          ],
+          "MaxMemMB": 92.5,
+          "Milliseconds": 198.8547,
+          "File": {
+            "Length": 13522870,
+            "Name": "mid.xml"
+          },
+          "Success": true
+        },
+        "small.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - StAX"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 4",
+            "boings: 7",
+            "start: 1",
+            "boing: 6486",
+            "blip: 4000"
+          ],
+          "MaxMemMB": 80.60546875,
+          "Milliseconds": 156.5784,
+          "File": {
+            "Length": 2727816,
+            "Name": "small.xml"
+          },
+          "Success": true
+        },
+        "giant.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - StAX"
+          },
+          "Content": [
+            "Node counts:",
+            "blips: 3850",
+            "boings: 4015",
+            "start: 1",
+            "boing: 4015000",
+            "blip: 3849320"
+          ],
+          "MaxMemMB": 120.90234375,
+          "Milliseconds": 7508.4658,
+          "File": {
+            "Length": 2033569804,
+            "Name": "giant.xml"
+          },
+          "Success": true
+        }
+      },
+      "BaselineResults": {},
+      "Name": "java-21 - StAX"
+    },
+    "Julia (LightXML)": {
+      "OutFiles": [
+        "/home/mw/git/xml-i/test/tmp/Julia (LightXML)-0.out",
+        "/home/mw/git/xml-i/test/tmp/Julia (LightXML)-1.out",
+        "/home/mw/git/xml-i/test/tmp/Julia (LightXML)-2.out",
+        "/home/mw/git/xml-i/test/tmp/Julia (LightXML)-3.out",
+        "/home/mw/git/xml-i/test/tmp/Julia (LightXML)-4.out",
+        "/home/mw/git/xml-i/test/tmp/Julia (LightXML)-5.out",
+        "/home/mw/git/xml-i/test/tmp/Julia (LightXML)-6.out",
+        "/home/mw/git/xml-i/test/tmp/Julia (LightXML)-7.out"
+      ],
+      "Description": "xml-i in Julia with LightXML",
+      "MetaInfo": "julia version 1.11.5",
+      "Origin": "/home/mw/git/xml-i/alien/Julia",
+      "Results": {
+        "huge.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Julia",
+            "Name": "Julia (LightXML)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 1284440",
+            "start: 1",
+            "blips: 1285",
+            "boings: 1337",
+            "boing: 1337000"
+          ],
+          "MaxMemMB": 5873.05078125,
+          "Milliseconds": 7875.1051,
+          "File": {
+            "Length": 677868540,
+            "Name": "huge.xml"
+          },
+          "Success": true
+        },
+        "behemoth.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Julia",
+            "Name": "Julia (LightXML)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 6498200",
+            "start: 1",
+            "blips: 6499",
+            "boings: 6609",
+            "boing: 6609000"
+          ],
+          "MaxMemMB": 28275.59765625,
+          "Milliseconds": 36321.1237,
+          "File": {
+            "Length": 3389643641,
+            "Name": "behemoth.xml"
+          },
+          "Success": true
+        },
+        "tiny.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Julia",
+            "Name": "Julia (LightXML)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 4000",
+            "start: 1",
+            "blips: 4",
+            "boings: 2",
+            "boing: 1243"
+          ],
+          "MaxMemMB": 251.6171875,
+          "Milliseconds": 337.3712,
+          "File": {
+            "Length": 1343483,
+            "Name": "tiny.xml"
+          },
+          "Success": true
+        },
+        "large.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Julia",
+            "Name": "Julia (LightXML)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 269000",
+            "start: 1",
+            "blips: 269",
+            "boings: 256",
+            "boing: 255288"
+          ],
+          "MaxMemMB": 1394.3984375,
+          "Milliseconds": 1904.0332,
+          "File": {
+            "Length": 135754723,
+            "Name": "large.xml"
+          },
+          "Success": true
+        },
+        "micro.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Julia",
+            "Name": "Julia (LightXML)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 1",
+            "start: 1",
+            "blips: 1"
+          ],
+          "MaxMemMB": 244.80859375,
+          "Milliseconds": 327.7477,
+          "File": {
+            "Length": 229,
+            "Name": "micro.xml"
+          },
+          "Success": true
+        },
+        "mid.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Julia",
+            "Name": "Julia (LightXML)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 22000",
+            "start: 1",
+            "blips: 22",
+            "boings: 31",
+            "boing: 30429"
+          ],
+          "MaxMemMB": 362.5703125,
+          "Milliseconds": 475.1629,
+          "File": {
+            "Length": 13522870,
+            "Name": "mid.xml"
+          },
+          "Success": true
+        },
+        "small.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Julia",
+            "Name": "Julia (LightXML)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 4000",
+            "start: 1",
+            "blips: 4",
+            "boings: 7",
+            "boing: 6486"
+          ],
+          "MaxMemMB": 267.5390625,
+          "Milliseconds": 352.2702,
+          "File": {
+            "Length": 2727816,
+            "Name": "small.xml"
+          },
+          "Success": true
+        },
+        "giant.xml": {
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Julia",
+            "Name": "Julia (LightXML)"
+          },
+          "Content": [
+            "Node counts:",
+            "blip: 3849320",
+            "start: 1",
+            "blips: 3850",
+            "boings: 4015",
+            "boing: 4015000"
+          ],
+          "MaxMemMB": 17073.10546875,
+          "Milliseconds": 23041.254,
+          "File": {
+            "Length": 2033569804,
+            "Name": "giant.xml"
+          },
+          "Success": true
+        }
+      },
+      "BaselineResults": {},
+      "Name": "Julia (LightXML)"
+    }
+  },
+  "BenchmarkDate": "2025-06-12T23:28:08.2849436+02:00"
+}

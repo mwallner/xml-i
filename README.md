@@ -42,13 +42,15 @@ See [the Rust quick-xml build config](src/main.bc.ps1) as example.
 
 Basis for my [benchmark-results](test/benchmark_results.md):
 
-* OS: Linux 6.something-MANJARO
-* Model: ThinkPad X13 Laptop 
-* CPU: 12th Gen Intel(R) Core(TM) i7-1270P
-* RAM: 32GB 
-* HDD: WD Black SN770 / PC SN740 256GB / PC SN560 (DRAM-less) NVMe SSD
+* ***OS:*** Linux 6.something-MANJARO
+* ***Model:*** ThinkPad X13 Laptop 
+* ***CPU:*** 12th Gen Intel(R) Core(TM) i7-1270P
+* ***RAM:*** 32GB 
+* ***HDD:*** WD Black SN770 / PC SN740 256GB / PC SN560 (DRAM-less) NVMe SSD
 
 => [See benchmark_results.md](test/benchmark_results.md)
+
+![benchmark results x/y](test/benchmark_xy.svg)
 
 ![quick-xml go brr](https://i.imgflip.com/9w3r5t.jpg)
 
