@@ -8,6 +8,8 @@
 node_modules/
 .scala-build
 *.tasty
+/**/Scala/CountXMLNodes
+/**/Scala/CountXMLNodes.jar
 
 # Test data and outputs
 /test/*.xml

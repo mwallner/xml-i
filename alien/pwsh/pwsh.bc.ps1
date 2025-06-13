@@ -4,6 +4,7 @@
 $decl = @{
 	Name        = 'PowerShell Core' 
 	Description = 'xml-i in pwsh'
+	ParserType  = 'SAX'
 	Origin      = $PSScriptRoot
 	Meta        = {	$PSVersionTable |
 		Select-Object PSVersion, PSEdition, BuildVersion, CLRVersion, OS }

@@ -4,6 +4,7 @@
 $decl = @{
 	Name        = 'Node.js' 
 	Description = 'xml-i in Node.js'
+	ParserType  = 'DOM'
 	Origin      = $PSScriptRoot
 	Meta        = {	node --version }
 	Builder     = {	

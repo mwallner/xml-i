@@ -18,6 +18,7 @@ $javaversions | ForEach-Object {
 	$v = $_
 	$decl = @{
 		Name        = "$v - StAX"
+		ParserType  = 'StAX'
 		Description = "xml-i in pure Java ($v-openjdk), using javax.xml.stream"
 		Origin      = $PSScriptRoot
 	}
@@ -26,6 +27,7 @@ $javaversions | ForEach-Object {
 
 	$decl = @{
 		Name        = "$v - SAX"
+		ParserType  = 'SAX'
 		Description = "xml-i in pure Java ($v-openjdk), using org.xml.sax"
 		Origin      = $PSScriptRoot
 	}

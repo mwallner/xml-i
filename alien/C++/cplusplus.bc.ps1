@@ -7,10 +7,11 @@ $global:CXXFLAGS = @('-std=c++20', '-O3', '-Wall', '-Wextra', '-pedantic', '-DND
 $decl_rapid = @{
 	Name        = 'C++ (rapidxml)' 
 	Description = 'xml-i in C++ powered by rapidxml'
+	ParserType  = 'DOM'
 	Origin      = $PSScriptRoot
 	Meta        = {	}
 	Builder     = {
-		Exec {
+		exec {
 			& $CXX @($CXXFLAGS) '-I./rapidxml/RapidXML' -o '../bin/xml-i-rapidxml' 'src/main_rapidxml.cpp'
 		}
 	}
@@ -24,13 +25,14 @@ New-AppDecl @decl_rapid
 $decl_pugi = @{
 	Name        = 'C++ (pugixml)' 
 	Description = 'xml-i in C++ powered by pugixml'
+	ParserType  = 'DOM'
 	Origin      = $PSScriptRoot
 	Meta        = {	}
 	Builder     = {
-		Exec {
+		exec {
 			& $CXX @($CXXFLAGS) '-c' 'src/main_pugixml.cpp' '-o' 'src/main_pugixml.o'
 		}
-		Exec {
+		exec {
 			& $CXX @($CXXFLAGS) '-lpugixml' '-o' '../bin/xml-i-pugixml' 'src/main_pugixml.o'
 		}
 	}
@@ -44,6 +46,7 @@ New-AppDecl @decl_pugi
 $decl_libxml2 = @{
 	Name        = 'C++ (libxml2 - SAX)' 
 	Description = 'xml-i in C++ powered by libxml2'
+	ParserType  = 'SAX'
 	Origin      = $PSScriptRoot
 	Meta        = {	}
 	Builder     = {
@@ -54,10 +57,10 @@ $decl_libxml2 = @{
 		$LIBXML2_OBJ = $LIBXML2_SRC -replace '\.cpp$', '.o'
 		$LIBXML2_TARGET = '../bin/xml-i-libxml2'
 
-		Exec {
+		exec {
 			& $CXX @($CXXFLAGS) "-I$LIBXML2_INC" '-c' $LIBXML2_SRC '-o' $LIBXML2_OBJ
 		}
-		Exec {
+		exec {
 			& $CXX @($CXXFLAGS) "-I$LIBXML2_INC" "-L$LIBXML2_LIB" '-lxml2' '-o' $LIBXML2_TARGET $LIBXML2_OBJ
 		}
 	}
@@ -71,6 +74,7 @@ New-AppDecl @decl_libxml2
 $decl_libxml2_xmlreader = @{
 	Name        = 'C++ (libxml2 XMLReader)' 
 	Description = 'xml-i in C++ powered by libxml2 XMLReader'
+	ParserType  = 'StAX'
 	Origin      = $PSScriptRoot
 	Meta        = {	}
 	Builder     = {
@@ -81,10 +85,10 @@ $decl_libxml2_xmlreader = @{
 		$LIBXML2_OBJ = $LIBXML2_SRC -replace '\.cpp$', '.o'
 		$LIBXML2_TARGET = '../bin/xml-i-libxml2-xmlreader'
 
-		Exec {
+		exec {
 			& $CXX @($CXXFLAGS) "-I$LIBXML2_INC" '-c' $LIBXML2_SRC '-o' $LIBXML2_OBJ
 		}
-		Exec {
+		exec {
 			& $CXX @($CXXFLAGS) "-I$LIBXML2_INC" "-L$LIBXML2_LIB" '-lxml2' '-o' $LIBXML2_TARGET $LIBXML2_OBJ
 		}
 	}
@@ -98,13 +102,14 @@ New-AppDecl @decl_libxml2_xmlreader
 $decl_apache_xerces = @{
 	Name        = 'C++ (Apache Xerces)' 
 	Description = 'xml-i in C++ powered by Apache Xerces'
+	ParserType  = 'SAX'
 	Origin      = $PSScriptRoot
 	Meta        = {	}
 	Builder     = {
-		Exec {
+		exec {
 			& $CXX @($CXXFLAGS) '-I/usr/include/xerces-c' '-c' 'src/main_xerces.cpp' '-o' 'src/main_xerces.o'
 		}
-		Exec {
+		exec {
 			& $CXX @($CXXFLAGS) '-lxerces-c' '-o' '../bin/xml-i-xerces' 'src/main_xerces.o'
 		}
 	}
@@ -118,15 +123,16 @@ New-AppDecl @decl_apache_xerces
 $decl_xsde = @{
 	Name        = 'C++ (xsde)' 
 	Description = 'xml-i in C++ powered by CodeSynthesis xsde'
+	ParserType  = 'SAX'
 	Origin      = $PSScriptRoot
 	Meta        = {	}
 	Builder     = {
 		Push-Location 'src'
 		try {
-			Exec {
+			exec {
 				& $CXX @($CXXFLAGS) '-I/usr/include/xsde' '-c' '../src_xsde/scheme-pskel.cxx' 'main_xsde.cpp'
 			}
-			Exec {
+			exec {
 				& $CXX @($CXXFLAGS) '-o' '../../bin/xml-i-xsde' 'scheme-pskel.o' 'main_xsde.o' '-lexpat' '-lxsde'
 			}
 		}

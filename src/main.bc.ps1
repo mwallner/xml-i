@@ -4,6 +4,7 @@
 $decl = @{
 	Name        = 'Rust (quick-xml)' 
 	Description = 'xml-i in Rust with quick-xml'
+	ParserType  = 'StAX'
 	Origin      = $PSScriptRoot
 	Meta        = {	cargo --version }
 	Builder     = {	

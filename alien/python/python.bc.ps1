@@ -4,6 +4,7 @@
 $decl = @{
 	Name        = 'Python 3' 
 	Description = 'xml-i in Python 3'
+	ParserType  = 'SAX'
 	Origin      = $PSScriptRoot
 	Meta        = {	python3 --version }
 	Builder     = { }

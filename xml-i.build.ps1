@@ -29,6 +29,10 @@ function New-AppDecl {
 
 		[Parameter(Mandatory)]
 		[string]
+		$ParserType,
+
+		[Parameter(Mandatory)]
+		[string]
 		$Origin,
 
 		[Parameter(Mandatory = $false)]
@@ -50,6 +54,7 @@ function New-AppDecl {
 	$global:configs[$Name] = @{
 		Name        = $Name
 		Description = $Description
+		ParserType  = $ParserType
 		Origin      = $Origin
 		Meta        = $Meta
 		Builder     = $Builder
@@ -141,7 +146,7 @@ Task Build ReadConfigs, {
 			Write-Host "Building $($app.Name)..."
 			Push-Location $app.Origin
 			try {
-				Exec {
+				exec {
 					& $app.Builder
 				}
 			}

@@ -4,6 +4,7 @@
 $decl = @{
 	Name        = 'Rust (xml-rs)' 
 	Description = 'xml-i in Rust with xml-rs'
+	ParserType  = 'DOM'
 	Origin      = $PSScriptRoot
 	Meta        = {	cargo --version }
 	Builder     = {	

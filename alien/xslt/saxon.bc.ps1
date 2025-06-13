@@ -4,6 +4,7 @@
 $decl = @{
 	Name        = 'Saxon HE 12' 
 	Description = 'xml-i in xslt powered by Saxon HE 12'
+	ParserType  = 'XSLT'
 	Origin      = $PSScriptRoot
 	Meta        = {	'SaxonHE12-7J.zip' }
 	Builder     = {

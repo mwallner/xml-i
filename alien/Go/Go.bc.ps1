@@ -4,6 +4,7 @@
 $decl = @{
 	Name        = 'Go - std' 
 	Description = 'xml-i in Go (using standard library encoding/xml)'
+	ParserType  = 'DOM'
 	Origin      = $PSScriptRoot
 	Meta        = {	go version }
 	Builder     = {	
@@ -19,6 +20,7 @@ New-AppDecl @decl
 $decl = @{
 	Name        = 'Go - xmlquery' 
 	Description = 'xml-i in Go (using antchfx/xmlquery)'
+	ParserType  = 'DOM'
 	Origin      = $PSScriptRoot
 	Meta        = {	go version }
 	Builder     = {	

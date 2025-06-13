@@ -4,59 +4,59 @@
 <text x='10' y='24' class='title'>behemoth.xml (3,232.62 MB)</text>
 <rect x='160' y='40' width='400' height='24' fill='#4e79a7' />
 <text x='10' y='57' class='label'>Rust (quick-xml)</text>
-<text x='568' y='57' class='label'>1018.31 MB/s</text>
-<rect x='160' y='72' width='256' height='24' fill='#f28e2b' />
+<text x='568' y='57' class='label'>1047.51 MB/s</text>
+<rect x='160' y='72' width='248' height='24' fill='#f28e2b' />
 <text x='10' y='89' class='label'>C++ (pugixml)</text>
-<text x='424' y='89' class='label'>651.33 MB/s</text>
-<rect x='160' y='104' width='231' height='24' fill='#e15759' />
+<text x='416' y='89' class='label'>650.66 MB/s</text>
+<rect x='160' y='104' width='226' height='24' fill='#e15759' />
 <text x='10' y='121' class='label'>.NET 8 - XmlReader</text>
-<text x='399' y='121' class='label'>587.43 MB/s</text>
-<rect x='160' y='136' width='226' height='24' fill='#76b7b2' />
+<text x='394' y='121' class='label'>591.08 MB/s</text>
+<rect x='160' y='136' width='221' height='24' fill='#76b7b2' />
 <text x='10' y='153' class='label'>C++ (rapidxml)</text>
-<text x='394' y='153' class='label'>574.73 MB/s</text>
-<rect x='160' y='168' width='138' height='24' fill='#59a14f' />
+<text x='389' y='153' class='label'>577.45 MB/s</text>
+<rect x='160' y='168' width='134' height='24' fill='#59a14f' />
 <text x='10' y='185' class='label'>java-21 - SAX</text>
-<text x='306' y='185' class='label'>351.69 MB/s</text>
-<rect x='160' y='200' width='113' height='24' fill='#edc949' />
-<text x='10' y='217' class='label'>java-21 - StAX</text>
-<text x='281' y='217' class='label'>288.39 MB/s</text>
-<rect x='160' y='232' width='99' height='24' fill='#af7aa1' />
-<text x='10' y='249' class='label'>C++ (libxml2 - SAX)</text>
-<text x='267' y='249' class='label'>251.75 MB/s</text>
-<rect x='160' y='264' width='95' height='24' fill='#ff9da7' />
-<text x='10' y='281' class='label'>Scala</text>
-<text x='263' y='281' class='label'>240.67 MB/s</text>
-<rect x='160' y='296' width='83' height='24' fill='#9c755f' />
+<text x='302' y='185' class='label'>350.82 MB/s</text>
+<rect x='160' y='200' width='114' height='24' fill='#edc949' />
+<text x='10' y='217' class='label'>Scala</text>
+<text x='282' y='217' class='label'>298.96 MB/s</text>
+<rect x='160' y='232' width='113' height='24' fill='#af7aa1' />
+<text x='10' y='249' class='label'>java-21 - StAX</text>
+<text x='281' y='249' class='label'>296.42 MB/s</text>
+<rect x='160' y='264' width='110' height='24' fill='#ff9da7' />
+<text x='10' y='281' class='label'>C++ (libxml2 - SAX)</text>
+<text x='278' y='281' class='label'>289.17 MB/s</text>
+<rect x='160' y='296' width='82' height='24' fill='#9c755f' />
 <text x='10' y='313' class='label'>PowerShell Core</text>
-<text x='251' y='313' class='label'>212.01 MB/s</text>
-<rect x='160' y='328' width='57' height='24' fill='#bab0ab' />
+<text x='250' y='313' class='label'>213.66 MB/s</text>
+<rect x='160' y='328' width='55' height='24' fill='#bab0ab' />
 <text x='10' y='345' class='label'>C++ (libxml2 XMLReader)</text>
-<text x='225' y='345' class='label'>146.37 MB/s</text>
-<rect x='160' y='360' width='41' height='24' fill='#4e79a7' />
+<text x='223' y='345' class='label'>144.55 MB/s</text>
+<rect x='160' y='360' width='39' height='24' fill='#4e79a7' />
 <text x='10' y='377' class='label'>C++ (xsde)</text>
-<text x='209' y='377' class='label'>103.35 MB/s</text>
-<rect x='160' y='392' width='40' height='24' fill='#f28e2b' />
-<text x='10' y='409' class='label'>Saxon HE 12</text>
-<text x='208' y='409' class='label'>102.98 MB/s</text>
-<rect x='160' y='424' width='38' height='24' fill='#e15759' />
-<text x='10' y='441' class='label'>C++ (Apache Xerces)</text>
-<text x='206' y='441' class='label'>95.88 MB/s</text>
-<rect x='160' y='456' width='35' height='24' fill='#76b7b2' />
+<text x='207' y='377' class='label'>103.31 MB/s</text>
+<rect x='160' y='392' width='36' height='24' fill='#f28e2b' />
+<text x='10' y='409' class='label'>C++ (Apache Xerces)</text>
+<text x='204' y='409' class='label'>94.77 MB/s</text>
+<rect x='160' y='424' width='35' height='24' fill='#e15759' />
+<text x='10' y='441' class='label'>Saxon HE 12</text>
+<text x='203' y='441' class='label'>90.76 MB/s</text>
+<rect x='160' y='456' width='33' height='24' fill='#76b7b2' />
 <text x='10' y='473' class='label'>Julia (LightXML)</text>
-<text x='203' y='473' class='label'>89 MB/s</text>
-<rect x='160' y='488' width='20' height='24' fill='#59a14f' />
+<text x='201' y='473' class='label'>86.85 MB/s</text>
+<rect x='160' y='488' width='19' height='24' fill='#59a14f' />
 <text x='10' y='505' class='label'>Go - std</text>
-<text x='188' y='505' class='label'>50.9 MB/s</text>
-<rect x='160' y='520' width='17' height='24' fill='#edc949' />
+<text x='187' y='505' class='label'>50.94 MB/s</text>
+<rect x='160' y='520' width='16' height='24' fill='#edc949' />
 <text x='10' y='537' class='label'>Python 3</text>
-<text x='185' y='537' class='label'>42.58 MB/s</text>
+<text x='184' y='537' class='label'>42.88 MB/s</text>
 <rect x='160' y='552' width='16' height='24' fill='#af7aa1' />
 <text x='10' y='569' class='label'>Go - xmlquery</text>
-<text x='184' y='569' class='label'>41.48 MB/s</text>
-<rect x='160' y='584' width='13' height='24' fill='#ff9da7' />
+<text x='184' y='569' class='label'>41.24 MB/s</text>
+<rect x='160' y='584' width='12' height='24' fill='#ff9da7' />
 <text x='10' y='601' class='label'>Node.js</text>
-<text x='181' y='601' class='label'>32.09 MB/s</text>
+<text x='180' y='601' class='label'>32.65 MB/s</text>
 <rect x='160' y='616' width='12' height='24' fill='#9c755f' />
 <text x='10' y='633' class='label'>Rust (xml-rs)</text>
-<text x='180' y='633' class='label'>31.53 MB/s</text>
+<text x='180' y='633' class='label'>31.54 MB/s</text>
 </svg>

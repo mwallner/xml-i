@@ -4,6 +4,7 @@
 $decl = @{
 	Name        = 'Julia (LightXML)' 
 	Description = 'xml-i in Julia with LightXML'
+	ParserType  = 'DOM'
 	Origin      = $PSScriptRoot
 	Meta        = {	julia --version }
 	Builder     = {	

@@ -4,6 +4,7 @@
 $decl = @{
 	Name        = '.NET 8 - XmlReader' 
 	Description = 'xml-i in .NET'
+	ParserType  = 'StAX'
 	Origin      = $PSScriptRoot
 	Meta        = {	dotnet --version }
 	Builder     = {	

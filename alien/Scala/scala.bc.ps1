@@ -4,14 +4,15 @@
 $decl = @{
 	Name        = 'Scala' 
 	Description = 'xml-i in Scala'
+	ParserType  = 'SAX'
 	Origin      = $PSScriptRoot
 	Meta        = {	scala -version }
-	Builder     = {	scalac 'src/CountXmlNodes.scala'	}
+	Builder     = {	
+		scala --power package --assembly 'src/CountXmlNodes.scala' --force
+	}
 	Tester      = @{
-		Executable   = 'scala'
-		ArgumentList = @(
-			'src/CountXmlNodes.scala', '--'
-		)
+		Executable   = './CountXMLNodes'
+		ArgumentList = @()
 	}
 }
 New-AppDecl @decl
