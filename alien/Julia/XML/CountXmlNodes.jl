@@ -1,22 +1,26 @@
-using LightXML
+using XML
 
+function traverse(node::LazyNode, node_counts::Dict{String, Int}, filter_nodes::Union{Nothing, Set{String}}=nothing)    
+    node_name = node.tag
 
-function traverse(node::XMLElement, node_counts::Dict{String, Int}, filter_nodes::Union{Nothing, Set{String}})
-    node_name = LightXML.name(node)
     if isnothing(filter_nodes) || node_name in filter_nodes
         node_counts[node_name] = get(node_counts, node_name, 0) + 1
     end
-    for child in LightXML.child_elements(node)
-        traverse(child, node_counts, filter_nodes)
+
+    for child in children(node)        
+       if child.tag !== nothing
+            traverse(child, node_counts, filter_nodes)
+        end
     end
 end
 
-
 function count_node_occurrences(xml_file_path::String, filter_nodes::Union{Nothing, Set{String}}=nothing)
-    doc = parse_file(xml_file_path)
+    doc = XML.read(xml_file_path, LazyNode)
+    root_node = doc[end]
+
     node_counts = Dict{String, Int}()
 
-    traverse(root(doc), node_counts, filter_nodes)
+    traverse(root_node, node_counts, filter_nodes)
     return node_counts
 end
 
