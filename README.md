@@ -52,6 +52,10 @@ Basis for my [benchmark-results](test/benchmark_results.md):
 
 ![benchmark results x/y](test/benchmark_xy.svg)
 
+The [results](test/benchmark_results.md) show that Rust using quick-xml (a StAX-style parser) is consistently the fastest and most memory-efficient implementation across all file sizes, often by a wide margin. 
+C++ parsers (especially pugixml and rapidxml, both DOM) are also very fast, but can use significantly more memory, especially with large files. 
+SAX-style parsers (such as C++ libxml2-SAX, Java SAX, and .NET XmlReader) generally use less memory than DOM parsers and perform well, but are usually a bit slower than the fastest DOM implementations in C++ and Rust.
+
 ![quick-xml go brr](https://i.imgflip.com/9w3r5t.jpg)
 
 ![benchmark results](test/benchmark_tp.svg)
