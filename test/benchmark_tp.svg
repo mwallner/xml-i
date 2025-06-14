@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns='http://www.w3.org/2000/svg' width='900' height='668' style='background-color:#fff'>
+<svg xmlns='http://www.w3.org/2000/svg' width='900' height='700' style='background-color:#fff'>
 <style> .label { font: 14px sans-serif; } .title { font: bold 18px sans-serif; } </style>
 <text x='10' y='24' class='title'>behemoth.xml (3,232.62 MB)</text>
 <rect x='160' y='40' width='400' height='24' fill='#4e79a7' />
@@ -14,49 +14,52 @@
 <rect x='160' y='136' width='221' height='24' fill='#76b7b2' />
 <text x='10' y='153' class='label'>C++ (rapidxml)</text>
 <text x='389' y='153' class='label'>577.45 MB/s</text>
-<rect x='160' y='168' width='134' height='24' fill='#59a14f' />
-<text x='10' y='185' class='label'>java-21 - SAX</text>
-<text x='302' y='185' class='label'>350.82 MB/s</text>
-<rect x='160' y='200' width='114' height='24' fill='#edc949' />
-<text x='10' y='217' class='label'>Scala</text>
-<text x='282' y='217' class='label'>298.96 MB/s</text>
-<rect x='160' y='232' width='113' height='24' fill='#af7aa1' />
-<text x='10' y='249' class='label'>java-21 - StAX</text>
-<text x='281' y='249' class='label'>296.42 MB/s</text>
-<rect x='160' y='264' width='110' height='24' fill='#ff9da7' />
-<text x='10' y='281' class='label'>C++ (libxml2 - SAX)</text>
-<text x='278' y='281' class='label'>289.17 MB/s</text>
-<rect x='160' y='296' width='82' height='24' fill='#9c755f' />
-<text x='10' y='313' class='label'>PowerShell Core</text>
-<text x='250' y='313' class='label'>213.66 MB/s</text>
-<rect x='160' y='328' width='55' height='24' fill='#bab0ab' />
-<text x='10' y='345' class='label'>C++ (libxml2 XMLReader)</text>
-<text x='223' y='345' class='label'>144.55 MB/s</text>
-<rect x='160' y='360' width='39' height='24' fill='#4e79a7' />
-<text x='10' y='377' class='label'>C++ (xsde)</text>
-<text x='207' y='377' class='label'>103.31 MB/s</text>
-<rect x='160' y='392' width='36' height='24' fill='#f28e2b' />
-<text x='10' y='409' class='label'>C++ (Apache Xerces)</text>
-<text x='204' y='409' class='label'>94.77 MB/s</text>
-<rect x='160' y='424' width='35' height='24' fill='#e15759' />
-<text x='10' y='441' class='label'>Saxon HE 12</text>
-<text x='203' y='441' class='label'>90.76 MB/s</text>
-<rect x='160' y='456' width='33' height='24' fill='#76b7b2' />
-<text x='10' y='473' class='label'>Julia (LightXML)</text>
-<text x='201' y='473' class='label'>86.85 MB/s</text>
+<rect x='160' y='168' width='148' height='24' fill='#59a14f' />
+<text x='10' y='185' class='label'>Julia - XML</text>
+<text x='316' y='185' class='label'>388.28 MB/s</text>
+<rect x='160' y='200' width='134' height='24' fill='#edc949' />
+<text x='10' y='217' class='label'>java-21 - SAX</text>
+<text x='302' y='217' class='label'>350.82 MB/s</text>
+<rect x='160' y='232' width='114' height='24' fill='#af7aa1' />
+<text x='10' y='249' class='label'>Scala</text>
+<text x='282' y='249' class='label'>298.96 MB/s</text>
+<rect x='160' y='264' width='113' height='24' fill='#ff9da7' />
+<text x='10' y='281' class='label'>java-21 - StAX</text>
+<text x='281' y='281' class='label'>296.42 MB/s</text>
+<rect x='160' y='296' width='110' height='24' fill='#9c755f' />
+<text x='10' y='313' class='label'>C++ (libxml2 - SAX)</text>
+<text x='278' y='313' class='label'>289.17 MB/s</text>
+<rect x='160' y='328' width='82' height='24' fill='#bab0ab' />
+<text x='10' y='345' class='label'>PowerShell Core</text>
+<text x='250' y='345' class='label'>213.66 MB/s</text>
+<rect x='160' y='360' width='55' height='24' fill='#4e79a7' />
+<text x='10' y='377' class='label'>C++ (libxml2 XMLReader)</text>
+<text x='223' y='377' class='label'>144.55 MB/s</text>
+<rect x='160' y='392' width='39' height='24' fill='#f28e2b' />
+<text x='10' y='409' class='label'>C++ (xsde)</text>
+<text x='207' y='409' class='label'>103.31 MB/s</text>
+<rect x='160' y='424' width='36' height='24' fill='#e15759' />
+<text x='10' y='441' class='label'>C++ (Apache Xerces)</text>
+<text x='204' y='441' class='label'>94.77 MB/s</text>
+<rect x='160' y='456' width='35' height='24' fill='#76b7b2' />
+<text x='10' y='473' class='label'>Saxon HE 12</text>
+<text x='203' y='473' class='label'>90.76 MB/s</text>
 <rect x='160' y='488' width='19' height='24' fill='#59a14f' />
 <text x='10' y='505' class='label'>Go - std</text>
 <text x='187' y='505' class='label'>50.94 MB/s</text>
-<rect x='160' y='520' width='16' height='24' fill='#edc949' />
-<text x='10' y='537' class='label'>Python 3</text>
-<text x='184' y='537' class='label'>42.88 MB/s</text>
+<rect x='160' y='520' width='19' height='24' fill='#edc949' />
+<text x='10' y='537' class='label'>Julia - LightXML</text>
+<text x='187' y='537' class='label'>48.46 MB/s</text>
 <rect x='160' y='552' width='16' height='24' fill='#af7aa1' />
-<text x='10' y='569' class='label'>Go - xmlquery</text>
-<text x='184' y='569' class='label'>41.24 MB/s</text>
-<rect x='160' y='584' width='12' height='24' fill='#ff9da7' />
-<text x='10' y='601' class='label'>Node.js</text>
-<text x='180' y='601' class='label'>32.65 MB/s</text>
+<text x='10' y='569' class='label'>Python 3</text>
+<text x='184' y='569' class='label'>42.88 MB/s</text>
+<rect x='160' y='584' width='16' height='24' fill='#ff9da7' />
+<text x='10' y='601' class='label'>Go - xmlquery</text>
+<text x='184' y='601' class='label'>41.24 MB/s</text>
 <rect x='160' y='616' width='12' height='24' fill='#9c755f' />
-<text x='10' y='633' class='label'>Rust (xml-rs)</text>
-<text x='180' y='633' class='label'>31.54 MB/s</text>
+<text x='10' y='633' class='label'>Node.js</text>
+<text x='180' y='633' class='label'>32.65 MB/s</text>
+<rect x='160' y='648' width='12' height='24' fill='#bab0ab' />
+<text x='10' y='665' class='label'>Rust (xml-rs)</text>
+<text x='180' y='665' class='label'>31.54 MB/s</text>
 </svg>

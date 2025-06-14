@@ -1,5 +1,5 @@
 {
-  "BenchmarkDate": "2025-06-13T23:23:43.7083009+02:00",
+  "BenchmarkDate": "2025-06-14T21:40:02.6013500+02:00",
   "BenchmarkResults": {
     "C++ (xsde)": {
       "OutFiles": [
@@ -740,111 +740,36 @@
       "Description": "xml-i in xslt powered by Saxon HE 12",
       "Name": "Saxon HE 12"
     },
-    "Julia (LightXML)": {
+    "Julia - XML": {
+      "ParserType": "DOM",
       "OutFiles": [
-        "/home/mw/git/xml-i/test/tmp/Julia (LightXML)-0.out",
-        "/home/mw/git/xml-i/test/tmp/Julia (LightXML)-1.out",
-        "/home/mw/git/xml-i/test/tmp/Julia (LightXML)-2.out",
-        "/home/mw/git/xml-i/test/tmp/Julia (LightXML)-3.out",
-        "/home/mw/git/xml-i/test/tmp/Julia (LightXML)-4.out",
-        "/home/mw/git/xml-i/test/tmp/Julia (LightXML)-5.out",
-        "/home/mw/git/xml-i/test/tmp/Julia (LightXML)-6.out",
-        "/home/mw/git/xml-i/test/tmp/Julia (LightXML)-7.out"
+        "/home/mw/git/xml-i/test/tmp/Julia - XML-0.out",
+        "/home/mw/git/xml-i/test/tmp/Julia - XML-1.out",
+        "/home/mw/git/xml-i/test/tmp/Julia - XML-2.out",
+        "/home/mw/git/xml-i/test/tmp/Julia - XML-3.out",
+        "/home/mw/git/xml-i/test/tmp/Julia - XML-4.out",
+        "/home/mw/git/xml-i/test/tmp/Julia - XML-5.out",
+        "/home/mw/git/xml-i/test/tmp/Julia - XML-6.out",
+        "/home/mw/git/xml-i/test/tmp/Julia - XML-7.out"
       ],
       "Origin": "/home/mw/git/xml-i/alien/Julia",
-      "MetaInfo": "julia version 1.11.5",
       "BaselineResults": {},
-      "ParserType": "DOM",
+      "Name": "Julia - XML",
+      "Description": "xml-i in Julia with XML",
+      "MetaInfo": "julia version 1.11.5",
       "Results": {
-        "tiny.xml": {
-          "MaxMemMB": 254.10546875,
-          "Me": {
-            "Origin": "/home/mw/git/xml-i/alien/Julia",
-            "Name": "Julia (LightXML)"
-          },
-          "Milliseconds": 338.2209,
-          "Content": [
-            "Node counts:",
-            "blip: 4000",
-            "start: 1",
-            "blips: 4",
-            "boings: 2",
-            "boing: 1243"
-          ],
-          "File": {
-            "Length": 1343483,
-            "Name": "tiny.xml"
-          },
-          "Success": true
-        },
-        "huge.xml": {
-          "MaxMemMB": 5873.046875,
-          "Me": {
-            "Origin": "/home/mw/git/xml-i/alien/Julia",
-            "Name": "Julia (LightXML)"
-          },
-          "Milliseconds": 7872.8641,
-          "Content": [
-            "Node counts:",
-            "blip: 1284440",
-            "start: 1",
-            "blips: 1285",
-            "boings: 1337",
-            "boing: 1337000"
-          ],
-          "File": {
-            "Length": 677868540,
-            "Name": "huge.xml"
-          },
-          "Success": true
-        },
-        "micro.xml": {
-          "MaxMemMB": 244.53515625,
-          "Me": {
-            "Origin": "/home/mw/git/xml-i/alien/Julia",
-            "Name": "Julia (LightXML)"
-          },
-          "Milliseconds": 326.8074,
-          "Content": [
-            "Node counts:",
-            "blip: 1",
-            "start: 1",
-            "blips: 1"
-          ],
-          "File": {
-            "Length": 229,
-            "Name": "micro.xml"
-          },
-          "Success": true
-        },
-        "giant.xml": {
-          "MaxMemMB": 17073.11328125,
-          "Me": {
-            "Origin": "/home/mw/git/xml-i/alien/Julia",
-            "Name": "Julia (LightXML)"
-          },
-          "Milliseconds": 22852.1719,
-          "Content": [
-            "Node counts:",
-            "blip: 3849320",
-            "start: 1",
-            "blips: 3850",
-            "boings: 4015",
-            "boing: 4015000"
-          ],
-          "File": {
-            "Length": 2033569804,
-            "Name": "giant.xml"
-          },
-          "Success": true
-        },
         "behemoth.xml": {
-          "MaxMemMB": 28275.74609375,
+          "Success": true,
+          "File": {
+            "Length": 3389643641,
+            "Name": "behemoth.xml"
+          },
           "Me": {
             "Origin": "/home/mw/git/xml-i/alien/Julia",
-            "Name": "Julia (LightXML)"
+            "Name": "Julia - XML"
           },
-          "Milliseconds": 37220.2605,
+          "MaxMemMB": 3523.296875,
+          "Milliseconds": 8325.4153,
           "Content": [
             "Node counts:",
             "blip: 6498200",
@@ -852,20 +777,20 @@
             "blips: 6499",
             "boings: 6609",
             "boing: 6609000"
-          ],
-          "File": {
-            "Length": 3389643641,
-            "Name": "behemoth.xml"
-          },
-          "Success": true
+          ]
         },
         "large.xml": {
-          "MaxMemMB": 1394.43359375,
+          "Success": true,
+          "File": {
+            "Length": 135754723,
+            "Name": "large.xml"
+          },
           "Me": {
             "Origin": "/home/mw/git/xml-i/alien/Julia",
-            "Name": "Julia (LightXML)"
+            "Name": "Julia - XML"
           },
-          "Milliseconds": 1900.6488,
+          "MaxMemMB": 402.39453125,
+          "Milliseconds": 1067.9185,
           "Content": [
             "Node counts:",
             "blip: 269000",
@@ -873,41 +798,20 @@
             "blips: 269",
             "boings: 256",
             "boing: 255288"
-          ],
-          "File": {
-            "Length": 135754723,
-            "Name": "large.xml"
-          },
-          "Success": true
-        },
-        "small.xml": {
-          "MaxMemMB": 267.38671875,
-          "Me": {
-            "Origin": "/home/mw/git/xml-i/alien/Julia",
-            "Name": "Julia (LightXML)"
-          },
-          "Milliseconds": 357.6598,
-          "Content": [
-            "Node counts:",
-            "blip: 4000",
-            "start: 1",
-            "blips: 4",
-            "boings: 7",
-            "boing: 6486"
-          ],
-          "File": {
-            "Length": 2727816,
-            "Name": "small.xml"
-          },
-          "Success": true
+          ]
         },
         "mid.xml": {
-          "MaxMemMB": 362.5859375,
+          "Success": true,
+          "File": {
+            "Length": 13522870,
+            "Name": "mid.xml"
+          },
           "Me": {
             "Origin": "/home/mw/git/xml-i/alien/Julia",
-            "Name": "Julia (LightXML)"
+            "Name": "Julia - XML"
           },
-          "Milliseconds": 469.8689,
+          "MaxMemMB": 283.44921875,
+          "Milliseconds": 783.0295,
           "Content": [
             "Node counts:",
             "blip: 22000",
@@ -915,16 +819,297 @@
             "blips: 22",
             "boings: 31",
             "boing: 30429"
-          ],
+          ]
+        },
+        "micro.xml": {
+          "Success": true,
+          "File": {
+            "Length": 229,
+            "Name": "micro.xml"
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Julia",
+            "Name": "Julia - XML"
+          },
+          "MaxMemMB": 270.2734375,
+          "Milliseconds": 759.5339,
+          "Content": [
+            "Node counts:",
+            "blip: 1",
+            "start: 1",
+            "blips: 1"
+          ]
+        },
+        "giant.xml": {
+          "Success": true,
+          "File": {
+            "Length": 2033569804,
+            "Name": "giant.xml"
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Julia",
+            "Name": "Julia - XML"
+          },
+          "MaxMemMB": 2212.0546875,
+          "Milliseconds": 5216.4635,
+          "Content": [
+            "Node counts:",
+            "blip: 3849320",
+            "start: 1",
+            "blips: 3850",
+            "boings: 4015",
+            "boing: 4015000"
+          ]
+        },
+        "small.xml": {
+          "Success": true,
+          "File": {
+            "Length": 2727816,
+            "Name": "small.xml"
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Julia",
+            "Name": "Julia - XML"
+          },
+          "MaxMemMB": 271.46875,
+          "Milliseconds": 763.3914,
+          "Content": [
+            "Node counts:",
+            "blip: 4000",
+            "start: 1",
+            "blips: 4",
+            "boings: 7",
+            "boing: 6486"
+          ]
+        },
+        "huge.xml": {
+          "Success": true,
+          "File": {
+            "Length": 677868540,
+            "Name": "huge.xml"
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Julia",
+            "Name": "Julia - XML"
+          },
+          "MaxMemMB": 919.19140625,
+          "Milliseconds": 2266.2214,
+          "Content": [
+            "Node counts:",
+            "blip: 1284440",
+            "start: 1",
+            "blips: 1285",
+            "boings: 1337",
+            "boing: 1337000"
+          ]
+        },
+        "tiny.xml": {
+          "Success": true,
+          "File": {
+            "Length": 1343483,
+            "Name": "tiny.xml"
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Julia",
+            "Name": "Julia - XML"
+          },
+          "MaxMemMB": 269.8671875,
+          "Milliseconds": 763.7471,
+          "Content": [
+            "Node counts:",
+            "blip: 4000",
+            "start: 1",
+            "blips: 4",
+            "boings: 2",
+            "boing: 1243"
+          ]
+        }
+      }
+    },
+    "Julia - LightXML": {
+      "ParserType": "DOM",
+      "OutFiles": [
+        "/home/mw/git/xml-i/test/tmp/Julia - LightXML-0.out",
+        "/home/mw/git/xml-i/test/tmp/Julia - LightXML-1.out",
+        "/home/mw/git/xml-i/test/tmp/Julia - LightXML-2.out",
+        "/home/mw/git/xml-i/test/tmp/Julia - LightXML-3.out",
+        "/home/mw/git/xml-i/test/tmp/Julia - LightXML-4.out",
+        "/home/mw/git/xml-i/test/tmp/Julia - LightXML-5.out",
+        "/home/mw/git/xml-i/test/tmp/Julia - LightXML-6.out",
+        "/home/mw/git/xml-i/test/tmp/Julia - LightXML-7.out"
+      ],
+      "Origin": "/home/mw/git/xml-i/alien/Julia",
+      "Name": "Julia - LightXML",
+      "Description": "xml-i in Julia with LightXML",
+      "MetaInfo": "julia version 1.11.5",
+      "Results": {
+        "behemoth.xml": {
+          "Success": true,
+          "File": {
+            "Length": 3389643641,
+            "Name": "behemoth.xml"
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Julia",
+            "Name": "Julia - LightXML"
+          },
+          "MaxMemMB": 28222.0390625,
+          "Milliseconds": 66701.1492,
+          "Content": [
+            "Node counts:",
+            "blip: 6498200",
+            "start: 1",
+            "blips: 6499",
+            "boings: 6609",
+            "boing: 6609000"
+          ]
+        },
+        "large.xml": {
+          "Success": true,
+          "File": {
+            "Length": 135754723,
+            "Name": "large.xml"
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Julia",
+            "Name": "Julia - LightXML"
+          },
+          "MaxMemMB": 1390.86328125,
+          "Milliseconds": 1625.4839,
+          "Content": [
+            "Node counts:",
+            "blip: 269000",
+            "start: 1",
+            "blips: 269",
+            "boings: 256",
+            "boing: 255288"
+          ]
+        },
+        "mid.xml": {
+          "Success": true,
           "File": {
             "Length": 13522870,
             "Name": "mid.xml"
           },
-          "Success": true
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Julia",
+            "Name": "Julia - LightXML"
+          },
+          "MaxMemMB": 358.7421875,
+          "Milliseconds": 513.5625,
+          "Content": [
+            "Node counts:",
+            "blip: 22000",
+            "start: 1",
+            "blips: 22",
+            "boings: 31",
+            "boing: 30429"
+          ]
+        },
+        "micro.xml": {
+          "Success": true,
+          "File": {
+            "Length": 229,
+            "Name": "micro.xml"
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Julia",
+            "Name": "Julia - LightXML"
+          },
+          "MaxMemMB": 240.78515625,
+          "Milliseconds": 323.993,
+          "Content": [
+            "Node counts:",
+            "blip: 1",
+            "start: 1",
+            "blips: 1"
+          ]
+        },
+        "giant.xml": {
+          "Success": true,
+          "File": {
+            "Length": 2033569804,
+            "Name": "giant.xml"
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Julia",
+            "Name": "Julia - LightXML"
+          },
+          "MaxMemMB": 17068.0234375,
+          "Milliseconds": 18205.5907,
+          "Content": [
+            "Node counts:",
+            "blip: 3849320",
+            "start: 1",
+            "blips: 3850",
+            "boings: 4015",
+            "boing: 4015000"
+          ]
+        },
+        "small.xml": {
+          "Success": true,
+          "File": {
+            "Length": 2727816,
+            "Name": "small.xml"
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Julia",
+            "Name": "Julia - LightXML"
+          },
+          "MaxMemMB": 263.56640625,
+          "Milliseconds": 312.1188,
+          "Content": [
+            "Node counts:",
+            "blip: 4000",
+            "start: 1",
+            "blips: 4",
+            "boings: 7",
+            "boing: 6486"
+          ]
+        },
+        "huge.xml": {
+          "Success": true,
+          "File": {
+            "Length": 677868540,
+            "Name": "huge.xml"
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Julia",
+            "Name": "Julia - LightXML"
+          },
+          "MaxMemMB": 5869.421875,
+          "Milliseconds": 6291.0255,
+          "Content": [
+            "Node counts:",
+            "blip: 1284440",
+            "start: 1",
+            "blips: 1285",
+            "boings: 1337",
+            "boing: 1337000"
+          ]
+        },
+        "tiny.xml": {
+          "Success": true,
+          "File": {
+            "Length": 1343483,
+            "Name": "tiny.xml"
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/Julia",
+            "Name": "Julia - LightXML"
+          },
+          "MaxMemMB": 250.15234375,
+          "Milliseconds": 379.2771,
+          "Content": [
+            "Node counts:",
+            "blip: 4000",
+            "start: 1",
+            "blips: 4",
+            "boings: 2",
+            "boing: 1243"
+          ]
         }
-      },
-      "Description": "xml-i in Julia with LightXML",
-      "Name": "Julia (LightXML)"
+      }
     },
     "C++ (pugixml)": {
       "OutFiles": [
