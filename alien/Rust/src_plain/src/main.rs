@@ -27,8 +27,10 @@ fn parse_xml_chunk(
     trailing: &mut Vec<u8>,
 ) {
     let mut p = 0;
+    let mut last_lt = None;
     while let Some(start) = memchr(b'<', &buf[p..]) {
-        let mut idx = p + start + 1;
+        let lt_pos = p + start;
+        let mut idx = lt_pos + 1;
         if idx >= buf.len() {
             break;
         }
@@ -46,16 +48,21 @@ fn parse_xml_chunk(
             name.push(ch);
             idx += 1;
         }
-        // Only count if the tag is complete (followed by '>' or '/')
-        if !name.is_empty() && idx < buf.len() && (buf[idx] == b'>' || buf[idx] == b'/') {
+        if !name.is_empty() {
             add_node(&name, node_counts, filters);
         }
-        p = idx;
+        last_lt = Some(lt_pos);
+        if let Some(gt_pos) = memchr(b'>', &buf[idx..]) {
+            p = idx + gt_pos + 1;
+        } else {
+            break;
+        }
     }
-    // Always save from the last '<' to the end of the buffer as trailing
     trailing.clear();
-    if let Some(last_start) = memchr::memrchr(b'<', buf) {
-        trailing.extend_from_slice(&buf[last_start..]);
+    if let Some(last_start) = last_lt {
+        if !buf[last_start..].contains(&b'>') {
+            trailing.extend_from_slice(&buf[last_start..]);
+        }
     }
 }
 
