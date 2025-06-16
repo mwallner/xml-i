@@ -5,3 +5,4 @@ edition = "2024"
 
 [dependencies]
 memchr = "2"
+memmap2 = "0.9"

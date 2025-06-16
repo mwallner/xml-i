@@ -1,7 +1,11 @@
+use memchr::memchr;
+use memmap2::Mmap;
 use std::collections::HashMap;
 use std::env;
 use std::fs::File;
-use std::io::{self, BufRead, BufReader};
+use std::io;
+
+const CHUNK_SIZE: usize = 4 * 1024 * 1024; // 4 MiB
 
 fn filter_match<'a>(name: &str, filters: Option<&Vec<String>>) -> bool {
     match filters {
@@ -16,42 +20,42 @@ fn add_node(name: &str, node_counts: &mut HashMap<String, usize>, filters: Optio
     }
 }
 
-fn parse_xml<R: BufRead>(
-    reader: R,
+fn parse_xml_chunk(
+    buf: &[u8],
     node_counts: &mut HashMap<String, usize>,
     filters: Option<&Vec<String>>,
+    trailing: &mut Vec<u8>,
 ) {
-    for line in reader.lines() {
-        let line = match line {
-            Ok(l) => l,
-            Err(_) => continue,
-        };
-        let mut p = 0;
-        let bytes = line.as_bytes();
-        while let Some(start) = memchr::memchr(b'<', &bytes[p..]) {
-            let mut idx = p + start + 1;
-            if idx >= bytes.len() {
+    let mut p = 0;
+    while let Some(start) = memchr(b'<', &buf[p..]) {
+        let mut idx = p + start + 1;
+        if idx >= buf.len() {
+            break;
+        }
+        let c = buf[idx] as char;
+        if c == '/' || c == '?' || c == '!' {
+            p = idx + 1;
+            continue;
+        }
+        let mut name = String::new();
+        while idx < buf.len() {
+            let ch = buf[idx] as char;
+            if ch.is_whitespace() || ch == '>' || ch == '/' {
                 break;
             }
-            let c = bytes[idx] as char;
-            if c == '/' || c == '?' || c == '!' {
-                p = idx + 1;
-                continue;
-            }
-            let mut name = String::new();
-            while idx < bytes.len() {
-                let ch = bytes[idx] as char;
-                if ch.is_whitespace() || ch == '>' || ch == '/' {
-                    break;
-                }
-                name.push(ch);
-                idx += 1;
-            }
-            if !name.is_empty() {
-                add_node(&name, node_counts, filters);
-            }
-            p = idx;
+            name.push(ch);
+            idx += 1;
         }
+        // Only count if the tag is complete (followed by '>' or '/')
+        if !name.is_empty() && idx < buf.len() && (buf[idx] == b'>' || buf[idx] == b'/') {
+            add_node(&name, node_counts, filters);
+        }
+        p = idx;
+    }
+    // Always save from the last '<' to the end of the buffer as trailing
+    trailing.clear();
+    if let Some(last_start) = memchr::memrchr(b'<', buf) {
+        trailing.extend_from_slice(&buf[last_start..]);
     }
 }
 
@@ -62,8 +66,7 @@ fn main() -> io::Result<()> {
         std::process::exit(1);
     }
     let file = File::open(&args[1])?;
-    let reader = BufReader::new(file);
-
+    let mmap = unsafe { Mmap::map(&file)? };
     let filters = if args.len() > 2 {
         Some(args[2..].to_vec())
     } else {
@@ -71,7 +74,25 @@ fn main() -> io::Result<()> {
     };
 
     let mut node_counts: HashMap<String, usize> = HashMap::new();
-    parse_xml(reader, &mut node_counts, filters.as_ref());
+    let mut offset = 0;
+    let mut trailing = Vec::new();
+
+    while offset < mmap.len() {
+        let end = std::cmp::min(offset + CHUNK_SIZE, mmap.len());
+        let chunk = &mmap[offset..end];
+
+        // If there is trailing data from the previous chunk, prepend it
+        let mut buf = if !trailing.is_empty() {
+            let mut v = trailing.clone();
+            v.extend_from_slice(chunk);
+            v
+        } else {
+            chunk.to_vec()
+        };
+
+        parse_xml_chunk(&buf, &mut node_counts, filters.as_ref(), &mut trailing);
+        offset += CHUNK_SIZE;
+    }
 
     println!("Node counts:");
     for (name, count) in node_counts.iter() {
