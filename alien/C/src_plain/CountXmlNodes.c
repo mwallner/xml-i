@@ -3,9 +3,9 @@
 #include <string.h>
 #include <ctype.h>
 
-#define MAX_NODES 256
-#define MAX_NAME 128
-#define BUF_SIZE 4096
+#define MAX_NODES 1024
+#define MAX_NAME 1024
+#define BUF_SIZE 8192
 
 typedef struct
 {

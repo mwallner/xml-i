@@ -22,3 +22,26 @@ $decl = @{
 	}
 }
 New-AppDecl @decl
+
+
+$decl = @{
+	Name        = 'Rust (noxml)' 
+	Description = 'xml-i in Rust withouth xml library - plaintext parsing'
+	ParserType  = 'plaintext'
+	Origin      = $PSScriptRoot
+	Meta        = {	cargo --version }
+	Builder     = {	
+		Push-Location 'src_plain'
+		try {
+			cargo build --release
+		}
+		finally {
+			Pop-Location
+		}
+	}
+	Tester      = @{
+		Executable   = 'src_plain/target/release/xml-i-plain'
+		ArgumentList = @()
+	}
+}
+New-AppDecl @decl
