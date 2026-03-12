@@ -33,5 +33,23 @@ $javaversions | ForEach-Object {
 	}
 	SetJavaDeclObj $v 'CountXMLNodesSAX'
 	New-AppDecl @decl
+
+	$decl = @{
+		Name        = "$v - Aalto XML"
+		ParserType  = 'StAX'
+		Description = "xml-i in pure Java ($v-openjdk), using Aalto XML"
+		Origin      = $PSScriptRoot
+		PreBuild    = {
+			# Download Aalto XML if not already present
+			$aaltoJarPath = Join-Path $PSScriptRoot 'lib/aalto-xml.jar'
+			if (-not (Test-Path $aaltoJarPath)) {
+				Write-Host 'Downloading Aalto XML...'
+				Invoke-WebRequest -Uri 'https://repo1.maven.org/maven2/com/fasterxml/aalto-xml/1.3.4/aalto-xml-1.3.4.jar' -OutFile $aaltoJarPath
+			}
+		}
+	}
+	SetJavaDeclObj $v 'CountXMLNodesAalto'
+	$decl.Tester.ArgumentList = @('-cp', 'lib/aalto-xml.jar') + $decl.Tester.ArgumentList
+	New-AppDecl @decl
 }
 
