@@ -1,8 +1,8 @@
 
 # will be dot-sourced by xml-i.build.ps1
 
-$global:CXX = 'gcc'
-$global:CXXFLAGS = @('-O3', '-Wall', '-DNDEBUG')
+$global:CC = 'gcc'
+$global:CFLAGS = @('-O3', '-Wall', '-DNDEBUG')
 
 $decl_plain = @{
 	Name        = 'C (noxml)' 
@@ -12,7 +12,7 @@ $decl_plain = @{
 	Meta        = {	}
 	Builder     = {
 		exec {
-			& $CXX @($CXXFLAGS) -o '../bin/xml-i-c-plain' 'src_plain/CountXmlNodes.c'
+			& $CC @($CFLAGS) -o '../bin/xml-i-c-plain' 'src_plain/CountXmlNodes.c'
 		}
 	}
 	Tester      = @{
