@@ -1,5 +1,5 @@
 {
-  "BenchmarkDate": "2025-06-14T21:40:02.6013500+02:00",
+  "BenchmarkDate": "2026-03-12T21:50:01.00+02:00",
   "BenchmarkResults": {
     "C++ (xsde)": {
       "OutFiles": [
@@ -739,6 +739,195 @@
       },
       "Description": "xml-i in xslt powered by Saxon HE 12",
       "Name": "Saxon HE 12"
+    },
+    "java-21 - Aalto XML": {
+      "ParserType": "StAX",
+      "Name": "java-21 - Aalto XML",
+      "Results": {
+        "micro.xml": {
+          "MaxMemMB": 47.23046875,
+          "Success": true,
+          "File": {
+            "Name": "micro.xml",
+            "Length": 229
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - Aalto XML"
+          },
+          "Milliseconds": 55.2625,
+          "Content": [
+            "Node counts:",
+            "blips: 1",
+            "start: 1",
+            "blip: 1"
+          ]
+        },
+        "large.xml": {
+          "MaxMemMB": 76.140625,
+          "Success": true,
+          "File": {
+            "Name": "large.xml",
+            "Length": 135754723
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - Aalto XML"
+          },
+          "Milliseconds": 480.4064,
+          "Content": [
+            "Node counts:",
+            "blips: 269",
+            "boings: 256",
+            "start: 1",
+            "boing: 255288",
+            "blip: 269000"
+          ]
+        },
+        "tiny.xml": {
+          "MaxMemMB": 64.703125,
+          "Success": true,
+          "File": {
+            "Name": "tiny.xml",
+            "Length": 1343483
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - Aalto XML"
+          },
+          "Milliseconds": 115.0739,
+          "Content": [
+            "Node counts:",
+            "blips: 4",
+            "boings: 2",
+            "start: 1",
+            "boing: 1243",
+            "blip: 4000"
+          ]
+        },
+        "small.xml": {
+          "MaxMemMB": 69.28125,
+          "Success": true,
+          "File": {
+            "Name": "small.xml",
+            "Length": 2727816
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - Aalto XML"
+          },
+          "Milliseconds": 111.3693,
+          "Content": [
+            "Node counts:",
+            "blips: 4",
+            "boings: 7",
+            "start: 1",
+            "boing: 6486",
+            "blip: 4000"
+          ]
+        },
+        "huge.xml": {
+          "MaxMemMB": 74.30078125,
+          "Success": true,
+          "File": {
+            "Name": "huge.xml",
+            "Length": 677868540
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - Aalto XML"
+          },
+          "Milliseconds": 1911.7508,
+          "Content": [
+            "Node counts:",
+            "blips: 1285",
+            "boings: 1337",
+            "start: 1",
+            "boing: 1337000",
+            "blip: 1284440"
+          ]
+        },
+        "giant.xml": {
+          "MaxMemMB": 85.81640625,
+          "Success": true,
+          "File": {
+            "Name": "giant.xml",
+            "Length": 2033569804
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - Aalto XML"
+          },
+          "Milliseconds": 5118.2969,
+          "Content": [
+            "Node counts:",
+            "blips: 3850",
+            "boings: 4015",
+            "start: 1",
+            "boing: 4015000",
+            "blip: 3849320"
+          ]
+        },
+        "behemoth.xml": {
+          "MaxMemMB": 82.77734375,
+          "Success": true,
+          "File": {
+            "Name": "behemoth.xml",
+            "Length": 3389643641
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - Aalto XML"
+          },
+          "Milliseconds": 8294.8161,
+          "Content": [
+            "Node counts:",
+            "blips: 6499",
+            "boings: 6609",
+            "start: 1",
+            "boing: 6609000",
+            "blip: 6498200"
+          ]
+        },
+        "mid.xml": {
+          "MaxMemMB": 69.75390625,
+          "Success": true,
+          "File": {
+            "Name": "mid.xml",
+            "Length": 13522870
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/java",
+            "Name": "java-21 - Aalto XML"
+          },
+          "Milliseconds": 176.9841,
+          "Content": [
+            "Node counts:",
+            "blips: 22",
+            "boings: 31",
+            "start: 1",
+            "boing: 30429",
+            "blip: 22000"
+          ]
+        }
+      },
+      "MetaInfo": [
+        "openjdk 21.0.10 2026-01-20",
+        "OpenJDK Runtime Environment (build 21.0.10+7)",
+        "OpenJDK 64-Bit Server VM (build 21.0.10+7, mixed mode, sharing)"
+      ],
+      "Origin": "/home/mw/git/xml-i/alien/java",
+      "OutFiles": [
+        "/home/mw/git/xml-i/test/tmp/java-21 - Aalto XML-0.out",
+        "/home/mw/git/xml-i/test/tmp/java-21 - Aalto XML-1.out",
+        "/home/mw/git/xml-i/test/tmp/java-21 - Aalto XML-2.out",
+        "/home/mw/git/xml-i/test/tmp/java-21 - Aalto XML-3.out",
+        "/home/mw/git/xml-i/test/tmp/java-21 - Aalto XML-4.out",
+        "/home/mw/git/xml-i/test/tmp/java-21 - Aalto XML-5.out",
+        "/home/mw/git/xml-i/test/tmp/java-21 - Aalto XML-6.out",
+        "/home/mw/git/xml-i/test/tmp/java-21 - Aalto XML-7.out"
+      ],
+      "Description": "xml-i in pure Java (java-21-openjdk), using Aalto XML"
     },
     "Julia - XML": {
       "ParserType": "DOM",
@@ -2602,6 +2791,191 @@
       },
       "Description": "xml-i in .NET",
       "Name": ".NET 8 - XmlReader"
+    },
+    ".NET 10 - XmlReader": {
+      "ParserType": "StAX",
+      "Name": ".NET 10 - XmlReader",
+      "Results": {
+        "micro.xml": {
+          "MaxMemMB": 33.984375,
+          "Success": true,
+          "File": {
+            "Name": "micro.xml",
+            "Length": 229
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/NET",
+            "Name": ".NET 10 - XmlReader"
+          },
+          "Milliseconds": 55.8755,
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 1",
+            "blip: 1"
+          ]
+        },
+        "large.xml": {
+          "MaxMemMB": 44.16796875,
+          "Success": true,
+          "File": {
+            "Name": "large.xml",
+            "Length": 135754723
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/NET",
+            "Name": ".NET 10 - XmlReader"
+          },
+          "Milliseconds": 539.969,
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "boings: 256",
+            "boing: 255288",
+            "blips: 269",
+            "blip: 269000"
+          ]
+        },
+        "tiny.xml": {
+          "MaxMemMB": 35.046875,
+          "Success": true,
+          "File": {
+            "Name": "tiny.xml",
+            "Length": 1343483
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/NET",
+            "Name": ".NET 10 - XmlReader"
+          },
+          "Milliseconds": 57.4943,
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 4",
+            "blip: 4000",
+            "boings: 2",
+            "boing: 1243"
+          ]
+        },
+        "small.xml": {
+          "MaxMemMB": 35.046875,
+          "Success": true,
+          "File": {
+            "Name": "small.xml",
+            "Length": 2727816
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/NET",
+            "Name": ".NET 10 - XmlReader"
+          },
+          "Milliseconds": 65.9323,
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "boings: 7",
+            "boing: 6486",
+            "blips: 4",
+            "blip: 4000"
+          ]
+        },
+        "huge.xml": {
+          "MaxMemMB": 46.671875,
+          "Success": true,
+          "File": {
+            "Name": "huge.xml",
+            "Length": 677868540
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/NET",
+            "Name": ".NET 10 - XmlReader"
+          },
+          "Milliseconds": 1358.0967,
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 1285",
+            "blip: 1284440",
+            "boings: 1337",
+            "boing: 1337000"
+          ]
+        },
+        "giant.xml": {
+          "MaxMemMB": 46.62109375,
+          "Success": true,
+          "File": {
+            "Name": "giant.xml",
+            "Length": 2033569804
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/NET",
+            "Name": ".NET 10 - XmlReader"
+          },
+          "Milliseconds": 3514.0603,
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 3850",
+            "blip: 3849320",
+            "boings: 4015",
+            "boing: 4015000"
+          ]
+        },
+        "behemoth.xml": {
+          "MaxMemMB": 46.3828125,
+          "Success": true,
+          "File": {
+            "Name": "behemoth.xml",
+            "Length": 3389643641
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/NET",
+            "Name": ".NET 10 - XmlReader"
+          },
+          "Milliseconds": 5782.6608,
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "blips: 6499",
+            "blip: 6498200",
+            "boings: 6609",
+            "boing: 6609000"
+          ]
+        },
+        "mid.xml": {
+          "MaxMemMB": 35.6015625,
+          "Success": true,
+          "File": {
+            "Name": "mid.xml",
+            "Length": 13522870
+          },
+          "Me": {
+            "Origin": "/home/mw/git/xml-i/alien/NET",
+            "Name": ".NET 10 - XmlReader"
+          },
+          "Milliseconds": 119.7482,
+          "Content": [
+            "Node counts:",
+            "start: 1",
+            "boings: 31",
+            "boing: 30429",
+            "blips: 22",
+            "blip: 22000"
+          ]
+        }
+      },
+      "MetaInfo": "10.0.103",
+      "Origin": "/home/mw/git/xml-i/alien/NET",
+      "OutFiles": [
+        "/home/mw/git/xml-i/test/tmp/.NET 10 - XmlReader-0.out",
+        "/home/mw/git/xml-i/test/tmp/.NET 10 - XmlReader-1.out",
+        "/home/mw/git/xml-i/test/tmp/.NET 10 - XmlReader-2.out",
+        "/home/mw/git/xml-i/test/tmp/.NET 10 - XmlReader-3.out",
+        "/home/mw/git/xml-i/test/tmp/.NET 10 - XmlReader-4.out",
+        "/home/mw/git/xml-i/test/tmp/.NET 10 - XmlReader-5.out",
+        "/home/mw/git/xml-i/test/tmp/.NET 10 - XmlReader-6.out",
+        "/home/mw/git/xml-i/test/tmp/.NET 10 - XmlReader-7.out"
+      ],
+      "Description": "xml-i in .NET"
     },
     "C++ (libxml2 XMLReader)": {
       "OutFiles": [
