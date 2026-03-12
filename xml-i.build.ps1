@@ -1,12 +1,42 @@
+<#
+.SYNOPSIS
+Build and benchmark XML parser implementations in this repository.
+
+.DESCRIPTION
+This script discovers application configuration snippets (*.bc.ps1),
+builds applications, and runs benchmarks over XML test files under the
+`test` directory. The parameters below control selection of applications,
+test files, and whether to run in a shortened "quick" mode for development.
+
+.PARAMETER AppFilter
+Optional substring used to filter application names. When provided, only
+apps whose `Name` contains this substring (case-sensitive) will be
+built/benchmarked.
+
+.PARAMETER TestFileFilter
+Optional substring used to filter test XML filenames. When provided, only
+XML files whose filename contains this substring will be used for
+benchmarking.
+
+.PARAMETER Quick
+Switch to enable quick benchmarking mode. When present the script will
+attempt to skip cache-dropping and the initial 10-second wait to allow
+faster, iterative runs. This reduces reproducibility and should not be
+used for official measurements.
+#>
 param(
+	# Optional string to filter applications by name (substring match).
 	[Parameter(Mandatory = $false)]
 	[string]
 	$AppFilter = $null,
 
+	# Optional string to filter test XML files by filename (substring match).
 	[Parameter(Mandatory = $false)]
 	[string]
 	$TestFileFilter = $null,
 
+	# If set, run benchmarks in "quick" mode: skip cache dropping and the
+	# initial 10-second wait. Useful for faster iteration but less repeatable.
 	[Parameter(Mandatory = $false)]
 	[switch]
 	$Quick
@@ -45,7 +75,11 @@ function New-AppDecl {
 
 		[Parameter(Mandatory )]
 		[Hashtable]
-		$Tester
+		$Tester,
+
+		[Parameter(Mandatory = $false)]
+		[scriptblock]
+		$PreBuild
 	)
 	if ($global:configs.ContainsKey($Name)) {
 		throw "App declaration for '$($Name)' already exists."
@@ -59,6 +93,7 @@ function New-AppDecl {
 		Meta        = $Meta
 		Builder     = $Builder
 		Tester      = $Tester
+		PreBuild    = $PreBuild
 	}
 }
 
@@ -133,6 +168,31 @@ Task ReadConfigs {
 	Write-Host "Loaded $($global:configs.Count) application configurations."
 }
 
+Task PreBuild ReadConfigs, {
+	Write-Host 'Pre-build step: Validating application configurations...' -ForegroundColor Cyan
+	foreach ($app in $global:configs.Values) {
+		if (-not $app.Builder) {
+			Write-Host "Warning: No builder defined for $($app.Name). This app will be skipped during build." -ForegroundColor Yellow
+		}
+		if (-not $app.Tester) {
+			Write-Host "Warning: No tester defined for $($app.Name). This app will be skipped during benchmarking." -ForegroundColor Yellow
+		}
+		if ($app.PreBuild) {
+			Write-Host "Running pre-build steps for $($app.Name)..." -ForegroundColor Cyan
+			Push-Location $app.Origin
+			try {
+				$app.PreBuild.Invoke()
+			}
+			catch {
+				Write-Host "Error during pre-build for $($app.Name): $_" -ForegroundColor Red
+			}
+			finally {
+				Pop-Location
+			}
+		}
+	}
+}
+
 Task Build ReadConfigs, {
 	$global:configs.GetEnumerator() | ForEach-Object {
 		$app = $_.Value
@@ -146,7 +206,7 @@ Task Build ReadConfigs, {
 			Write-Host "Building $($app.Name)..."
 			Push-Location $app.Origin
 			try {
-				exec {
+				Exec {
 					& $app.Builder
 				}
 			}
@@ -210,7 +270,7 @@ Task Benchmark ReadConfigs, {
 			}
 			sudo sh -c 'echo 3 > /proc/sys/vm/drop_caches'
 		}
-		if (-Not $Quick) {
+		if (-not $Quick) {
 			Write-Host 'Waiting 10 seconds for caches to settle... & the system cool down' -ForegroundColor Magenta
 			Start-Sleep -Seconds 10
 		}
@@ -229,7 +289,7 @@ Task Benchmark ReadConfigs, {
 			$i++
 		}
 		
-		if (-Not $baseline) {
+		if (-not $baseline) {
 			# Set the first app as baseline
 			$baseline = $app
 			Write-Host "Setting $($app.Name) as baseline." -ForegroundColor Cyan
@@ -241,7 +301,7 @@ Task Benchmark ReadConfigs, {
 			foreach ($testXml in $testXmls) {
 				$base = $baseline.Results[$testXml.Name]
 				$test = $app.Results[$testXml.Name]
-				if (-Not $test.Success) {
+				if (-not $test.Success) {
 					Write-Host "  Skipping $($testXml.Name) for $($app.Name) due to previous failure." -ForegroundColor Yellow
 					continue
 				}
@@ -262,9 +322,10 @@ Task Benchmark ReadConfigs, {
 	$exportConfigs = @{}
 	foreach ($key in $global:configs.Keys) {
 		$app = $global:configs[$key].PSObject.Copy()
-		$app.Remove('Builder')
-		$app.Remove('Tester')
-		$app.Remove('Meta')
+		$app.Remove('Builder') | Out-Null
+		$app.Remove('Tester') | Out-Null
+		$app.Remove('Meta') | Out-Null
+		$app.Remove('PreBuild') | Out-Null
 		if ($app.Results) {
 			foreach ($testXml in $app.Results.Keys) {
 				$app.Results[$testXml].File = @{
