@@ -10,7 +10,7 @@ function Write-BenchmarkResultsMarkdown {
 
 
 	function FormatSection($app) {
-		if ($app.Name -And $app.Description) {
+		if ($app.Name -and $app.Description) {
 			''
 			"### $($app.Name)"
 			$metaInfo = $app.MetaInfo
@@ -87,8 +87,10 @@ function Write-BenchmarkResultsMarkdown {
 		$mdResult += '|------|---------------------------|------------|-------------------|--------------|'
 		$group.Group | Where-Object Success | Sort-Object -Property Milliseconds | ForEach-Object {
 			$tp = $groupSize / 1MB / ($_.Milliseconds / 1000)
-			$mdResult += '| {0,-4} | {1,-25} | {3,-10:N3} | {4,-17:N3} | {5,-12:N2} |' -f $pos, $_.Me.Name, $_.File.Name, ($_.Milliseconds / 1000), $tp, $_.MaxMemMB
-			$pos++
+			$isNoXml = $_.Me.Name -like '*(noxml)*'
+			$rank = if ($isNoXml) { '' } else { $pos }
+			$mdResult += '| {0,-4} | {1,-25} | {3,-10:N3} | {4,-17:N3} | {5,-12:N2} |' -f $rank, $_.Me.Name, $_.File.Name, ($_.Milliseconds / 1000), $tp, $_.MaxMemMB
+			if (-not $isNoXml) { $pos++ }
 		}
 		$mdResult += ''
 	}
@@ -124,7 +126,9 @@ function Write-BenchmarkLineSVG {
 	$testFiles = @()
 	$apps = @()
 	foreach ($app in $Results.Values) {
-		$apps += $app.Name
+		if ($app.Name -notlike '*(noxml)*') {
+			$apps += $app.Name
+		}
 		foreach ($result in $app.Results.Values) {
 			if ($testFiles.Name -notcontains $result.File.Name) {
 				$testFiles += $result.File
@@ -137,6 +141,7 @@ function Write-BenchmarkLineSVG {
 	# Build throughput table: $table[app][file] = throughput
 	$table = @{}
 	foreach ($app in $Results.Values) {
+		if ($app.Name -like '*(noxml)*') { continue }
 		$row = @{}
 		foreach ($result in $app.Results.Values) {
 			$tp = [math]::Round(($result.File.Length / 1MB) / ($result.Milliseconds / 1000), 2)
@@ -344,6 +349,7 @@ function Write-BenchmarkSVG {
 	# Build a list of all apps, filling in throughput=0 if missing
 	$allApps = @()
 	foreach ($app in $Results.Values) {
+		if ($app.Name -like '*(noxml)*') { continue }
 		$result = $null
 		if ($data[$largestFile]) {
 			$result = $data[$largestFile] | Where-Object { $_.AppName -eq $app.Name }
@@ -374,7 +380,7 @@ function Write-BenchmarkSVG {
 		$svg += "<rect x='$leftMargin' y='$y' width='$barLen' height='$barHeight' fill='$color' />"
 		$svg += "<text x='10' y='$([int]($y+$barHeight*0.7))' class='label'>$($app.AppName)</text>"
 		$svg += "<text x='$([int]($leftMargin+$barLen+8))' y='$([int]($y+$barHeight*0.7))' class='label'>" +
-            ($(if ($app.Throughput -eq 0) { 'N/A' } else { "$($app.Throughput) MB/s" })) + '</text>'
+		($(if ($app.Throughput -eq 0) { 'N/A' } else { "$($app.Throughput) MB/s" })) + '</text>'
 		$i++
 	}
 
@@ -397,7 +403,9 @@ function Write-BenchmarkXYSVG {
 	$testFiles = @()
 	$apps = @()
 	foreach ($app in $Results.Values) {
-		$apps += $app.Name
+		if ($app.Name -notlike '*(noxml)*') {
+			$apps += $app.Name
+		}
 		foreach ($result in $app.Results.Values) {
 			if ($testFiles.Name -notcontains $result.File.Name) {
 				$testFiles += $result.File
@@ -420,6 +428,7 @@ function Write-BenchmarkXYSVG {
 	$minMem = $null
 	$maxTime = 1
 	foreach ($app in $Results.Values) {
+		if ($app.Name -like '*(noxml)*') { continue }
 		$result = $app.Results[$largestFile.Name]
 		if ($result) {
 			$mem = [math]::Round($result.MaxMemMB, 2)
