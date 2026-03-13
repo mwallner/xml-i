@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns='http://www.w3.org/2000/svg' width='900' height='625' style='background-color:#fff'>
+<svg xmlns='http://www.w3.org/2000/svg' width='900' height='647' style='background-color:#fff'>
 <style> .label { font: 13px sans-serif; } .legend { font: 13px sans-serif; } .axis { stroke: #333; stroke-width: 1; } .chart-title { font: bold 20px sans-serif; } .pointnum { font: bold 14px sans-serif; fill: #222; } </style>
 <text x='450' y='30' text-anchor='middle' class='chart-title'>Time vs. Max Memory (behemoth.xml - 3.16GB)</text>
 <rect x='100' y='45' width='18' height='12' fill='#4e79a7'/>
@@ -7,119 +7,139 @@
 <rect x='260' y='45' width='18' height='12' fill='#f28e2b'/>
 <text x='284' y='56' class='legend'>2: C++ (libxml2 - SAX)</text>
 <rect x='420' y='45' width='18' height='12' fill='#e15759'/>
-<text x='444' y='56' class='legend'>3: C++ (xsde)</text>
+<text x='444' y='56' class='legend'>3: C++ (libxml2 XMLReader)</text>
 <rect x='580' y='45' width='18' height='12' fill='#76b7b2'/>
-<text x='604' y='56' class='legend'>4: C++ (libxml2 XMLReader)</text>
+<text x='604' y='56' class='legend'>4: C++ (xsde)</text>
 <rect x='740' y='45' width='18' height='12' fill='#59a14f'/>
 <text x='764' y='56' class='legend'>5: C++ (Apache Xerces)</text>
 <rect x='100' y='67' width='18' height='12' fill='#edc949'/>
-<text x='124' y='78' class='legend'>6: .NET 8 - XmlReader</text>
+<text x='124' y='78' class='legend'>6: Lua</text>
 <rect x='260' y='67' width='18' height='12' fill='#af7aa1'/>
-<text x='284' y='78' class='legend'>7: .NET 10 - XmlReader</text>
+<text x='284' y='78' class='legend'>7: Perl</text>
 <rect x='420' y='67' width='18' height='12' fill='#ff9da7'/>
-<text x='444' y='78' class='legend'>8: Go - std</text>
+<text x='444' y='78' class='legend'>8: .NET 10 - XmlReader</text>
 <rect x='580' y='67' width='18' height='12' fill='#9c755f'/>
-<text x='604' y='78' class='legend'>9: java-21 - Aalto XML</text>
+<text x='604' y='78' class='legend'>9: .NET 8 - XmlReader</text>
 <rect x='740' y='67' width='18' height='12' fill='#bab0ab'/>
-<text x='764' y='78' class='legend'>10: java-21 - SAX</text>
+<text x='764' y='78' class='legend'>10: Go - std</text>
 <rect x='100' y='89' width='18' height='12' fill='#4e79a7'/>
-<text x='124' y='100' class='legend'>11: java-21 - StAX</text>
+<text x='124' y='100' class='legend'>11: java-21 - Aalto XML</text>
 <rect x='260' y='89' width='18' height='12' fill='#f28e2b'/>
-<text x='284' y='100' class='legend'>12: PowerShell Core</text>
+<text x='284' y='100' class='legend'>12: java-21 - SAX</text>
 <rect x='420' y='89' width='18' height='12' fill='#e15759'/>
-<text x='444' y='100' class='legend'>13: Rust (xml-rs)</text>
+<text x='444' y='100' class='legend'>13: java-25 - Aalto XML</text>
 <rect x='580' y='89' width='18' height='12' fill='#76b7b2'/>
-<text x='604' y='100' class='legend'>14: Scala</text>
+<text x='604' y='100' class='legend'>14: java-25 - SAX</text>
 <rect x='740' y='89' width='18' height='12' fill='#59a14f'/>
-<text x='764' y='100' class='legend'>15: Node.js</text>
+<text x='764' y='100' class='legend'>15: java-25 - StAX</text>
 <rect x='100' y='111' width='18' height='12' fill='#edc949'/>
-<text x='124' y='122' class='legend'>16: Julia - XML</text>
+<text x='124' y='122' class='legend'>16: java-21 - StAX</text>
 <rect x='260' y='111' width='18' height='12' fill='#af7aa1'/>
-<text x='284' y='122' class='legend'>17: C++ (pugixml)</text>
+<text x='284' y='122' class='legend'>17: PowerShell Core</text>
 <rect x='420' y='111' width='18' height='12' fill='#ff9da7'/>
-<text x='444' y='122' class='legend'>18: C++ (rapidxml)</text>
+<text x='444' y='122' class='legend'>18: Rust (xml-rs)</text>
 <rect x='580' y='111' width='18' height='12' fill='#9c755f'/>
-<text x='604' y='122' class='legend'>19: Saxon HE 12</text>
+<text x='604' y='122' class='legend'>19: Scala</text>
 <rect x='740' y='111' width='18' height='12' fill='#bab0ab'/>
-<text x='764' y='122' class='legend'>20: Python 3</text>
+<text x='764' y='122' class='legend'>20: Node.js</text>
 <rect x='100' y='133' width='18' height='12' fill='#4e79a7'/>
-<text x='124' y='144' class='legend'>21: Go - xmlquery</text>
+<text x='124' y='144' class='legend'>21: Julia - XML</text>
 <rect x='260' y='133' width='18' height='12' fill='#f28e2b'/>
-<text x='284' y='144' class='legend'>22: Julia - LightXML</text>
-<text x='45' y='365' text-anchor='middle' class='label' font-size='16px' transform='rotate(-90 45,365)'>Time (s)</text>
-<text x='480' y='615' text-anchor='middle' class='label' font-size='16px'>Max Memory (MB, log scale)</text>
-<line x1='100' y1='165' x2='100' y2='565' class='axis'/>
-<line x1='100' y1='565' x2='860' y2='565' class='axis'/>
-<text x='90' y='570' text-anchor='end' class='label'>0</text>
-<text x='90' y='503' text-anchor='end' class='label'>17.08</text>
-<line x1='100' y1='498' x2='860' y2='498' stroke='#ccc' stroke-dasharray='2,2'/>
-<text x='90' y='437' text-anchor='end' class='label'>34.17</text>
-<line x1='100' y1='432' x2='860' y2='432' stroke='#ccc' stroke-dasharray='2,2'/>
-<text x='90' y='370' text-anchor='end' class='label'>51.25</text>
-<line x1='100' y1='365' x2='860' y2='365' stroke='#ccc' stroke-dasharray='2,2'/>
-<text x='90' y='303' text-anchor='end' class='label'>68.33</text>
-<line x1='100' y1='298' x2='860' y2='298' stroke='#ccc' stroke-dasharray='2,2'/>
-<text x='90' y='237' text-anchor='end' class='label'>85.42</text>
-<line x1='100' y1='232' x2='860' y2='232' stroke='#ccc' stroke-dasharray='2,2'/>
-<text x='90' y='170' text-anchor='end' class='label'>102.5</text>
-<text x='100' y='585' text-anchor='middle' class='label'>1.9</text>
-<text x='195' y='585' text-anchor='middle' class='label'>6.3</text>
-<line x1='195' y1='165' x2='195' y2='565' stroke='#ccc' stroke-dasharray='2,2'/>
-<text x='290' y='585' text-anchor='middle' class='label'>21.1</text>
-<line x1='290' y1='165' x2='290' y2='565' stroke='#ccc' stroke-dasharray='2,2'/>
-<text x='385' y='585' text-anchor='middle' class='label'>69.9</text>
-<line x1='385' y1='165' x2='385' y2='565' stroke='#ccc' stroke-dasharray='2,2'/>
-<text x='480' y='585' text-anchor='middle' class='label'>232.2</text>
-<line x1='480' y1='165' x2='480' y2='565' stroke='#ccc' stroke-dasharray='2,2'/>
-<text x='575' y='585' text-anchor='middle' class='label'>770.9</text>
-<line x1='575' y1='165' x2='575' y2='565' stroke='#ccc' stroke-dasharray='2,2'/>
-<text x='670' y='585' text-anchor='middle' class='label'>2559.8</text>
-<line x1='670' y1='165' x2='670' y2='565' stroke='#ccc' stroke-dasharray='2,2'/>
-<text x='765' y='585' text-anchor='middle' class='label'>8499.5</text>
-<line x1='765' y1='165' x2='765' y2='565' stroke='#ccc' stroke-dasharray='2,2'/>
-<text x='860' y='585' text-anchor='middle' class='label'>28222</text>
-<circle cx='100' cy='553' r='8' fill='#4e79a7'><title>"Rust (quick-xml)" - Test "behemoth.xml" : 3.16 GB in 3.09 seconds using 1.91 MB RAM</title></circle>
-<text x='113' y='558' class='pointnum'>1</text>
-<circle cx='756' cy='546' r='8' fill='#af7aa1'><title>"C++ (pugixml)" - Test "behemoth.xml" : 3.16 GB in 4.97 seconds using 7,596.66 MB RAM</title></circle>
-<text x='769' y='551' class='pointnum'>17</text>
-<circle cx='352' cy='544' r='8' fill='#edc949'><title>".NET 8 - XmlReader" - Test "behemoth.xml" : 3.16 GB in 5.47 seconds using 46.05 MB RAM</title></circle>
-<text x='365' y='549' class='pointnum'>6</text>
-<circle cx='774' cy='543' r='8' fill='#ff9da7'><title>"C++ (rapidxml)" - Test "behemoth.xml" : 3.16 GB in 5.60 seconds using 9,491.81 MB RAM</title></circle>
-<text x='787' y='548' class='pointnum'>18</text>
-<circle cx='353' cy='542' r='8' fill='#af7aa1'><title>".NET 10 - XmlReader" - Test "behemoth.xml" : 3.16 GB in 5.78 seconds using 46.38 MB RAM</title></circle>
-<text x='366' y='547' class='pointnum'>7</text>
-<circle cx='398' cy='533' r='8' fill='#9c755f'><title>"java-21 - Aalto XML" - Test "behemoth.xml" : 3.16 GB in 8.29 seconds using 82.78 MB RAM</title></circle>
-<text x='411' y='538' class='pointnum'>9</text>
-<circle cx='695' cy='533' r='8' fill='#edc949'><title>"Julia - XML" - Test "behemoth.xml" : 3.16 GB in 8.32 seconds using 3,523.30 MB RAM</title></circle>
-<text x='708' y='538' class='pointnum'>16</text>
-<circle cx='401' cy='529' r='8' fill='#bab0ab'><title>"java-21 - SAX" - Test "behemoth.xml" : 3.16 GB in 9.21 seconds using 85.39 MB RAM</title></circle>
-<text x='414' y='534' class='pointnum'>10</text>
-<circle cx='516' cy='523' r='8' fill='#76b7b2'><title>"Scala" - Test "behemoth.xml" : 3.16 GB in 10.81 seconds using 364.36 MB RAM</title></circle>
-<text x='529' y='528' class='pointnum'>14</text>
-<circle cx='427' cy='522' r='8' fill='#4e79a7'><title>"java-21 - StAX" - Test "behemoth.xml" : 3.16 GB in 10.90 seconds using 119.16 MB RAM</title></circle>
-<text x='440' y='527' class='pointnum'>11</text>
-<circle cx='203' cy='521' r='8' fill='#f28e2b'><title>"C++ (libxml2 - SAX)" - Test "behemoth.xml" : 3.16 GB in 11.18 seconds using 7.00 MB RAM</title></circle>
-<text x='216' y='526' class='pointnum'>2</text>
-<circle cx='441' cy='506' r='8' fill='#f28e2b'><title>"PowerShell Core" - Test "behemoth.xml" : 3.16 GB in 15.13 seconds using 141.28 MB RAM</title></circle>
-<text x='454' y='511' class='pointnum'>12</text>
-<circle cx='201' cy='478' r='8' fill='#76b7b2'><title>"C++ (libxml2 XMLReader)" - Test "behemoth.xml" : 3.16 GB in 22.36 seconds using 6.87 MB RAM</title></circle>
-<text x='214' y='483' class='pointnum'>4</text>
-<circle cx='150' cy='443' r='8' fill='#e15759'><title>"C++ (xsde)" - Test "behemoth.xml" : 3.16 GB in 31.29 seconds using 3.58 MB RAM</title></circle>
-<text x='163' y='448' class='pointnum'>3</text>
-<circle cx='265' cy='432' r='8' fill='#59a14f'><title>"C++ (Apache Xerces)" - Test "behemoth.xml" : 3.16 GB in 34.11 seconds using 15.33 MB RAM</title></circle>
-<text x='278' y='437' class='pointnum'>5</text>
-<circle cx='784' cy='426' r='8' fill='#9c755f'><title>"Saxon HE 12" - Test "behemoth.xml" : 3.16 GB in 35.62 seconds using 10,815.36 MB RAM</title></circle>
-<text x='797' y='431' class='pointnum'>19</text>
-<circle cx='218' cy='317' r='8' fill='#ff9da7'><title>"Go - std" - Test "behemoth.xml" : 3.16 GB in 63.47 seconds using 8.44 MB RAM</title></circle>
-<text x='231' y='322' class='pointnum'>8</text>
-<circle cx='860' cy='305' r='8' fill='#f28e2b'><title>"Julia - LightXML" - Test "behemoth.xml" : 3.16 GB in 66.70 seconds using 28,222.04 MB RAM</title></circle>
-<text x='873' y='310' class='pointnum'>22</text>
-<circle cx='796' cy='271' r='8' fill='#bab0ab'><title>"Python 3" - Test "behemoth.xml" : 3.16 GB in 75.39 seconds using 12,611.29 MB RAM</title></circle>
-<text x='809' y='276' class='pointnum'>20</text>
-<circle cx='819' cy='259' r='8' fill='#4e79a7'><title>"Go - xmlquery" - Test "behemoth.xml" : 3.16 GB in 78.39 seconds using 16,729.11 MB RAM</title></circle>
-<text x='832' y='264' class='pointnum'>21</text>
-<circle cx='401' cy='179' r='8' fill='#59a14f'><title>"Node.js" - Test "behemoth.xml" : 3.16 GB in 99.00 seconds using 85.27 MB RAM</title></circle>
-<text x='414' y='184' class='pointnum'>15</text>
-<circle cx='104' cy='165' r='8' fill='#e15759'><title>"Rust (xml-rs)" - Test "behemoth.xml" : 3.16 GB in 102.50 seconds using 2.00 MB RAM</title></circle>
-<text x='117' y='170' class='pointnum'>13</text>
+<text x='284' y='144' class='legend'>22: C++ (pugixml)</text>
+<rect x='420' y='133' width='18' height='12' fill='#e15759'/>
+<text x='444' y='144' class='legend'>23: C++ (rapidxml)</text>
+<rect x='580' y='133' width='18' height='12' fill='#76b7b2'/>
+<text x='604' y='144' class='legend'>24: Saxon HE 12</text>
+<rect x='740' y='133' width='18' height='12' fill='#59a14f'/>
+<text x='764' y='144' class='legend'>25: Python 3</text>
+<rect x='100' y='155' width='18' height='12' fill='#edc949'/>
+<text x='124' y='166' class='legend'>26: Julia - LightXML</text>
+<rect x='260' y='155' width='18' height='12' fill='#af7aa1'/>
+<text x='284' y='166' class='legend'>27: Go - xmlquery</text>
+<text x='45' y='387' text-anchor='middle' class='label' font-size='16px' transform='rotate(-90 45,387)'>Time (s)</text>
+<text x='480' y='637' text-anchor='middle' class='label' font-size='16px'>Max Memory (MB, log scale)</text>
+<line x1='100' y1='187' x2='100' y2='587' class='axis'/>
+<line x1='100' y1='587' x2='860' y2='587' class='axis'/>
+<text x='90' y='592' text-anchor='end' class='label'>0</text>
+<text x='90' y='525' text-anchor='end' class='label'>14.29</text>
+<line x1='100' y1='520' x2='860' y2='520' stroke='#ccc' stroke-dasharray='2,2'/>
+<text x='90' y='459' text-anchor='end' class='label'>28.59</text>
+<line x1='100' y1='454' x2='860' y2='454' stroke='#ccc' stroke-dasharray='2,2'/>
+<text x='90' y='392' text-anchor='end' class='label'>42.88</text>
+<line x1='100' y1='387' x2='860' y2='387' stroke='#ccc' stroke-dasharray='2,2'/>
+<text x='90' y='325' text-anchor='end' class='label'>57.18</text>
+<line x1='100' y1='320' x2='860' y2='320' stroke='#ccc' stroke-dasharray='2,2'/>
+<text x='90' y='259' text-anchor='end' class='label'>71.47</text>
+<line x1='100' y1='254' x2='860' y2='254' stroke='#ccc' stroke-dasharray='2,2'/>
+<text x='90' y='192' text-anchor='end' class='label'>85.77</text>
+<text x='100' y='607' text-anchor='middle' class='label'>2.2</text>
+<text x='195' y='607' text-anchor='middle' class='label'>7.1</text>
+<line x1='195' y1='187' x2='195' y2='587' stroke='#ccc' stroke-dasharray='2,2'/>
+<text x='290' y='607' text-anchor='middle' class='label'>23.1</text>
+<line x1='290' y1='187' x2='290' y2='587' stroke='#ccc' stroke-dasharray='2,2'/>
+<text x='385' y='607' text-anchor='middle' class='label'>75.6</text>
+<line x1='385' y1='187' x2='385' y2='587' stroke='#ccc' stroke-dasharray='2,2'/>
+<text x='480' y='607' text-anchor='middle' class='label'>247.3</text>
+<line x1='480' y1='187' x2='480' y2='587' stroke='#ccc' stroke-dasharray='2,2'/>
+<text x='575' y='607' text-anchor='middle' class='label'>809</text>
+<line x1='575' y1='187' x2='575' y2='587' stroke='#ccc' stroke-dasharray='2,2'/>
+<text x='670' y='607' text-anchor='middle' class='label'>2646.2</text>
+<line x1='670' y1='187' x2='670' y2='587' stroke='#ccc' stroke-dasharray='2,2'/>
+<text x='765' y='607' text-anchor='middle' class='label'>8656</text>
+<line x1='765' y1='187' x2='765' y2='587' stroke='#ccc' stroke-dasharray='2,2'/>
+<text x='860' y='607' text-anchor='middle' class='label'>28314.9</text>
+<circle cx='100' cy='574' r='8' fill='#4e79a7'><title>"Rust (quick-xml)" - Test "behemoth.xml" : 3.16 GB in 2.81 seconds using 2.16 MB RAM</title></circle>
+<text x='113' y='579' class='pointnum'>1</text>
+<circle cx='755' cy='566' r='8' fill='#f28e2b'><title>"C++ (pugixml)" - Test "behemoth.xml" : 3.16 GB in 4.45 seconds using 7,597.18 MB RAM</title></circle>
+<text x='768' y='571' class='pointnum'>22</text>
+<circle cx='772' cy='564' r='8' fill='#e15759'><title>"C++ (rapidxml)" - Test "behemoth.xml" : 3.16 GB in 5.01 seconds using 9,492.37 MB RAM</title></circle>
+<text x='785' y='569' class='pointnum'>23</text>
+<circle cx='346' cy='563' r='8' fill='#ff9da7'><title>".NET 10 - XmlReader" - Test "behemoth.xml" : 3.16 GB in 5.12 seconds using 46.34 MB RAM</title></circle>
+<text x='359' y='568' class='pointnum'>8</text>
+<circle cx='346' cy='562' r='8' fill='#9c755f'><title>".NET 8 - XmlReader" - Test "behemoth.xml" : 3.16 GB in 5.38 seconds using 46.32 MB RAM</title></circle>
+<text x='359' y='567' class='pointnum'>9</text>
+<circle cx='402' cy='551' r='8' fill='#76b7b2'><title>"java-25 - SAX" - Test "behemoth.xml" : 3.16 GB in 7.78 seconds using 93.66 MB RAM</title></circle>
+<text x='415' y='556' class='pointnum'>14</text>
+<circle cx='396' cy='550' r='8' fill='#f28e2b'><title>"java-21 - SAX" - Test "behemoth.xml" : 3.16 GB in 7.99 seconds using 86.91 MB RAM</title></circle>
+<text x='409' y='555' class='pointnum'>12</text>
+<circle cx='401' cy='549' r='8' fill='#e15759'><title>"java-25 - Aalto XML" - Test "behemoth.xml" : 3.16 GB in 8.07 seconds using 92.76 MB RAM</title></circle>
+<text x='414' y='554' class='pointnum'>13</text>
+<circle cx='395' cy='548' r='8' fill='#4e79a7'><title>"java-21 - Aalto XML" - Test "behemoth.xml" : 3.16 GB in 8.28 seconds using 85.44 MB RAM</title></circle>
+<text x='408' y='553' class='pointnum'>11</text>
+<circle cx='511' cy='547' r='8' fill='#9c755f'><title>"Scala" - Test "behemoth.xml" : 3.16 GB in 8.63 seconds using 364.29 MB RAM</title></circle>
+<text x='524' y='552' class='pointnum'>19</text>
+<circle cx='423' cy='545' r='8' fill='#edc949'><title>"java-21 - StAX" - Test "behemoth.xml" : 3.16 GB in 8.95 seconds using 121.27 MB RAM</title></circle>
+<text x='436' y='550' class='pointnum'>16</text>
+<circle cx='421' cy='544' r='8' fill='#59a14f'><title>"java-25 - StAX" - Test "behemoth.xml" : 3.16 GB in 9.15 seconds using 118.66 MB RAM</title></circle>
+<text x='434' y='549' class='pointnum'>15</text>
+<circle cx='429' cy='544' r='8' fill='#af7aa1'><title>"PowerShell Core" - Test "behemoth.xml" : 3.16 GB in 9.29 seconds using 130.10 MB RAM</title></circle>
+<text x='442' y='549' class='pointnum'>17</text>
+<circle cx='197' cy='540' r='8' fill='#f28e2b'><title>"C++ (libxml2 - SAX)" - Test "behemoth.xml" : 3.16 GB in 9.98 seconds using 7.23 MB RAM</title></circle>
+<text x='210' y='545' class='pointnum'>2</text>
+<circle cx='694' cy='524' r='8' fill='#4e79a7'><title>"Julia - XML" - Test "behemoth.xml" : 3.16 GB in 13.51 seconds using 3,559.01 MB RAM</title></circle>
+<text x='707' y='529' class='pointnum'>21</text>
+<circle cx='197' cy='508' r='8' fill='#e15759'><title>"C++ (libxml2 XMLReader)" - Test "behemoth.xml" : 3.16 GB in 17.01 seconds using 7.23 MB RAM</title></circle>
+<text x='210' y='513' class='pointnum'>3</text>
+<circle cx='149' cy='471' r='8' fill='#76b7b2'><title>"C++ (xsde)" - Test "behemoth.xml" : 3.16 GB in 24.84 seconds using 3.99 MB RAM</title></circle>
+<text x='162' y='476' class='pointnum'>4</text>
+<circle cx='784' cy='454' r='8' fill='#76b7b2'><title>"Saxon HE 12" - Test "behemoth.xml" : 3.16 GB in 28.56 seconds using 10,956.16 MB RAM</title></circle>
+<text x='797' y='459' class='pointnum'>24</text>
+<circle cx='263' cy='445' r='8' fill='#59a14f'><title>"C++ (Apache Xerces)" - Test "behemoth.xml" : 3.16 GB in 30.53 seconds using 16.59 MB RAM</title></circle>
+<text x='276' y='450' class='pointnum'>5</text>
+<circle cx='860' cy='443' r='8' fill='#edc949'><title>"Julia - LightXML" - Test "behemoth.xml" : 3.16 GB in 30.92 seconds using 28,314.88 MB RAM</title></circle>
+<text x='873' y='448' class='pointnum'>26</text>
+<circle cx='246' cy='400' r='8' fill='#af7aa1'><title>"Perl" - Test "behemoth.xml" : 3.16 GB in 40.00 seconds using 13.42 MB RAM</title></circle>
+<text x='259' y='405' class='pointnum'>7</text>
+<circle cx='129' cy='369' r='8' fill='#edc949'><title>"Lua" - Test "behemoth.xml" : 3.16 GB in 46.64 seconds using 3.10 MB RAM</title></circle>
+<text x='142' y='374' class='pointnum'>6</text>
+<circle cx='211' cy='364' r='8' fill='#bab0ab'><title>"Go - std" - Test "behemoth.xml" : 3.16 GB in 47.87 seconds using 8.60 MB RAM</title></circle>
+<text x='224' y='369' class='pointnum'>10</text>
+<circle cx='795' cy='345' r='8' fill='#59a14f'><title>"Python 3" - Test "behemoth.xml" : 3.16 GB in 51.87 seconds using 12,612.29 MB RAM</title></circle>
+<text x='808' y='350' class='pointnum'>25</text>
+<circle cx='818' cy='294' r='8' fill='#af7aa1'><title>"Go - xmlquery" - Test "behemoth.xml" : 3.16 GB in 62.84 seconds using 16,830.92 MB RAM</title></circle>
+<text x='831' y='299' class='pointnum'>27</text>
+<circle cx='101' cy='193' r='8' fill='#ff9da7'><title>"Rust (xml-rs)" - Test "behemoth.xml" : 3.16 GB in 84.42 seconds using 2.18 MB RAM</title></circle>
+<text x='114' y='198' class='pointnum'>18</text>
+<circle cx='393' cy='187' r='8' fill='#bab0ab'><title>"Node.js" - Test "behemoth.xml" : 3.16 GB in 85.77 seconds using 83.82 MB RAM</title></circle>
+<text x='406' y='192' class='pointnum'>20</text>
 </svg>
