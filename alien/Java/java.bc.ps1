@@ -12,7 +12,7 @@ function SetJavaDeclObj($JavaVersion, $publicClassName) {
 $javaVersions = @(
 	# 'java-11'
 	'java-21'
-	# 'java-24'
+	'java-25'
 )
 $javaversions | ForEach-Object {
 	$v = $_
