@@ -1,28 +1,36 @@
 use memchr::memchr;
-use std::collections::HashMap;
+use rustc_hash::{FxHashMap, FxHashSet};
 use std::env;
 use std::fs::File;
 use std::io::{self, Read};
 
 const CHUNK_SIZE: usize = 4 * 1024 * 1024; // 4 MiB
 
-fn filter_match<'a>(name: &str, filters: Option<&Vec<String>>) -> bool {
-    match filters {
-        None => true,
-        Some(f) => f.iter().any(|n| n == name),
-    }
+#[inline]
+fn is_name_delim(b: u8) -> bool {
+    matches!(b, b'>' | b'/' | b' ' | b'\t' | b'\n' | b'\r')
 }
 
-fn add_node(name: &str, node_counts: &mut HashMap<String, usize>, filters: Option<&Vec<String>>) {
-    if filter_match(name, filters) {
-        *node_counts.entry(name.to_string()).or_insert(0) += 1;
+fn add_node(
+    name: &str,
+    node_counts: &mut FxHashMap<String, usize>,
+    filters: Option<&FxHashSet<String>>,
+) {
+    if filters.is_some_and(|f| !f.contains(name)) {
+        return;
+    }
+
+    if let Some(count) = node_counts.get_mut(name) {
+        *count += 1;
+    } else {
+        node_counts.insert(name.to_owned(), 1);
     }
 }
 
 fn parse_xml_chunk(
     buf: &[u8],
-    node_counts: &mut HashMap<String, usize>,
-    filters: Option<&Vec<String>>,
+    node_counts: &mut FxHashMap<String, usize>,
+    filters: Option<&FxHashSet<String>>,
     trailing: &mut Vec<u8>,
 ) {
     let mut p = 0;
@@ -33,23 +41,25 @@ fn parse_xml_chunk(
         if idx >= buf.len() {
             break;
         }
-        let c = buf[idx] as char;
-        if c == '/' || c == '?' || c == '!' {
+        let c = buf[idx];
+        if matches!(c, b'/' | b'?' | b'!') {
             p = idx + 1;
             continue;
         }
-        let mut name = String::new();
+
+        let name_start = idx;
         while idx < buf.len() {
-            let ch = buf[idx] as char;
-            if ch.is_whitespace() || ch == '>' || ch == '/' {
+            if is_name_delim(buf[idx]) {
                 break;
             }
-            name.push(ch);
             idx += 1;
         }
-        if !name.is_empty() {
-            add_node(&name, node_counts, filters);
+        if idx > name_start {
+            if let Ok(name) = std::str::from_utf8(&buf[name_start..idx]) {
+                add_node(name, node_counts, filters);
+            }
         }
+
         last_lt = Some(lt_pos);
         if let Some(gt_pos) = memchr(b'>', &buf[idx..]) {
             p = idx + gt_pos + 1;
@@ -59,7 +69,7 @@ fn parse_xml_chunk(
     }
     trailing.clear();
     if let Some(last_start) = last_lt {
-        if !buf[last_start..].contains(&b'>') {
+        if memchr(b'>', &buf[last_start..]).is_none() {
             trailing.extend_from_slice(&buf[last_start..]);
         }
     }
@@ -74,28 +84,30 @@ fn main() -> io::Result<()> {
     let file = File::open(&args[1])?;
     let mut file = file;
     let filters = if args.len() > 2 {
-        Some(args[2..].to_vec())
+        Some(args[2..].iter().cloned().collect::<FxHashSet<String>>())
     } else {
         None
     };
 
-    let mut node_counts: HashMap<String, usize> = HashMap::new();
+    let mut node_counts: FxHashMap<String, usize> = FxHashMap::default();
+    node_counts.reserve(64);
     let mut trailing = Vec::with_capacity(1024);
-    let mut read_buf = vec![0u8; CHUNK_SIZE];
     let mut work_buf = Vec::with_capacity(CHUNK_SIZE + trailing.capacity());
 
     loop {
-        let bytes_read = file.read(&mut read_buf)?;
-        if bytes_read == 0 {
-            break;
-        }
-
-        // Reuse a single parsing buffer by rebuilding it from trailing + current chunk.
+        // Reuse a single parsing buffer and read directly into its tail to avoid extra copies.
         work_buf.clear();
         if !trailing.is_empty() {
             work_buf.extend_from_slice(&trailing);
         }
-        work_buf.extend_from_slice(&read_buf[..bytes_read]);
+
+        let prefix_len = work_buf.len();
+        work_buf.resize(prefix_len + CHUNK_SIZE, 0);
+        let bytes_read = file.read(&mut work_buf[prefix_len..])?;
+        if bytes_read == 0 {
+            break;
+        }
+        work_buf.truncate(prefix_len + bytes_read);
 
         parse_xml_chunk(&work_buf, &mut node_counts, filters.as_ref(), &mut trailing);
     }
