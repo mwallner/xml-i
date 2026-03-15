@@ -1,9 +1,8 @@
 use memchr::memchr;
-use memmap2::Mmap;
 use std::collections::HashMap;
 use std::env;
 use std::fs::File;
-use std::io;
+use std::io::{self, Read};
 
 const CHUNK_SIZE: usize = 4 * 1024 * 1024; // 4 MiB
 
@@ -73,7 +72,7 @@ fn main() -> io::Result<()> {
         std::process::exit(1);
     }
     let file = File::open(&args[1])?;
-    let mmap = unsafe { Mmap::map(&file)? };
+    let mut file = file;
     let filters = if args.len() > 2 {
         Some(args[2..].to_vec())
     } else {
@@ -81,24 +80,24 @@ fn main() -> io::Result<()> {
     };
 
     let mut node_counts: HashMap<String, usize> = HashMap::new();
-    let mut offset = 0;
-    let mut trailing = Vec::new();
+    let mut trailing = Vec::with_capacity(1024);
+    let mut read_buf = vec![0u8; CHUNK_SIZE];
+    let mut work_buf = Vec::with_capacity(CHUNK_SIZE + trailing.capacity());
 
-    while offset < mmap.len() {
-        let end = std::cmp::min(offset + CHUNK_SIZE, mmap.len());
-        let chunk = &mmap[offset..end];
+    loop {
+        let bytes_read = file.read(&mut read_buf)?;
+        if bytes_read == 0 {
+            break;
+        }
 
-        // If there is trailing data from the previous chunk, prepend it
-        let mut buf = if !trailing.is_empty() {
-            let mut v = trailing.clone();
-            v.extend_from_slice(chunk);
-            v
-        } else {
-            chunk.to_vec()
-        };
+        // Reuse a single parsing buffer by rebuilding it from trailing + current chunk.
+        work_buf.clear();
+        if !trailing.is_empty() {
+            work_buf.extend_from_slice(&trailing);
+        }
+        work_buf.extend_from_slice(&read_buf[..bytes_read]);
 
-        parse_xml_chunk(&buf, &mut node_counts, filters.as_ref(), &mut trailing);
-        offset += CHUNK_SIZE;
+        parse_xml_chunk(&work_buf, &mut node_counts, filters.as_ref(), &mut trailing);
     }
 
     println!("Node counts:");
