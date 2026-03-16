@@ -10,7 +10,7 @@ public class CountXMLNodes {
         Map<String, Integer> nodeCounts = new HashMap<>();
         XMLInputFactory factory = XMLInputFactory.newInstance();
         FileInputStream fis = new FileInputStream(xmlFilePath);
-        BufferedInputStream bis = new BufferedInputStream(fis, 8192 * 1024);
+        BufferedInputStream bis = new BufferedInputStream(fis, 64 * 1024);
         XMLStreamReader reader = factory.createXMLStreamReader(bis);
 
         while (reader.hasNext()) {
