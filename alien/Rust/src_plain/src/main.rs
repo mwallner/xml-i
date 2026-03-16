@@ -4,7 +4,7 @@ use std::env;
 use std::fs::File;
 use std::io::{self, Read};
 
-const CHUNK_SIZE: usize = 4 * 1024 * 1024; // 4 MiB
+const CHUNK_SIZE: usize = 64 * 1024;
 
 #[inline]
 fn is_name_delim(b: u8) -> bool {
