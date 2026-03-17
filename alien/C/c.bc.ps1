@@ -21,3 +21,21 @@ $decl_plain = @{
 	}
 }
 New-AppDecl @decl_plain
+
+$decl_plain = @{
+	Name        = 'C scanfile (noxml)' 
+	Description = 'scan file with pure C, without xml library'
+	ParserType  = 'text'
+	Origin      = $PSScriptRoot
+	Meta        = {	}
+	Builder     = {
+		exec {
+			& $CC @($CFLAGS) -o '../bin/xml-i-c-scanfile' 'src_plain/ScanFile.c'
+		}
+	}
+	Tester      = @{
+		Executable   = '../bin/xml-i-c-scanfile'
+		ArgumentList = @()
+	}
+}
+New-AppDecl @decl_plain
