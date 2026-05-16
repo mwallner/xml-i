@@ -16,6 +16,8 @@ node_modules/
 /test/*.outlog
 /test/tmp/
 /test/out/
+/test/base_*
+/test/top_*
 
 # Saxon and XSLT dependencies
 /alien/xslt/saxon/

@@ -12,6 +12,8 @@ Memory: 31Gi
 
 ## Overall Results
 
+![benchmark results bars](benchmark_tp.svg)
+
 ![benchmark results](benchmark_tp_line.svg)
 
 ![benchmark results x/y](benchmark_xy.svg)
@@ -728,7 +730,7 @@ xml-i in pwsh
 
 Name                           Value
 ----                           -----
-PSVersion                      {[Major, 7], [Minor, 4], [Patch, 13], [PreReleaseLabel, ]…}
+PSVersion                      {[Major, 7], [Minor, 4], [Patch, 13], [PreReleaseLabe…
 PSEdition                      Core
 BuildVersion                   
 CLRVersion                     

@@ -1,11 +1,93 @@
 
+function Get-SelectedAppNames {
+	param (
+		[Parameter(Mandatory)]
+		[hashtable]$BenchmarkResults,
+
+		[Parameter(Mandatory = $false)]
+		[int]$TopX = 0,
+
+		[Parameter(Mandatory = $false)]
+		[string]$ReferenceImpl
+	)
+
+	$apps = @($BenchmarkResults.Values | Where-Object { $_.Name -notlike '*(noxml)*' })
+	$avgThroughput = @{}
+	foreach ($app in $apps) {
+		$sum = 0
+		$count = 0
+		foreach ($result in ($app.Results.Values | Where-Object Success)) {
+			$sum += ($result.File.Length / 1MB) / ($result.Milliseconds / 1000)
+			$count++
+		}
+		$avgThroughput[$app.Name] = if ($count -gt 0) { $sum / $count } else { 0 }
+	}
+
+	$sortedAppNames = @($apps | Sort-Object { - $avgThroughput[$_.Name] } | ForEach-Object { $_.Name })
+
+	if ($ReferenceImpl) {
+		if ($sortedAppNames -notcontains $ReferenceImpl) {
+			Write-Host "ReferenceImpl '$ReferenceImpl' was not found in benchmark apps. Returning full app set." -ForegroundColor Yellow
+			return $sortedAppNames
+		}
+
+		$refIndex = [array]::IndexOf($sortedAppNames, $ReferenceImpl)
+		$start = [math]::Max(0, $refIndex - 3)
+		$end = [math]::Min($sortedAppNames.Count - 1, $refIndex + 3)
+		return @($sortedAppNames[$start..$end])
+	}
+
+	if ($TopX -gt 0 -and $sortedAppNames.Count -gt $TopX) {
+		return @($sortedAppNames[0..($TopX - 1)])
+	}
+
+	return $sortedAppNames
+}
+
+function Get-BenchmarkPalette {
+	return @(
+		'#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f',
+		'#bcbd22', '#17becf', '#393b79', '#637939', '#8c6d31', '#843c39', '#7b4173', '#3182bd',
+		'#31a354', '#756bb1', '#636363', '#e6550d', '#969696', '#9ecae1', '#74c476', '#fd8d3c',
+		'#6baed6', '#fdbe85', '#a1d99b', '#9e9ac8', '#fdae6b', '#bcbddc', '#9edae5', '#fdd0a2',
+		'#c7e9c0', '#dadaeb', '#fcbba1', '#c994c7', '#c6dbef', '#fdae6b', '#bdbdbd', '#17a2b8'
+	)
+}
+
+function Get-AppColorMap {
+	param (
+		[Parameter(Mandatory)]
+		[hashtable]$BenchmarkResults
+	)
+
+	$palette = Get-BenchmarkPalette
+	$appNames = @(
+		$BenchmarkResults.Values |
+			Where-Object { $_.Name -notlike '*(noxml)*' } |
+			ForEach-Object { $_.Name } |
+			Sort-Object -Unique
+	)
+	$appColorMap = @{}
+	for ($i = 0; $i -lt $appNames.Count; $i++) {
+		$appColorMap[$appNames[$i]] = $palette[$i % $palette.Count]
+	}
+
+	return $appColorMap
+}
+
 function Write-BenchmarkResultsMarkdown {
 	param (
 		[Parameter(Mandatory)]
 		[hashtable]$Results,
 
 		[Parameter(Mandatory)]
-		[string]$MarkdownFilePath
+		[string]$MarkdownFilePath,
+
+		[Parameter(Mandatory = $false)]
+		[int]$TopX = 0,
+
+		[Parameter(Mandatory = $false)]
+		[string]$ReferenceImpl
 	)
 
 
@@ -58,10 +140,23 @@ function Write-BenchmarkResultsMarkdown {
 	$mdResult += ''
 	$mdResult += '## Overall Results'
 	$mdResult += ''
-	$mdResult += '![benchmark results](benchmark_tp_line.svg)'
+	$lineChartFileName = 'benchmark_tp_line.svg'
+	$barChartFileName = 'benchmark_tp.svg'
+	$xyChartFileName = 'benchmark_xy.svg'
+	$mdResult += "![benchmark results bars]($barChartFileName)"
 	$mdResult += ''
-	$mdResult += '![benchmark results x/y](benchmark_xy.svg)'
+	$mdResult += "![benchmark results]($lineChartFileName)"
 	$mdResult += ''
+	$mdResult += "![benchmark results x/y]($xyChartFileName)"
+	$mdResult += ''
+
+	$topAppSet = @{}
+	if ($TopX -gt 0 -or $ReferenceImpl) {
+		$selectedAppNames = Get-SelectedAppNames -BenchmarkResults $Results.BenchmarkResults -TopX $TopX -ReferenceImpl $ReferenceImpl
+		foreach ($name in $selectedAppNames) {
+			$topAppSet[$name] = $true
+		}
+	}
 
 	$appList = $Results.BenchmarkResults.GetEnumerator() | ForEach-Object {
 		$_.Value
@@ -69,37 +164,47 @@ function Write-BenchmarkResultsMarkdown {
 	$appList.Results.Values | Group-Object { $_.File.Name } | Sort-Object { $_.Group[0].File.Length } -Descending | ForEach-Object {
 		$group = $_
 		$pos = 1
+		$groupRows = @($group.Group | Where-Object Success)
+		if ($TopX -gt 0 -or $ReferenceImpl) {
+			$groupRows = @($groupRows | Where-Object { $topAppSet.ContainsKey($_.Me.Name) })
+		}
+		if ($groupRows.Count -gt 0) {
+			$groupSize = $group.Group[0].File.Length
+			$groupSizeMB = [math]::Round($groupSize / 1MB, 2)
+			if ($groupSizeMB -eq 0) {
+				$groupSizeKB = [math]::Round($groupSize / 1KB, 1)
+				$sizeLabel = "$groupSizeKB KB"
+			}
+			else {
+				$sizeLabel = "$groupSizeMB MB"
+			}
 
-		$groupSize = $group.Group[0].File.Length
-		$groupSizeMB = [math]::Round($groupSize / 1MB, 2)
-		if ($groupSizeMB -eq 0) {
-			$groupSizeKB = [math]::Round($groupSize / 1KB, 1)
-			$sizeLabel = "$groupSizeKB KB"
+			$mdResult += ''
+			$mdResult += '### {0} ({1})' -f $group.Name, $sizeLabel
+			$mdResult += ''
+			$mdResult += '| Rank | Variant                   | Time (s)   | Throughput (MB/s) | Max Mem (MB) |'
+			$mdResult += '|------|---------------------------|------------|-------------------|--------------|'
+			$groupRows | Sort-Object -Property Milliseconds | ForEach-Object {
+				$tp = $groupSize / 1MB / ($_.Milliseconds / 1000)
+				$isNoXml = $_.Me.Name -like '*(noxml)*'
+				$rank = if ($isNoXml) { '' } else { $pos }
+				$mdResult += '| {0,-4} | {1,-25} | {3,-10:N3} | {4,-17:N3} | {5,-12:N2} |' -f $rank, $_.Me.Name, $_.File.Name, ($_.Milliseconds / 1000), $tp, $_.MaxMemMB
+				if (-not $isNoXml) { $pos++ }
+			}
+			$mdResult += ''
 		}
-		else {
-			$sizeLabel = "$groupSizeMB MB"
-		}
-    
-		$mdResult += ''
-		$mdResult += '### {0} ({1})' -f $group.Name, $sizeLabel
-		$mdResult += ''
-		$mdResult += '| Rank | Variant                   | Time (s)   | Throughput (MB/s) | Max Mem (MB) |'
-		$mdResult += '|------|---------------------------|------------|-------------------|--------------|'
-		$group.Group | Where-Object Success | Sort-Object -Property Milliseconds | ForEach-Object {
-			$tp = $groupSize / 1MB / ($_.Milliseconds / 1000)
-			$isNoXml = $_.Me.Name -like '*(noxml)*'
-			$rank = if ($isNoXml) { '' } else { $pos }
-			$mdResult += '| {0,-4} | {1,-25} | {3,-10:N3} | {4,-17:N3} | {5,-12:N2} |' -f $rank, $_.Me.Name, $_.File.Name, ($_.Milliseconds / 1000), $tp, $_.MaxMemMB
-			if (-not $isNoXml) { $pos++ }
-		}
-		$mdResult += ''
 	}
 
 	$mdResult += ''
 	$mdResult += '## App - Results'
 	$mdResult += ''
 
-	$Results.BenchmarkResults.Values | Sort-Object Name | ForEach-Object {
+	$appResultsList = $Results.BenchmarkResults.Values | Sort-Object Name
+	if ($TopX -gt 0 -or $ReferenceImpl) {
+		$appResultsList = $appResultsList | Where-Object { $topAppSet.ContainsKey($_.Name) }
+	}
+
+	$appResultsList | ForEach-Object {
 		$app = $_
 		if ($AppFilter -and $app.Name -notlike "*$AppFilter*") {
 			Write-Host "Skipping $($app.Name) due to filter." -ForegroundColor Yellow
@@ -119,7 +224,13 @@ function Write-BenchmarkLineSVG {
 		[hashtable]$Results,
 
 		[Parameter(Mandatory)]
-		[string]$SvgFilePath
+		[string]$SvgFilePath,
+
+		[Parameter(Mandatory = $false)]
+		[int]$TopX = 10,
+
+		[Parameter(Mandatory = $false)]
+		[string]$ReferenceImpl
 	)
 
 	# Gather all test files and apps
@@ -160,20 +271,37 @@ function Write-BenchmarkLineSVG {
 	$plotWidth = $width - $marginLeft - $marginRight
 	$plotHeight = $height - $marginTop - $marginBottom
 
-	# Find max throughput for scaling
-	$maxTp = ($table.Values | ForEach-Object { $_.Values } | ForEach-Object { $_ } | Measure-Object -Maximum).Maximum
-	if (-not $maxTp) { $maxTp = 1 }
-
-	# Colors for lines
-	$colors = @('#4e79a7', '#f28e2b', '#e15759', '#76b7b2', '#59a14f', '#edc949', '#af7aa1', '#ff9da7', '#9c755f', '#bab0ab')
+	$appColorMap = Get-AppColorMap -BenchmarkResults $Results
 
 	$svg = @()
 	$svg += '<?xml version="1.0" encoding="UTF-8" standalone="no"?>'
 	$svg += "<svg xmlns='http://www.w3.org/2000/svg' width='$width' height='$height' style='background-color:#fff'>"
 	$svg += '<style> .label { font: 13px sans-serif; } .legend { font: 13px sans-serif; } .axis { stroke: #333; stroke-width: 1; } .chart-title { font: bold 20px sans-serif; } </style>'
 
+	$selectedApps = @(Get-SelectedAppNames -BenchmarkResults $Results -TopX $TopX -ReferenceImpl $ReferenceImpl)
+	$selectedAppSet = @{}
+	foreach ($name in $selectedApps) {
+		$selectedAppSet[$name] = $true
+	}
+	$appsSorted = @($selectedApps | Where-Object { $table.ContainsKey($_) })
+	$numberToDisplay = $appsSorted.Count
+	if ($numberToDisplay -eq 0) {
+		Write-Host 'No apps found for line chart generation.' -ForegroundColor Red
+		return
+	}
+
+	# Find max throughput for scaling, based only on displayed apps.
+	$displayedThroughputs = @()
+	foreach ($app in $appsSorted) {
+		$displayedThroughputs += @($table[$app].Values)
+	}
+	$maxTp = ($displayedThroughputs | Measure-Object -Maximum).Maximum
+	if (-not $maxTp) { $maxTp = 1 }
+
+	$titleDetail = if ($ReferenceImpl) { "around $ReferenceImpl (+/-3)" } else { "top $numberToDisplay" }
+
 	# Add chart title
-	$svg += "<text x='$([int]($width/2))' y='30' text-anchor='middle' class='chart-title'>Max. Throughput (top 10)</text>"
+	$svg += "<text x='$([int]($width/2))' y='30' text-anchor='middle' class='chart-title'>Max. Throughput ($titleDetail)</text>"
 
 	# Add Y axis label
 	$svg += "<text x='$([int]($marginLeft)-55)' y='$([int]($marginTop + $plotHeight/2))' text-anchor='middle' class='label' font-size='16px' transform='rotate(-90 $([int]($marginLeft)-55),$([int]($marginTop + $plotHeight/2)))'>MB/sec</text>"
@@ -219,33 +347,10 @@ function Write-BenchmarkLineSVG {
 		$svg += "<text x='$x' y='$($height-$marginBottom+36)' text-anchor='middle' class='label' font-size='11px'>$sizeLabel</text>"
 	}
 
-	# Compute average throughput per app for legend ordering
-	$avgThroughput = @{}
-	foreach ($app in $apps) {
-		$sum = 0
-		$count = 0
-		foreach ($file in $testFiles) {
-			$tp = $table[$app][$file.Name]
-			if ($tp -ne $null) {
-				$sum += $tp
-				$count++
-			}
-		}
-		$avgThroughput[$app] = if ($count -gt 0) { $sum / $count } else { 0 }
-	}
-	# Order apps by average throughput descending
-	$appsSorted = $apps | Sort-Object { - $avgThroughput[$_] }
-
-
-	$numberToDisplay = 10
-	if ($appsSorted.Count -gt $numberToDisplay) {
-		$appsSorted = $appsSorted[0..($numberToDisplay - 1)]
-	}
-
 	# Draw lines for each app, in sorted order
 	for ($a = 0; $a -lt $appsSorted.Count; $a++) {
 		$app = $appsSorted[$a]
-		$color = $colors[$a % $colors.Count]
+		$color = if ($appColorMap.ContainsKey($app)) { $appColorMap[$app] } else { '#666666' }
 		$points = @()
 		for ($i = 0; $i -lt $n; $i++) {
 			$tp = $table[$app][$testFiles[$i].Name]
@@ -270,7 +375,7 @@ function Write-BenchmarkLineSVG {
 	$legendSpacingY = 18
 	for ($a = 0; $a -lt $appsSorted.Count; $a++) {
 		$app = $appsSorted[$a]
-		$color = $colors[$a % $colors.Count]
+		$color = if ($appColorMap.ContainsKey($app)) { $appColorMap[$app] } else { '#666666' }
 		$row = [math]::Floor($a / $legendPerRow)
 		$col = $a % $legendPerRow
 		$lx = $marginLeft + $col * $legendSpacingX
@@ -292,12 +397,19 @@ function Write-BenchmarkSVG {
 		[hashtable]$Results,
 
 		[Parameter(Mandatory)]
-		[string]$SvgFilePath
+		[string]$SvgFilePath,
+
+		[Parameter(Mandatory = $false)]
+		[int]$TopX = 0,
+
+		[Parameter(Mandatory = $false)]
+		[string]$ReferenceImpl
 	)
 
 	# Gather data: { TestFile => [ { AppName, Throughput } ] }
 	$data = @{}
 	foreach ($app in $Results.Values) {
+		if ($app.Name -like '*(noxml)*') { continue }
 		foreach ($result in $app.Results.Values) {
 			$file = $result.File.Name
 			$tp = [math]::Round(($result.File.Length / 1MB) / ($result.Milliseconds / 1000), 2)
@@ -326,16 +438,51 @@ function Write-BenchmarkSVG {
 		return
 	}
 
+	$selectedAppNames = @()
+	if ($ReferenceImpl) {
+		# For benchmark_tp, ranking context is the largest file used by this chart.
+		$appsByLargestFileTp = @()
+		foreach ($app in $Results.Values) {
+			if ($app.Name -like '*(noxml)*') { continue }
+			$result = $app.Results[$largestFile]
+			$tp = if ($result) { [math]::Round(($result.File.Length / 1MB) / ($result.Milliseconds / 1000), 2) } else { 0 }
+			$appsByLargestFileTp += [PSCustomObject]@{
+				Name       = $app.Name
+				Throughput = $tp
+			}
+		}
+
+		$rankedNames = @($appsByLargestFileTp | Sort-Object -Property Throughput -Descending | ForEach-Object { $_.Name })
+		if ($rankedNames -contains $ReferenceImpl) {
+			$refIndex = [array]::IndexOf($rankedNames, $ReferenceImpl)
+			$start = [math]::Max(0, $refIndex - 3)
+			$end = [math]::Min($rankedNames.Count - 1, $refIndex + 3)
+			$selectedAppNames = @($rankedNames[$start..$end])
+		}
+		else {
+			Write-Host "ReferenceImpl '$ReferenceImpl' was not found in benchmark_tp ranking. Falling back to default selection." -ForegroundColor Yellow
+			$selectedAppNames = @(Get-SelectedAppNames -BenchmarkResults $Results -TopX $TopX -ReferenceImpl $null)
+		}
+	}
+	else {
+		$selectedAppNames = @(Get-SelectedAppNames -BenchmarkResults $Results -TopX $TopX -ReferenceImpl $null)
+	}
+
+	$selectedAppSet = @{}
+	foreach ($name in $selectedAppNames) {
+		$selectedAppSet[$name] = $true
+	}
+
 	# SVG layout parameters
 	$barHeight = 24
 	$barGap = 8
 	$leftMargin = 160
 	$topMargin = 40
 	$barWidthMax = 400
-	$colors = @('#4e79a7', '#f28e2b', '#e15759', '#76b7b2', '#59a14f', '#edc949', '#af7aa1', '#ff9da7', '#9c755f', '#bab0ab')
+	$appColorMap = Get-AppColorMap -BenchmarkResults $Results
 
 	# Calculate required SVG height
-	$numBars = $Results.Count
+	$numBars = [math]::Max(1, $selectedAppNames.Count)
 	$svgHeight = $topMargin + $numBars * ($barHeight + $barGap) + 20
 
 	$svg = @()
@@ -348,8 +495,9 @@ function Write-BenchmarkSVG {
 
 	# Build a list of all apps, filling in throughput=0 if missing
 	$allApps = @()
-	foreach ($app in $Results.Values) {
-		if ($app.Name -like '*(noxml)*') { continue }
+	foreach ($appName in $selectedAppNames) {
+		$app = $Results[$appName]
+		if (-not $app) { continue }
 		$result = $null
 		if ($data[$largestFile]) {
 			$result = $data[$largestFile] | Where-Object { $_.AppName -eq $app.Name }
@@ -367,15 +515,26 @@ function Write-BenchmarkSVG {
 			}
 		}
 	}
-	$apps = $allApps | Sort-Object -Property Throughput -Descending
+	if ($ReferenceImpl -or $TopX -gt 0) {
+		# Keep the selection/ranking order from Get-SelectedAppNames for filtered reports.
+		$apps = $allApps | Sort-Object { [array]::IndexOf($selectedAppNames, $_.AppName) }
+	}
+	else {
+		$apps = $allApps | Sort-Object -Property Throughput -Descending
+	}
+	if ($apps.Count -eq 0) {
+		Write-Host 'No apps found for throughput SVG generation.' -ForegroundColor Red
+		return
+	}
 	$maxTp = ($apps | Measure-Object -Property Throughput -Maximum).Maximum
+	if (-not $maxTp) { $maxTp = 1 }
 	$title = '{0} ({1:N2} MB)' -f $largestFile, ($largestSize / 1MB)
 	$svg += "<text x='10' y='$($yOffset-16)' class='title'>$title</text>"
 
 	$i = 0
 	foreach ($app in $apps) {
 		$barLen = if ($maxTp -eq 0) { 0 } else { [math]::Round($barWidthMax * $app.Throughput / $maxTp) }
-		$color = $colors[$i % $colors.Count]
+		$color = if ($appColorMap.ContainsKey($app.AppName)) { $appColorMap[$app.AppName] } else { '#666666' }
 		$y = $yOffset + $i * ($barHeight + $barGap)
 		$svg += "<rect x='$leftMargin' y='$y' width='$barLen' height='$barHeight' fill='$color' />"
 		$svg += "<text x='10' y='$([int]($y+$barHeight*0.7))' class='label'>$($app.AppName)</text>"
@@ -396,7 +555,13 @@ function Write-BenchmarkXYSVG {
 		[hashtable]$Results,
 
 		[Parameter(Mandatory)]
-		[string]$SvgFilePath
+		[string]$SvgFilePath,
+
+		[Parameter(Mandatory = $false)]
+		[int]$TopX = 0,
+
+		[Parameter(Mandatory = $false)]
+		[string]$ReferenceImpl
 	)
 
 	# Gather all test files and apps
@@ -453,15 +618,12 @@ function Write-BenchmarkXYSVG {
 	$legendSpacingX = 160
 	$legendSpacingY = 22
 	$legendTopPad = 45
-	$legendRows = [math]::Ceiling($apps.Count / $legendPerRow)
-	$legendHeight = $legendRows * $legendSpacingY + $legendTopPad
-	$plotTop = $legendHeight + 10
 	$plotWidth = $width - $marginLeft - $marginRight
 	$plotHeight = 400
-	$height = $plotTop + $plotHeight + $marginBottom
+	$plotTop = 0
+	$height = 0
 
-	# Colors for dots
-	$colors = @('#4e79a7', '#f28e2b', '#e15759', '#76b7b2', '#59a14f', '#edc949', '#af7aa1', '#ff9da7', '#9c755f', '#bab0ab')
+	$appColorMap = Get-AppColorMap -BenchmarkResults $Results
 
 	# Log scale helpers
 	$logMinMem = [math]::Log10($minMem)
@@ -469,6 +631,9 @@ function Write-BenchmarkXYSVG {
 	function GetLogX($mem) {
 		if ($mem -le 0) { $mem = $minMem }
 		$logMem = [math]::Log10($mem)
+		if ($logMaxMem -eq $logMinMem) {
+			return $marginLeft + [math]::Round($plotWidth / 2)
+		}
 		return $marginLeft + [math]::Round($plotWidth * ($logMem - $logMinMem) / ($logMaxMem - $logMinMem))
 	}
 
@@ -487,8 +652,16 @@ function Write-BenchmarkXYSVG {
 			$distances += [PSCustomObject]@{ App = $app; Distance = $dist }
 		}
 	}
+	$selectedApps = @(Get-SelectedAppNames -BenchmarkResults $Results -TopX $TopX -ReferenceImpl $ReferenceImpl)
+	$selectedAppSet = @{}
+	foreach ($name in $selectedApps) {
+		$selectedAppSet[$name] = $true
+	}
+	$distances = @($distances | Where-Object { $selectedAppSet.ContainsKey($_.App) })
+
 	# Order by distance, assign numbers
 	$distances = $distances | Sort-Object Distance
+	$numberToDisplay = $distances.Count
 	$appNumbers = @{}
 	for ($i = 0; $i -lt $distances.Count; $i++) {
 		$appNumbers[$distances[$i].App] = $i + 1
@@ -496,6 +669,28 @@ function Write-BenchmarkXYSVG {
 
 	# --- ORDER LEGEND BY DISTANCE ---
 	$legendApps = $distances | Sort-Object { $_.Distance } | ForEach-Object { $_.App }
+	if ($legendApps.Count -eq 0) {
+		Write-Host 'No apps found for XY chart generation.' -ForegroundColor Red
+		return
+	}
+
+	# Recompute axis scaling and layout based only on displayed apps.
+	$selectedApps = @($legendApps)
+	$selectedMemValues = @($selectedApps | ForEach-Object { $table[$_].MaxMemMB })
+	$selectedTimeValues = @($selectedApps | ForEach-Object { $table[$_].Seconds })
+	$maxMem = ($selectedMemValues | Measure-Object -Maximum).Maximum
+	$minMem = ($selectedMemValues | Measure-Object -Minimum).Minimum
+	$maxTime = ($selectedTimeValues | Measure-Object -Maximum).Maximum
+	if (-not $maxMem) { $maxMem = 1 }
+	if ($null -eq $minMem -or $minMem -le 0) { $minMem = 0.1 }
+	if (-not $maxTime) { $maxTime = 1 }
+	$logMinMem = [math]::Log10($minMem)
+	$logMaxMem = [math]::Log10($maxMem)
+
+	$legendRows = [math]::Ceiling($legendApps.Count / $legendPerRow)
+	$legendHeight = $legendRows * $legendSpacingY + $legendTopPad
+	$plotTop = $legendHeight + 10
+	$height = $plotTop + $plotHeight + $marginBottom
 
 	$svg = @()
 	$svg += '<?xml version="1.0" encoding="UTF-8" standalone="no"?>'
@@ -503,13 +698,14 @@ function Write-BenchmarkXYSVG {
 	$svg += '<style> .label { font: 13px sans-serif; } .legend { font: 13px sans-serif; } .axis { stroke: #333; stroke-width: 1; } .chart-title { font: bold 20px sans-serif; } .pointnum { font: bold 14px sans-serif; fill: #222; } </style>'
 
 	$fileTitle = '{0} - {1:N2}GB' -f $largestFile.Name, ($largestFile.Length / 1GB) 
+	$topLabel = if ($ReferenceImpl) { " around $ReferenceImpl (+/-3)" } elseif ($TopX -gt 0) { " top $numberToDisplay" } else { '' }
 	# Add chart title
-	$svg += "<text x='$([int]($width/2))' y='30' text-anchor='middle' class='chart-title'>Time vs. Max Memory ($fileTitle)</text>"
+	$svg += "<text x='$([int]($width/2))' y='30' text-anchor='middle' class='chart-title'>Time vs. Max Memory$topLabel ($fileTitle)</text>"
 
 	# Legend above the chart, wrap every 5 entries, ordered by distance
 	for ($a = 0; $a -lt $legendApps.Count; $a++) {
 		$app = $legendApps[$a]
-		$color = $colors[$a % $colors.Count]
+		$color = if ($appColorMap.ContainsKey($app)) { $appColorMap[$app] } else { '#666666' }
 		$row = [math]::Floor($a / $legendPerRow)
 		$col = $a % $legendPerRow
 		$lx = $marginLeft + $col * $legendSpacingX
@@ -555,12 +751,10 @@ function Write-BenchmarkXYSVG {
 
 	# Draw one dot per app for the largest file, and add number
 	$ellipsePoints = @()
-	for ($a = 0; $a -lt $apps.Count; $a++) {
-		$app = $apps[$a]
+	for ($a = 0; $a -lt $legendApps.Count; $a++) {
+		$app = $legendApps[$a]
 		if ($table.ContainsKey($app)) {
-			# Use the same color index as in the legend
-			$legendIdx = ($legendApps.IndexOf($app))
-			$color = $colors[$legendIdx % $colors.Count]
+			$color = if ($appColorMap.ContainsKey($app)) { $appColorMap[$app] } else { '#666666' }
 			$mem = $table[$app].MaxMemMB
 			$seconds = $table[$app].Seconds
 			$x = GetLogX $mem

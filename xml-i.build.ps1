@@ -39,7 +39,19 @@ param(
 	# initial 10-second wait. Useful for faster iteration but less repeatable.
 	[Parameter(Mandatory = $false)]
 	[switch]
-	$Quick
+	$Quick,
+
+	# Optional number of top performers for additional top-only chart/report artifacts.
+	# When provided (>0), extra files named with "top_X" are generated.
+	[Parameter(Mandatory = $false)]
+	[int]
+	$TopX = 0,
+
+	# Optional app Name to use as ranking reference base. Includes up to 3 entries
+	# above and below this app in ranking and writes dedicated artifacts to base_<Name>.
+	[Parameter(Mandatory = $false)]
+	[string]
+	$ReferenceImpl = $null
 )
 
 . (Join-Path $PSScriptRoot 'xml-i.reporting.ps1')
@@ -353,6 +365,25 @@ Task GenerateBenchmarkResults {
 	Write-BenchmarkSVG -Results $cfg.BenchmarkResults -SvgFilePath (Join-Path $outFileBase 'benchmark_tp.svg')
 	Write-BenchmarkLineSVG -Results $cfg.BenchmarkResults -SvgFilePath (Join-Path $outFileBase 'benchmark_tp_line.svg')
 	Write-BenchmarkXYSVG -Results $cfg.BenchmarkResults -SvgFilePath (Join-Path $outFileBase 'benchmark_xy.svg')
+
+	if ($TopX -gt 0) {
+		$topOutDir = Join-Path $outFileBase "top_$TopX"
+		$null = New-Item -Path $topOutDir -ItemType Directory -Force
+		Write-BenchmarkResultsMarkdown -Results $cfg -MarkdownFilePath (Join-Path $topOutDir 'benchmark_results.md') -TopX $TopX
+		Write-BenchmarkSVG -Results $cfg.BenchmarkResults -SvgFilePath (Join-Path $topOutDir 'benchmark_tp.svg') -TopX $TopX
+		Write-BenchmarkLineSVG -Results $cfg.BenchmarkResults -SvgFilePath (Join-Path $topOutDir 'benchmark_tp_line.svg') -TopX $TopX
+		Write-BenchmarkXYSVG -Results $cfg.BenchmarkResults -SvgFilePath (Join-Path $topOutDir 'benchmark_xy.svg') -TopX $TopX
+	}
+
+	if ($ReferenceImpl) {
+		$safeReferenceImpl = ($ReferenceImpl -replace '[^A-Za-z0-9._-]', '_')
+		$baseOutDir = Join-Path $outFileBase "base_$safeReferenceImpl"
+		$null = New-Item -Path $baseOutDir -ItemType Directory -Force
+		Write-BenchmarkResultsMarkdown -Results $cfg -MarkdownFilePath (Join-Path $baseOutDir 'benchmark_results.md') -ReferenceImpl $ReferenceImpl
+		Write-BenchmarkSVG -Results $cfg.BenchmarkResults -SvgFilePath (Join-Path $baseOutDir 'benchmark_tp.svg') -ReferenceImpl $ReferenceImpl
+		Write-BenchmarkLineSVG -Results $cfg.BenchmarkResults -SvgFilePath (Join-Path $baseOutDir 'benchmark_tp_line.svg') -ReferenceImpl $ReferenceImpl
+		Write-BenchmarkXYSVG -Results $cfg.BenchmarkResults -SvgFilePath (Join-Path $baseOutDir 'benchmark_xy.svg') -ReferenceImpl $ReferenceImpl
+	}
 }
 
 Task MakeTestData {
